@@ -16,6 +16,8 @@ import PyQt4.QtWebKit  # Disabled on Windows due to VS2015 build issue (linker c
 import PyQt4.QtXml
 import PyQt4.QtXmlPatterns
 
+# Test for session management
+from PyQt4.QtGui import QSessionManager
 
 # From http://zetcode.com/gui/pyqt4/firstprograms/
 import os
