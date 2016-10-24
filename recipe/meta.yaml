@@ -21,8 +21,7 @@ source:
     - configure.patch
 
 build:
-  number: 1  # [linux]
-  number: 0  # [win or osx]
+  number: 1
 
 requirements:
   build:
