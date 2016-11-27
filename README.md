@@ -38,7 +38,6 @@ conda search pyqt --channel conda-forge
 ```
 
 
-
 About conda-forge
 =================
 
