@@ -1,48 +1,42 @@
-{% set version = "4.11.4" %}
-{% set md5_osx = "73e711bfd6c825a04e9999915426735f" %}
-{% set md5_linux = "2fe8265b2ae2fc593241c2c84d09d481" %}
-{% set md5_win = "cc3f9a88900c95b599afa69d869d8095" %}
+{% set version = "5.7" %}
 
 package:
   name: pyqt
   version: {{ version }}
 
 source:
-  fn: PyQt-mac-gpl-{{ version }}.tar.gz  # [osx]
-  url: http://sourceforge.net/projects/pyqt/files/PyQt4/PyQt-{{ version }}/PyQt-mac-gpl-{{ version }}.tar.gz  # [osx]
-  md5: {{ md5_osx }}  # [osx]
-  fn: PyQt-x11-gpl-{{ version }}.tar.gz  # [linux]
-  url: http://sourceforge.net/projects/pyqt/files/PyQt4/PyQt-{{ version }}/PyQt-x11-gpl-{{ version }}.tar.gz  # [linux]
-  md5: {{ md5_linux }}  # [linux]
-  fn: PyQt-win-gpl-{{ version }}.zip  # [win]
-  url: http://sourceforge.net/projects/pyqt/files/PyQt4/PyQt-{{ version }}/PyQt-win-gpl-{{ version }}.zip  # [win]
-  md5: {{ md5_win }}  # [win]
-  patches:
-    - configure.patch
+  fn: PyQt5_gpl-{{ version }}.tar.gz  # [osx and linux]
+  url: https://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-{{ version }}/PyQt5_gpl-{{ version }}.tar.gz  # [osx and linux]
+  sha256: 892693ba5f79989abb2061dad2d5c4e6f127e9dd3240f73f8220c7152cd35b05  # [osx and linux]
+  fn: PyQt5_gpl-{{ version }}.zip  # [win]
+  url: https://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-{{ version }}/PyQt5_gpl-{{ version }}.zip  # [win]
+  sha256: 1607a90af2c2e944e2aebc7ba4a7ec9c327ec78afbaf3a5eab2b6c65cd81d1e5  # [win]
 
 build:
-  number: 1
+  number: 0
+  skip: true  # [not py35]
 
 requirements:
   build:
     - python
-    - qt 4.8.*
-    - sip 4.18
-    - jom  # [win]
+    - icu ==56.1
   run:
     - python
-    - qt 4.8.*
-    - sip 4.18
+    - icu ==56.1
 
 test:
   imports:
-    - PyQt4
+    - PyQt5.QtCore
+    - PyQt5.QtGui
+  commands:
+    - pyuic5 --version
+    - pyrcc5 --version
+    - pylupdate5 -help
 
 about:
   home: http://www.riverbankcomputing.co.uk/software/pyqt
   license: Commercial, GPLv2, GPLv3
   license_family: GPL3
-  license_file: LICENSE
   summary: Python binding of the cross-platform GUI toolkit Qt
   description: |
     PyQt is a set of Python v2 and v3 bindings for The Qt Company's Qt
@@ -51,7 +45,6 @@ about:
     will build against Qt v5. The bindings are implemented as a set of Python
     modules and contain over 1,000 classes.
   doc_url: https://www.riverbankcomputing.com/software/pyqt/
-  dev_url: https://github.com/pyqt
 
 extra:
   recipe-maintainers:
@@ -60,3 +53,4 @@ extra:
     - gillins
     - msarahan
     - ocefpaf
+    - hadim
