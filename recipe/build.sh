@@ -1,14 +1,12 @@
 #!/bin/bash
 
-if [ `uname` == Linux ]; then
+if [ $(uname) == Linux ]; then
     export QMAKESPEC="linux-g++"
 
     # Add qt.conf to the right place in $SRC_DIR so that
     # configure.py can run correctly
     cp $PREFIX/bin/qt.conf $SRC_DIR
-fi
-
-if [ `uname` == Darwin ]; then
+elif [ $(uname) == Darwin ]; then
     export DYLD_FALLBACK_LIBRARY_PATH=$PREFIX/lib/
 
     # Add qt.conf to the right place in $SRC_DIR so that

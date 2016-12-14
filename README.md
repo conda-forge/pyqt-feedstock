@@ -16,6 +16,18 @@ will build against Qt v5. The bindings are implemented as a set of Python
 modules and contain over 1,000 classes.
 
 
+Current build status
+====================
+
+Linux: [![Circle CI](https://circleci.com/gh/conda-forge/pyqt-feedstock.svg?style=shield)](https://circleci.com/gh/conda-forge/pyqt-feedstock)
+OSX: [![TravisCI](https://travis-ci.org/conda-forge/pyqt-feedstock.svg?branch=master)](https://travis-ci.org/conda-forge/pyqt-feedstock)
+Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/conda-forge/pyqt-feedstock?svg=True)](https://ci.appveyor.com/project/conda-forge/pyqt-feedstock/branch/master)
+
+Current release info
+====================
+Version: [![Anaconda-Server Badge](https://anaconda.org/conda-forge/pyqt/badges/version.svg)](https://anaconda.org/conda-forge/pyqt)
+Downloads: [![Anaconda-Server Badge](https://anaconda.org/conda-forge/pyqt/badges/downloads.svg)](https://anaconda.org/conda-forge/pyqt)
+
 Installing pyqt
 ===============
 
@@ -36,7 +48,6 @@ It is possible to list all of the versions of `pyqt` available on your platform 
 ```
 conda search pyqt --channel conda-forge
 ```
-
 
 
 About conda-forge
@@ -72,18 +83,6 @@ Terminology
 
 **conda-forge** - the place where the feedstock and smithy live and work to
                   produce the finished article (built conda distributions)
-
-Current build status
-====================
-
-Linux: [![Circle CI](https://circleci.com/gh/conda-forge/pyqt-feedstock.svg?style=shield)](https://circleci.com/gh/conda-forge/pyqt-feedstock)
-OSX: [![TravisCI](https://travis-ci.org/conda-forge/pyqt-feedstock.svg?branch=master)](https://travis-ci.org/conda-forge/pyqt-feedstock)
-Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/conda-forge/pyqt-feedstock?svg=True)](https://ci.appveyor.com/project/conda-forge/pyqt-feedstock/branch/master)
-
-Current release info
-====================
-Version: [![Anaconda-Server Badge](https://anaconda.org/conda-forge/pyqt/badges/version.svg)](https://anaconda.org/conda-forge/pyqt)
-Downloads: [![Anaconda-Server Badge](https://anaconda.org/conda-forge/pyqt/badges/downloads.svg)](https://anaconda.org/conda-forge/pyqt)
 
 
 Updating pyqt-feedstock
