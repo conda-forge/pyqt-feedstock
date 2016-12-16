@@ -21,7 +21,7 @@ source:
     - configure.patch
 
 build:
-  number: 1
+  number: 2
 
 requirements:
   build:
@@ -43,13 +43,13 @@ about:
   license: Commercial, GPLv2, GPLv3
   license_family: GPL3
   license_file: LICENSE
-  summary: Python binding of the cross-platform GUI toolkit Qt
+  summary: 'Python binding of the cross-platform GUI toolkit Qt.'
   description: |
-    PyQt is a set of Python v2 and v3 bindings for The Qt Company's Qt
+    "PyQt is a set of Python v2 and v3 bindings for The Qt Company's Qt
     application framework and runs on all platforms supported by Qt including
     Windows, MacOS/X and Linux. PyQt5 supports Qt v5. PyQt4 supports Qt v4 and
     will build against Qt v5. The bindings are implemented as a set of Python
-    modules and contain over 1,000 classes.
+    modules and contain over 1,000 classes."
   doc_url: https://www.riverbankcomputing.com/software/pyqt/
   dev_url: https://github.com/pyqt
 

@@ -16,6 +16,9 @@ import PyQt4.QtWebKit  # Disabled on Windows due to VS2015 build issue (linker c
 import PyQt4.QtXml
 import PyQt4.QtXmlPatterns
 
+from PyQt4.Qt import QKeySequence
+from PyQt4.Qt import QTextCursor
+
 # Test for session management
 from PyQt4.QtGui import QSessionManager
 
