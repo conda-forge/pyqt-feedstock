@@ -7,13 +7,13 @@ Package license: Commercial, GPLv2, GPLv3
 
 Feedstock license: BSD 3-Clause
 
-Summary: Python binding of the cross-platform GUI toolkit Qt
+Summary: Python binding of the cross-platform GUI toolkit Qt.
 
-PyQt is a set of Python v2 and v3 bindings for The Qt Company's Qt
+"PyQt is a set of Python v2 and v3 bindings for The Qt Company's Qt
 application framework and runs on all platforms supported by Qt including
 Windows, MacOS/X and Linux. PyQt5 supports Qt v5. PyQt4 supports Qt v4 and
 will build against Qt v5. The bindings are implemented as a set of Python
-modules and contain over 1,000 classes.
+modules and contain over 1,000 classes."
 
 
 Current build status
