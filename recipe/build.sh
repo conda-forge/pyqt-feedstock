@@ -1,29 +1,11 @@
 #!/bin/bash
 
-if [ $(uname) == Linux ]; then
-    export QMAKESPEC="linux-g++"
-
-    # Add qt.conf to the right place in $SRC_DIR so that
-    # configure.py can run correctly
-    cp $PREFIX/bin/qt.conf $SRC_DIR
-elif [ $(uname) == Darwin ]; then
-    export DYLD_FALLBACK_LIBRARY_PATH=$PREFIX/lib/
-
-    # Add qt.conf to the right place in $SRC_DIR so that
-    # configure.py can run correctly
-    QTCONF_PLACE=$SRC_DIR/qtdirs.app/Contents/Resources
-    mkdir -p $QTCONF_PLACE
-    cp $PREFIX/bin/qt.conf $QTCONF_PLACE
-fi
-
 $PYTHON configure.py \
-          --verbose \
-          --confirm-license \
-          --bindir=$PREFIX/bin \
-          --destdir=$SP_DIR \
-          --qmake=$PREFIX/bin/qmake
+        --verbose \
+        --confirm-license \
+        --assume-shared \
+        -q $PREFIX/bin/qmake
 
-make
+make -j$CPU_COUNT
+make check
 make install
-
-rm -rf $SP_DIR/__pycache__
