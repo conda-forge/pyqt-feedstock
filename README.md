@@ -3,7 +3,7 @@ About pyqt
 
 Home: http://www.riverbankcomputing.co.uk/software/pyqt
 
-Package license: Commercial, GPLv2, GPLv3
+Package license: Commercial, GPL-2.0, GPL-3.0
 
 Feedstock license: BSD 3-Clause
 
