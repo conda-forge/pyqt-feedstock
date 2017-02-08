@@ -37,6 +37,9 @@ requirements:
 test:
   imports:
     - PyQt4
+  commands:
+    - conda inspect linkages -p $PREFIX pyqt  # [not win]
+    - conda inspect objects -p $PREFIX pyqt  # [osx]
 
 about:
   home: http://www.riverbankcomputing.co.uk/software/pyqt
