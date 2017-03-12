@@ -33,6 +33,7 @@ test:
     - PyQt5.QtCore
   commands:
     - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux]
+  commands:
     - conda inspect linkages -p $PREFIX pyqt  # [not win]
     - conda inspect objects -p $PREFIX pyqt  # [osx]
 
