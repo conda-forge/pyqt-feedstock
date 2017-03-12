@@ -27,8 +27,12 @@ requirements:
     - sip 4.18
 
 test:
+  files:
+    - pyqt_test.py
   imports:
     - PyQt5.QtCore
+  commands:
+    - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux]
 
 about:
   home: http://www.riverbankcomputing.co.uk/software/pyqt
