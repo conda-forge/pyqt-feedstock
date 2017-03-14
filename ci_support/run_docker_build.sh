@@ -48,7 +48,7 @@ source run_conda_forge_build_setup
 # "recipe/yum_requirements.txt" file. After updating that file,
 # run "conda smithy rerender" and this line be updated
 # automatically.
-yum install -y xorg-x11-server-Xvfb
+yum install -y xorg-x11-server-Xvfb gtk2-devel
 
 
 # Embarking on 3 case(s).
