@@ -1,6 +1,17 @@
---- configure.py
-+++ configure.py
-@@ -1871,6 +1871,15 @@
+--- configure.py.orig	2015-06-12 01:28:16.000000000 +1000
++++ configure.py	2017-04-12 18:51:47.065000924 +1000
+@@ -49,7 +49,10 @@
+ 
+ # This default value will be used by the code that bootstraps the Qt
+ # configuration.
++# Needs not to be g++ on Travis since compilation of tests fail
+ qt_macx_spec = 'macx-g++'
++if "QMAKESPEC" in os.environ:
++    qt_macx_spec = os.environ["QMAKESPEC"]
+ 
+ qt_sip_flags = []
+ 
+@@ -1854,6 +1857,15 @@
      if macros is None:
          return None
  
