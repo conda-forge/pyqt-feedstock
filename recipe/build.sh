@@ -7,6 +7,7 @@ if [ $(uname) == Linux ]; then
     # configure.py can run correctly
     cp $PREFIX/bin/qt.conf $SRC_DIR
 elif [ $(uname) == Darwin ]; then
+    export QMAKESPEC=unsupported/macx-clang-libc++
     export DYLD_FALLBACK_LIBRARY_PATH=$PREFIX/lib/
 
     # Add qt.conf to the right place in $SRC_DIR so that
