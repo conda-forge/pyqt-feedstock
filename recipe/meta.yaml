@@ -31,6 +31,8 @@ test:
     - pyqt_test.py
   imports:
     - PyQt5.QtCore
+    - PyQt5.QtWebKitWidgets  # [linux or win]
+    - PyQt5.QtWebEngineWidgets  # [osx]
   commands:
     - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux]
     - conda inspect linkages -p $PREFIX pyqt  # [not win]
