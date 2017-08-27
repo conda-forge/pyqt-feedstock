@@ -45,7 +45,7 @@ $PYTHON configure.py \
         --confirm-license \
         --assume-shared \
         -q ${PREFIX}/bin/qmake
-make -j${CPU_COUNT} # >> $BUILD_OUTPUT 2>&1
+make -j${CPU_COUNT} ${VERBOSE_AT} # >> $BUILD_OUTPUT 2>&1
 make check # >> $BUILD_OUTPUT 2>&1
 make install # >> $BUILD_OUTPUT 2>&1
 
