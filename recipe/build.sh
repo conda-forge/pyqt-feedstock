@@ -36,8 +36,6 @@ pushd bin
   ln -s ${GXX} g++
 popd
 export PATH=${PWD}/bin:${PATH}
-# For dbus support:
-export PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig
 
 ## START BUILD
 $PYTHON configure.py \
