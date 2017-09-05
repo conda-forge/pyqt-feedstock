@@ -34,6 +34,7 @@ fi
 mkdir bin
 pushd bin
   ln -s ${GXX} g++
+  ln -s ${GCC} gcc
 popd
 export PATH=${PWD}/bin:${PATH}
 

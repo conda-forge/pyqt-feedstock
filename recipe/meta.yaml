@@ -23,6 +23,7 @@ requirements:
     # pkg-config --cflags-only-I --libs dbus-1
     # The Python dbus module doesn't seem to be installed.
     - {{ compiler('cxx') }}
+    - {{ compiler('c') }}
     - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
     - {{ cdt('libx11-devel') }}          # [linux]
     - {{ cdt('libxext-devel') }}         # [linux]
