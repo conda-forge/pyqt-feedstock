@@ -2,6 +2,15 @@
 
 set -e # Abort on error.
 
+# Avoid Xcode, cannot put in ${SRC_DIR} as there is a dir called 'sip'
+# there which shadows the sip excutable.
+mkdir xcode
+pushd xcode
+  cp "${RECIPE_DIR}"/xcrun .
+  cp "${RECIPE_DIR}"/xcodebuild .
+  PATH=${PWD}:${PATH}
+popd
+
 if [[ 0 == 1 ]]; then
 export PING_SLEEP=30s
 export WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
