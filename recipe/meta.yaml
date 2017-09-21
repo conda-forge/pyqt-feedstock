@@ -48,10 +48,10 @@ requirements:
     - {{ cdt('libxfixes') }}             # [linux]
     - {{ cdt('libxxf86vm') }}            # [linux]
     - python
-    - dbus
+    - dbus  # [not win]
     - qt 5.6.*
     - sip 4.18.*
-    - pkg-config
+    - pkg-config  # [not win]
     - jom  # [win]
   run:
     - python
