@@ -15,7 +15,7 @@ source:
     - 0001-Make-warnings-non-fatal.patch
 
 build:
-  number: 5
+  number: 6
 
 requirements:
   build:
