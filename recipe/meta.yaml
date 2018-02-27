@@ -26,12 +26,12 @@ build:
 requirements:
   build:
     - python
-    - qt 4.8.*
+    - qt >=4.8.6,<5.0
     - sip 4.18
     - jom  # [win]
   run:
     - python
-    - qt 4.8.*
+    - qt >=4.8.6,<5.0
     - sip 4.18
 
 test:
