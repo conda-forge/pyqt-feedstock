@@ -5,10 +5,8 @@ package:
   version: {{ version }}
 
 source:
-  url:  http://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.9.2/PyQt5_gpl-5.9.2.zip  # [win]
-  sha1: ad27ad0262e2d2536275d5d05549642ad08b1c13  # [win]
-  url:  http://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.9.2/PyQt5_gpl-5.9.2.tar.gz  # [not win]
-  sha1: 058c5b37981b515cc4e16faa04a4a6d8892cdaa9  # [not win]
+  url:  http://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.9.2/PyQt5_gpl-5.9.2.tar.gz
+  sha1: 058c5b37981b515cc4e16faa04a4a6d8892cdaa9
 
 build:
   number: 0
