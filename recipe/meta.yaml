@@ -1,21 +1,17 @@
-{% set version = "5.6.0" %}
+{% set version = "5.9.2" %}
 
 package:
   name: pyqt
   version: {{ version }}
 
 source:
-  fn:   PyQt5_gpl-5.6.zip  # [win]
-  url:  http://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.6/PyQt5_gpl-5.6.zip  # [win]
-  sha1: 63a03d0f6e7f6e2e9dc90311020fbb2a2edc8cf0  # [win]
-  fn:   PyQt5_gpl-5.6.tar.gz  # [not win]
-  url:  http://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.6/PyQt5_gpl-5.6.tar.gz  # [not win]
-  sha1: 8920e4094470ff93f79e257c37c46f5cd0bff7ab  # [not win]
-  patches:
-    - 0001-Make-warnings-non-fatal.patch
+  url:  http://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.9.2/PyQt5_gpl-5.9.2.zip  # [win]
+  sha1: ad27ad0262e2d2536275d5d05549642ad08b1c13  # [win]
+  url:  http://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.9.2/PyQt5_gpl-5.9.2.tar.gz  # [not win]
+  sha1: 058c5b37981b515cc4e16faa04a4a6d8892cdaa9  # [not win]
 
 build:
-  number: 6
+  number: 0
 
 requirements:
   build:
@@ -47,16 +43,17 @@ requirements:
     - {{ cdt('libxdamage') }}            # [linux]
     - {{ cdt('libxfixes') }}             # [linux]
     - {{ cdt('libxxf86vm') }}            # [linux]
-    - python
-    - dbus  # [not win]
-    - qt 5.6.*
-    - sip 4.18.*
-    - pkg-config  # [not win]
     - jom  # [win]
+    - pkg-config  # [not win]
+  host:
+    - python
+    - sip >=4.19.4
+    - dbus  # [not win]
+    - qt 5.9.*
   run:
     - python
-    - qt 5.6.*
-    - sip 4.18.*
+    - sip >=4.19.4
+    - qt 5.9.*
 
 test:
   files:
