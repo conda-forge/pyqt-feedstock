@@ -6,7 +6,7 @@
         --assume-shared ^
         --qmake="%LIBRARY_BIN%\qmake.exe" ^
         --bindir="%LIBRARY_BIN%" ^
-        --spec=win32-msvc%VS_YEAR% ^
+        --spec=win32-msvc ^
         --disable QtNfc
 if errorlevel 1 exit 1
 
