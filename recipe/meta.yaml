@@ -11,6 +11,8 @@ source:
 build:
   number: 0
   skip: true  # [win and py27]
+  run_exports:
+    {{ pin_subpackage('pyqt', max_pin='x.x') }}
 
 requirements:
   build:
