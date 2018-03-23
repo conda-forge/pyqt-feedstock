@@ -44,6 +44,7 @@ requirements:
     - {{ cdt('libxdamage') }}            # [linux]
     - {{ cdt('libxfixes') }}             # [linux]
     - {{ cdt('libxxf86vm') }}            # [linux]
+    - {{ cdt('mesa-libgbm') }}           # [linux]
     - jom  # [win]
     - pkg-config  # [not win]
   host:
