@@ -33,8 +33,24 @@ test:
     - pyqt_test.py
   imports:
     - PyQt5.QtCore
+    - PyQt5.QtGui
+    - PyQt5.QtHelp
+    - PyQt5.QtMultimedia
+    - PyQt5.QtMultimediaWidgets
+    - PyQt5.QtNetwork
+    - PyQt5.QtOpenGL
+    - PyQt5.QtPrintSupport
+    - PyQt5.QtQml
+    - PyQt5.QtQuick
+    - PyQt5.QtSvg
+    - PyQt5.QtTest
+    - PyQt5.QtWebChannel
     - PyQt5.QtWebKitWidgets  # [linux or win]
     - PyQt5.QtWebEngineWidgets  # [osx]
+    - PyQt5.QtWebSockets
+    - PyQt5.QtWidgets
+    - PyQt5.QtXml
+    - PyQt5.QtXmlPatterns
   commands:
     - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux]
     - conda inspect linkages -p $PREFIX pyqt  # [not win]
