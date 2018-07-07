@@ -19,14 +19,16 @@ modules and contain over 1,000 classes."
 Current build status
 ====================
 
-Linux: [![Circle CI](https://circleci.com/gh/conda-forge/pyqt-feedstock.svg?style=shield)](https://circleci.com/gh/conda-forge/pyqt-feedstock)
-OSX: [![TravisCI](https://travis-ci.org/conda-forge/pyqt-feedstock.svg?branch=master)](https://travis-ci.org/conda-forge/pyqt-feedstock)
-Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/conda-forge/pyqt-feedstock?svg=True)](https://ci.appveyor.com/project/conda-forge/pyqt-feedstock/branch/master)
+[![Linux](https://img.shields.io/circleci/project/github/conda-forge/pyqt-feedstock/master.svg?label=Linux)](https://circleci.com/gh/conda-forge/pyqt-feedstock)
+[![OSX](https://img.shields.io/travis/conda-forge/pyqt-feedstock/master.svg?label=macOS)](https://travis-ci.org/conda-forge/pyqt-feedstock)
+[![Windows](https://img.shields.io/appveyor/ci/conda-forge/pyqt-feedstock/master.svg?label=Windows)](https://ci.appveyor.com/project/conda-forge/pyqt-feedstock/branch/master)
 
 Current release info
 ====================
-Version: [![Anaconda-Server Badge](https://anaconda.org/conda-forge/pyqt/badges/version.svg)](https://anaconda.org/conda-forge/pyqt)
-Downloads: [![Anaconda-Server Badge](https://anaconda.org/conda-forge/pyqt/badges/downloads.svg)](https://anaconda.org/conda-forge/pyqt)
+
+| Name | Downloads | Version | Platforms |
+| --- | --- | --- | --- |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt-green.svg)](https://anaconda.org/conda-forge/pyqt) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt.svg)](https://anaconda.org/conda-forge/pyqt) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt.svg)](https://anaconda.org/conda-forge/pyqt) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt.svg)](https://anaconda.org/conda-forge/pyqt) |
 
 Installing pyqt
 ===============
