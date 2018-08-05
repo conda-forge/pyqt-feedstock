@@ -47,15 +47,13 @@ test:
     - PyQt5.QtTest
     - PyQt5.QtWebChannel
     - PyQt5.QtWebKitWidgets  # [linux or win]
-    - PyQt5.QtWebEngineWidgets  # [osx]
+    # - PyQt5.QtWebEngineWidgets  # [osx]
     - PyQt5.QtWebSockets
     - PyQt5.QtWidgets
     - PyQt5.QtXml
     - PyQt5.QtXmlPatterns
   commands:
     - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux]
-    - conda inspect linkages -p $PREFIX pyqt  # [not win]
-    - conda inspect objects -p $PREFIX pyqt  # [osx]
 
 about:
   home: http://www.riverbankcomputing.co.uk/software/pyqt
