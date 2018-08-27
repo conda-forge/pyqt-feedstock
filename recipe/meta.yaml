@@ -1,19 +1,16 @@
 {% set version = "5.6.0" %}
+{% set ver = '.'.join(version.split('.')[:2]) %}
 
 package:
   name: pyqt
   version: {{ version }}
 
 source:
-  fn:   PyQt5_gpl-5.6.zip  # [win]
-  url:  http://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.6/PyQt5_gpl-5.6.zip  # [win]
-  sha1: 63a03d0f6e7f6e2e9dc90311020fbb2a2edc8cf0  # [win]
-  fn:   PyQt5_gpl-5.6.tar.gz  # [not win]
-  url:  http://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.6/PyQt5_gpl-5.6.tar.gz  # [not win]
-  sha1: 8920e4094470ff93f79e257c37c46f5cd0bff7ab  # [not win]
+  url:  http://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-{{ ver }}/PyQt5_gpl-{{ ver }}.tar.gz
+  sha256: 2e481a6c4c41b96ed3b33449e5f9599987c63a5c8db93313bd57a6acbf20f0e1
 
 build:
-  number: 7
+  number: 8
 
 requirements:
   build:
@@ -23,11 +20,11 @@ requirements:
   host:
     - python
     - qt
-    - sip 4.18
+    - sip 4.19.8
   run:
     - python
     - qt
-    - sip 4.18
+    - sip 4.19.8
 
 test:
   files:
