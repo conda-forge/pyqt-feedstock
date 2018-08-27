@@ -13,7 +13,7 @@ source:
   sha1: 8920e4094470ff93f79e257c37c46f5cd0bff7ab  # [not win]
 
 build:
-  number: 6
+  number: 7
 
 requirements:
   build:
