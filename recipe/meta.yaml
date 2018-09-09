@@ -9,7 +9,7 @@ source:
   sha1: 058c5b37981b515cc4e16faa04a4a6d8892cdaa9
 
 build:
-  number: 1
+  number: 2
   skip: true  # [win and py27]
   run_exports:
     {{ pin_subpackage('pyqt', max_pin='x.x') }}
