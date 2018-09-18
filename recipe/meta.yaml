@@ -9,14 +9,14 @@ source:
   sha1: 058c5b37981b515cc4e16faa04a4a6d8892cdaa9
 
 build:
-  number: 1
+  number: 2
   skip: true  # [win and py27]
   run_exports:
     {{ pin_subpackage('pyqt', max_pin='x.x') }}
 
 requirements:
   build:
-	    # We may want to find and add a Python dbus library?
+    # We may want to find and add a Python dbus library?
     # pkg-config --cflags-only-I --libs dbus-1
     # The Python dbus module doesn't seem to be installed.
     - {{ compiler('cxx') }}
@@ -50,12 +50,12 @@ requirements:
     - pkg-config  # [not win]
   host:
     - python
-    - sip >=4.19.4
+    - sip >=4.19.4,<=4.19.8
     - dbus  # [not win]
     - qt 5.9.*
   run:
     - python
-    - sip >=4.19.4
+    - sip >=4.19.4,<=4.19.8
     - qt 5.9.*
 
 test:
