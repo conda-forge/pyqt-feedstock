@@ -45,7 +45,6 @@ $PYTHON configure.py \
         --enable QtXml \
         --enable QtXmlPatterns \
         --enable QtDBus \
-        --enable QtX11Extras \
         --enable QtWebSockets \
         --enable QtWebChannel \
         --enable QtWebEngineWidgets \
