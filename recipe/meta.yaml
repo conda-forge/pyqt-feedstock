@@ -11,6 +11,7 @@ source:
 build:
   number: 2
   skip: true  # [win and py27]
+  skip: true  # [ppc64le]
   run_exports:
     {{ pin_subpackage('pyqt', max_pin='x.x') }}
 
