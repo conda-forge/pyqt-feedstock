@@ -1,0 +1,15 @@
+--- work/configure.py.orig	2018-08-24 06:13:26.000000000 -0700
++++ work/configure.py	2018-08-24 06:13:51.000000000 -0700
+@@ -1664,9 +1664,9 @@
+     """
+ 
+     # Check we have a shared interpreter library.
+-    if target_config.py_pyshlib == '':
+-        inform("The %s plugin was disabled because a dynamic Python library couldn't be found." % plugin_name)
+-        return False
++    # if target_config.py_pyshlib == '':
++    #     inform("The %s plugin was disabled because a dynamic Python library couldn't be found." % plugin_name)
++    #     return False
+ 
+     # Create the qmake project file.
+     inform("Generating the %s plugin .pro file..." % plugin_name)
