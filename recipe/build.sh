@@ -25,6 +25,20 @@ trap 'error_handler' ERR
 bash -c "while true; do echo \$(date) - building ...; sleep $PING_SLEEP; done" &
 PING_LOOP_PID=$!
 
+if [[ ${c_compiler} != "toolchain_c" ]]; then
+    if [[ ${HOST} =~ .*linux.* ]]; then
+        # Dumb .. is this Qt or PyQt's fault? (or mine, more likely).
+        # The spec file could be bad, or PyQt could be missing the
+        # ability to set QMAKE_CXX
+        mkdir bin || true
+        pushd bin
+            ln -s ${GXX} g++ || true
+            ln -s ${GCC} gcc || true
+        popd
+        export PATH=${PWD}/bin:${PATH}
+    fi
+fi
+
 ## START BUILD
 $PYTHON configure.py \
         --verbose \
