@@ -13,13 +13,20 @@ source:
   sha1: 8920e4094470ff93f79e257c37c46f5cd0bff7ab  # [not win]
 
 build:
-  number: 7
+  number: 1007
 
 requirements:
   build:
     - jom  # [win]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    # The CDT packages below are those used in qt-feedstock
+    - {{ cdt('mesa-libgl-devel') }}  # [linux]
+    - {{ cdt('mesa-dri-drivers') }}  # [linux]
+    - {{ cdt('libselinux') }}  # [linux]
+    - {{ cdt('libxdamage') }}  # [linux]
+    - {{ cdt('libxfixes') }}  # [linux]
+    - {{ cdt('libxxf86vm') }}  # [linux]
   host:
     - python
     - qt
