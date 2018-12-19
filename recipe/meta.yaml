@@ -13,7 +13,7 @@ source:
   sha1: 8920e4094470ff93f79e257c37c46f5cd0bff7ab  # [not win]
 
 build:
-  number: 1007
+  number: 1008
 
 requirements:
   build:
@@ -53,8 +53,7 @@ test:
     - PyQt5.QtSvg
     - PyQt5.QtTest
     - PyQt5.QtWebChannel
-    - PyQt5.QtWebKitWidgets  # [linux or win]
-    # - PyQt5.QtWebEngineWidgets  # [osx]
+    - PyQt5.QtWebKitWidgets
     - PyQt5.QtWebSockets
     - PyQt5.QtWidgets
     - PyQt5.QtXml
