@@ -11,9 +11,11 @@ source:
   fn:   PyQt5_gpl-5.6.tar.gz  # [not win]
   url:  http://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.6/PyQt5_gpl-5.6.tar.gz  # [not win]
   sha1: 8920e4094470ff93f79e257c37c46f5cd0bff7ab  # [not win]
+  patches:
+    - configure_python_library.patch
 
 build:
-  number: 1008
+  number: 1009
 
 requirements:
   build:
