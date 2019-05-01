@@ -30,11 +30,11 @@ requirements:
   host:
     - python
     - qt
-    - sip 4.18
+    - sip 4.19.8
   run:
     - python
     - qt
-    - sip 4.18
+    - sip 4.19.8
 
 test:
   files:
