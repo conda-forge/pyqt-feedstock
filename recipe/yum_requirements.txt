@@ -1,2 +1,4 @@
 xorg-x11-server-Xvfb
+libXScrnSaver
+libXtst
 gtk2-devel
