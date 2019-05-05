@@ -30,7 +30,7 @@ run_conda_forge_build_setup
 # "recipe/yum_requirements.txt" file. After updating that file,
 # run "conda smithy rerender" and this line will be updated
 # automatically.
-/usr/bin/sudo -n yum install -y xorg-x11-server-Xvfb libXScrnSaver libXtst alsa-lib gtk2-devel
+/usr/bin/sudo -n yum install -y xorg-x11-server-Xvfb gtk2-devel libXScrnSaver libXtst alsa-lib mesa-libEGL gtkmm24 pciutils libselinux mesa-libgbm
 
 
 # make the build number clobber
