@@ -41,6 +41,7 @@ $PYTHON configure.py \
         --enable QtGui \
         --enable QtCore \
         --enable QtHelp \
+        --enable QtMultimedia \
         --enable QtMultimediaWidgets \
         --enable QtNetwork \
         --enable QtXml \
