@@ -68,8 +68,9 @@ test:
     - PyQt5.QtCore
     - PyQt5.QtGui
     - PyQt5.QtHelp
-    - PyQt5.QtMultimedia
-    - PyQt5.QtMultimediaWidgets
+    # A Qt rebuild is required to fix this on Linux
+    - PyQt5.QtMultimedia  # [not linux]
+    - PyQt5.QtMultimediaWidgets  # [not linux]
     - PyQt5.QtNetwork
     - PyQt5.QtOpenGL
     - PyQt5.QtPrintSupport
