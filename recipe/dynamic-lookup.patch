@@ -1,8 +1,8 @@
 diff --git a/PyQt5_gpl-5.9.2/configure.py b/PyQt5_gpl-5.9.2/configure.py
-index a263efb..115075f 100644
+index a263efb..d244533 100644
 --- a/PyQt5_gpl-5.9.2/configure.py
 +++ b/PyQt5_gpl-5.9.2/configure.py
-@@ -943,6 +943,9 @@ class TargetConfiguration:
+@@ -943,8 +943,14 @@ class TargetConfiguration:
          Python interpreter library.
          """
  
@@ -11,4 +11,8 @@ index a263efb..115075f 100644
 +
          args = qmake_quote('-L' + self.py_pylib_dir)
  
++        if self.py_platform.startswith('linux'):
++            return args
++
          if name:
+             args += ' -l' + self.py_pylib_lib
