@@ -9,7 +9,7 @@ source:
   sha1: 058c5b37981b515cc4e16faa04a4a6d8892cdaa9
   patches:
     - 0001-Ignore-lack-of-shared-python-lib.patch
-    - dynamic-lookup.patch
+    - 0002-configure.patch
 
 build:
   number: 0
