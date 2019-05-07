@@ -1,0 +1,14 @@
+diff --git a/PyQt5_gpl-5.9.2/configure.py b/PyQt5_gpl-5.9.2/configure.py
+index a263efb..115075f 100644
+--- a/PyQt5_gpl-5.9.2/configure.py
++++ b/PyQt5_gpl-5.9.2/configure.py
+@@ -943,6 +943,9 @@ class TargetConfiguration:
+         Python interpreter library.
+         """
+ 
++        if self.py_platform == 'darwin':
++            return '-undefined dynamic_lookup'
++
+         args = qmake_quote('-L' + self.py_pylib_dir)
+ 
+         if name:
