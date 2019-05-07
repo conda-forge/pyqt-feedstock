@@ -12,7 +12,7 @@ index a263efb..d244533 100644
          args = qmake_quote('-L' + self.py_pylib_dir)
  
 +        if self.py_platform.startswith('linux'):
-+            return args
++            return ''
 +
          if name:
              args += ' -l' + self.py_pylib_lib
