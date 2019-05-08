@@ -2,59 +2,73 @@
 
 set -e # Abort on error.
 
-export PING_SLEEP=30s
-export WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-export BUILD_OUTPUT=$WORKDIR/build.out
-
-touch $BUILD_OUTPUT
-
-dump_output() {
-   echo Tailing the last 500 lines of output:
-   tail -500 $BUILD_OUTPUT
-}
-
-error_handler() {
-  echo ERROR: An error was encountered with the build.
-  dump_output
-  exit 1
-}
-
-# If an error occurs, run our error handler to output a tail of the build.
-trap 'error_handler' ERR
-
-# Set up a repeating loop to send some output to Travis.
-bash -c "while true; do echo \$(date) - building ...; sleep $PING_SLEEP; done" &
-PING_LOOP_PID=$!
-
-if [[ ${c_compiler} != "toolchain_c" ]]; then
-    if [[ ${HOST} =~ .*linux.* ]]; then
-        # Dumb .. is this Qt or PyQt's fault? (or mine, more likely).
-        # The spec file could be bad, or PyQt could be missing the
-        # ability to set QMAKE_CXX
-        mkdir bin || true
-        pushd bin
-            ln -s ${GXX} g++ || true
-            ln -s ${GCC} gcc || true
-        popd
-        export PATH=${PWD}/bin:${PATH}
-    fi
+declare -a _extra_modules
+# Avoid Xcode
+if [[ ${HOST} =~ .*darwin.* ]]; then
+  PATH=${PREFIX}/bin/xc-avoidance:${PATH}
+    _extra_modules+=(--enable)
+    _extra_modules+=(QtMacExtras)
+else
+    _extra_modules+=(--enable)
+    _extra_modules+=(QtX11Extras)
 fi
+
+
+# Dumb .. is this Qt or PyQt's fault? (or mine, more likely).
+# The spec file could be bad, or PyQt could be missing the
+# ability to set QMAKE_CXX
+mkdir bin || true
+pushd bin
+  ln -s ${GXX} g++ || true
+  ln -s ${GCC} gcc || true
+popd
+export PATH=${PWD}/bin:${PATH}
+
+## Future:
+#        --enable Qt3DAnimation \
+#        --enable Qt3DCore \
+#        --enable Qt3DExtras \
+#        --enable Qt3DInput \
+#        --enable Qt3DLogic \
+#        --enable Qt3DRender \
 
 ## START BUILD
 $PYTHON configure.py \
         --verbose \
         --confirm-license \
         --assume-shared \
-        -q $PREFIX/bin/qmake
-
-make -j$CPU_COUNT >> $BUILD_OUTPUT 2>&1
-make check >> $BUILD_OUTPUT 2>&1
-make install >> $BUILD_OUTPUT 2>&1
-
-## END BUILD
-
-# The build finished without returning an error so dump a tail of the output.
-dump_output
-
-# Nicely terminate the ping output loop.
-kill $PING_LOOP_PID
+        --enable QtWidgets \
+        --enable QtGui \
+        --enable QtCore \
+        --enable QtHelp \
+        --enable QtMultimedia \
+        --enable QtMultimediaWidgets \
+        --enable QtNetwork \
+        --enable QtXml \
+        --enable QtXmlPatterns \
+        --enable QtDBus \
+        --enable QtWebSockets \
+        --enable QtWebChannel \
+        --enable QtWebEngineWidgets \
+        --enable QtNfc \
+        --enable QtWebEngineCore \
+        --enable QtWebEngine \
+        --enable QtOpenGL \
+        --enable QtQml \
+        --enable QtQuick \
+        --enable QtQuickWidgets \
+        --enable QtSql \
+        --enable QtSvg \
+        --enable QtDesigner \
+        --enable QtPrintSupport \
+        --enable QtSensors \
+        --enable QtTest \
+        --enable QtBluetooth \
+        --enable QtLocation \
+        --enable QtPositioning \
+        --enable QtSerialPort \
+        "${_extra_modules[@]}" \
+        -q ${PREFIX}/bin/qmake
+make -j${CPU_COUNT} ${VERBOSE_AT}
+make check
+make install

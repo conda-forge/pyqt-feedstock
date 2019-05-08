@@ -1,40 +1,66 @@
-{% set version = "5.6.0" %}
+{% set version = "5.9.2" %}
 
 package:
   name: pyqt
   version: {{ version }}
 
 source:
-  fn:   PyQt5_gpl-5.6.zip  # [win]
-  url:  http://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.6/PyQt5_gpl-5.6.zip  # [win]
-  sha1: 63a03d0f6e7f6e2e9dc90311020fbb2a2edc8cf0  # [win]
-  fn:   PyQt5_gpl-5.6.tar.gz  # [not win]
-  url:  http://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.6/PyQt5_gpl-5.6.tar.gz  # [not win]
-  sha1: 8920e4094470ff93f79e257c37c46f5cd0bff7ab  # [not win]
+  url:  http://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.9.2/PyQt5_gpl-5.9.2.tar.gz
+  sha1: 058c5b37981b515cc4e16faa04a4a6d8892cdaa9
+  patches:
+    - 0001-Ignore-lack-of-shared-python-lib.patch
+    - 0002-configure.patch
 
 build:
-  number: 1008
+  number: 0
+  skip: true  # [win and py27]
+  skip: true  # [ppc64le]
+  run_exports:
+    {{ pin_subpackage('pyqt', max_pin='x.x') }}
 
 requirements:
   build:
-    - jom  # [win]
-    - {{ compiler('c') }}
+    # We may want to find and add a Python dbus library?
+    # pkg-config --cflags-only-I --libs dbus-1
+    # The Python dbus module doesn't seem to be installed.
     - {{ compiler('cxx') }}
-    # The CDT packages below are those used in qt-feedstock
-    - {{ cdt('mesa-libgl-devel') }}  # [linux]
-    - {{ cdt('mesa-dri-drivers') }}  # [linux]
-    - {{ cdt('libselinux') }}  # [linux]
-    - {{ cdt('libxdamage') }}  # [linux]
-    - {{ cdt('libxfixes') }}  # [linux]
-    - {{ cdt('libxxf86vm') }}  # [linux]
+    - {{ compiler('c') }}
+    - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
+    - {{ cdt('libx11-devel') }}          # [linux]
+    - {{ cdt('libxcb') }}                # [linux]
+    - {{ cdt('libxext-devel') }}         # [linux]
+    - {{ cdt('libxrender-devel') }}      # [linux]
+    - {{ cdt('mesa-libgl-devel') }}      # [linux]
+    - {{ cdt('mesa-libegl-devel') }}     # [linux]
+    - {{ cdt('mesa-dri-drivers') }}      # [linux]
+    - {{ cdt('libxau-devel') }}          # [linux]
+    - {{ cdt('alsa-lib-devel') }}        # [linux]
+    - {{ cdt('gtk2-devel') }}            # [linux]
+    - {{ cdt('gtkmm24-devel') }}         # [linux]
+    - {{ cdt('libdrm-devel') }}          # [linux]
+    - {{ cdt('libxcomposite-devel') }}   # [linux]
+    - {{ cdt('libxcursor-devel') }}      # [linux]
+    - {{ cdt('libxi-devel') }}           # [linux]
+    - {{ cdt('libxrandr-devel') }}       # [linux]
+    - {{ cdt('pciutils-devel') }}        # [linux]
+    - {{ cdt('libxscrnsaver-devel') }}   # [linux]
+    - {{ cdt('libxtst-devel') }}         # [linux]
+    - {{ cdt('libselinux-devel') }}      # [linux]
+    - {{ cdt('libxdamage') }}            # [linux]
+    - {{ cdt('libxfixes') }}             # [linux]
+    - {{ cdt('libxxf86vm') }}            # [linux]
+    - {{ cdt('mesa-libgbm') }}           # [linux]
+    - jom  # [win]
+    - pkg-config  # [not win]
   host:
     - python
-    - qt
-    - sip 4.18
+    - sip >=4.19.4,<=4.19.8
+    - dbus  # [not win]
+    - qt 5.9.*
   run:
     - python
-    - qt
-    - sip 4.18
+    - sip >=4.19.4,<=4.19.8
+    - qt 5.9.*
 
 test:
   files:
@@ -53,7 +79,7 @@ test:
     - PyQt5.QtSvg
     - PyQt5.QtTest
     - PyQt5.QtWebChannel
-    - PyQt5.QtWebKitWidgets
+    - PyQt5.QtWebEngineWidgets
     - PyQt5.QtWebSockets
     - PyQt5.QtWidgets
     - PyQt5.QtXml
