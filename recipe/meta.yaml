@@ -21,18 +21,21 @@ source:
     - configure.patch
 
 build:
-  number: 3
+  number: 4
 
 requirements:
   build:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+  host:
     - python
-    - qt >=4.8.6,<5.0
-    - sip 4.18
+    - qt
+    - sip
     - jom  # [win]
   run:
     - python
-    - qt >=4.8.6,<5.0
-    - sip 4.18
+    - qt
+    - sip
 
 test:
   imports:
