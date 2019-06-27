@@ -1,5 +1,16 @@
 #!/bin/bash
 
+# Dumb .. is this Qt or PyQt's fault? (or mine, more likely).
+# The spec file could be bad, or PyQt could be missing the
+# ability to set QMAKE_CXX
+mkdir bin || true
+pushd bin
+  ln -s ${GXX} g++ || true
+  ln -s ${GCC} gcc || true
+popd
+export PATH=${PWD}/bin:${PATH}
+
+
 if [ $(uname) == Linux ]; then
     export QMAKESPEC="linux-g++"
 
