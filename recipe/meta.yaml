@@ -6,7 +6,7 @@ package:
 
 source:
   url:  https://www.riverbankcomputing.com/static/Downloads/PyQt5/{{ version }}/PyQt5_gpl-{{ version }}.tar.gz
-  sha1: 058c5b37981b515cc4e16faa04a4a6d8892cdaa9
+  sha256: 0db0fa37debab147450f9e052286f7a530404e2aaddc438e97a7dcdf56292110
   patches:
     - 0003-configure.patch
 
