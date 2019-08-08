@@ -53,6 +53,7 @@ requirements:
     - pkg-config  # [not win]
   host:
     - python
+    - enum34  # [py27]
     - sip 4.19.18
     - dbus  # [not win]
     - qt 5.12
