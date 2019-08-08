@@ -1,17 +1,17 @@
-{% set version = "5.9.2" %}
+{% set version = "5.12.3" %}
 
 package:
   name: pyqt
   version: {{ version }}
 
 source:
-  url:  http://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.9.2/PyQt5_gpl-5.9.2.tar.gz
+  url:  https://www.riverbankcomputing.com/static/Downloads/PyQt5/{{ version }}/PyQt5_gpl-{{ version }}.tar.gz
   sha1: 058c5b37981b515cc4e16faa04a4a6d8892cdaa9
   patches:
     - 0003-configure.patch
 
 build:
-  number: 2
+  number: 0
   skip: true  # [win and py27]
   skip: true  # [ppc64le]
   run_exports:
@@ -53,13 +53,13 @@ requirements:
     - pkg-config  # [not win]
   host:
     - python
-    - sip >=4.19.4,<=4.19.8
+    - sip 4.19.18
     - dbus  # [not win]
-    - qt 5.9.*
+    - qt 5.12
   run:
     - python
-    - sip >=4.19.4,<=4.19.8
-    - qt 5.9.*
+    - sip 4.19.18
+    - qt 5.12
 
 test:
   files:
