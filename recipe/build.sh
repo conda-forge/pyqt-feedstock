@@ -32,6 +32,16 @@ export PATH=${PWD}/bin:${PATH}
 #        --enable Qt3DLogic \
 #        --enable Qt3DRender \
 
+# need to build a private copy of sip to avoid "module PyQt5.sip not found" error
+wget https://www.riverbankcomputing.com/static/Downloads/sip/4.19.18/sip-4.19.18.tar.gz
+tar -zxvf sip-4.19.18.tar.gz
+cd sip-4.19.18/
+$PYTHON configure.py --sip-module PyQt5.sip
+make -j${CPU_COUNT} # ${VERBOSE_AT}
+make install
+cd ../
+rm -rf sip-4.19.18/
+
 ## START BUILD
 $PYTHON configure.py \
         --verbose \
@@ -49,10 +59,7 @@ $PYTHON configure.py \
         --enable QtDBus \
         --enable QtWebSockets \
         --enable QtWebChannel \
-        --enable QtWebEngineWidgets \
         --enable QtNfc \
-        --enable QtWebEngineCore \
-        --enable QtWebEngine \
         --enable QtOpenGL \
         --enable QtQml \
         --enable QtQuick \
@@ -69,6 +76,7 @@ $PYTHON configure.py \
         --enable QtSerialPort \
         "${_extra_modules[@]}" \
         -q ${PREFIX}/bin/qmake
+
 make -j${CPU_COUNT} ${VERBOSE_AT}
 make check
 make install
