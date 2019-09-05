@@ -86,9 +86,6 @@ test:
     - PyQt5.QtXmlPatterns
   commands:
     - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux]
-    # For some reason "pyrcc5 -h" returns exit code of 1
-    - pyrcc5 -h; test $? -eq 1 && true || false  # [not win]
-    - pyrcc5 -h & if %ERRORLEVEL% EQU 1 EXIT 0 || EXIT 1  # [win]
 
 about:
   home: http://www.riverbankcomputing.co.uk/software/pyqt
