@@ -9,9 +9,10 @@ source:
   sha1: 058c5b37981b515cc4e16faa04a4a6d8892cdaa9
   patches:
     - 0003-configure.patch
+    - 0004-configure-winbat.patch
 
 build:
-  number: 2
+  number: 3
   skip: true  # [win and py27]
   skip: true  # [ppc64le]
   run_exports:
