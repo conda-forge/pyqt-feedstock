@@ -6,6 +6,11 @@
 :: release\QtNfc.dll : fatal error LNK1169: one or more multiply defined symbols found
 
 
+setlocal EnableDelayedExpansion
+set "INCLUDE=%LIBRARY_INC%;%INCLUDE%"
+set "LIB=%LIBRARY_LIB%;%LIB%"
+
+
 :: need to build a private copy of sip to avoid "module PyQt5.sip not found" error
 echo.
 echo ************** start building a private sip module **************
@@ -37,7 +42,9 @@ cd pyqt5
         --verbose ^
         --confirm-license ^
         --assume-shared ^
+        --qmake="%LIBRARY_BIN%\qmake.exe" ^
         --bindir="%LIBRARY_BIN%" ^
+        --spec=win32-msvc2015 ^
         --enable QtWidgets ^
         --enable QtGui ^
         --enable QtCore ^
