@@ -12,10 +12,10 @@ cd sip
 %PYTHON% configure.py --sip-module PyQt5.sip
 if errorlevel 1 exit 1
 
-jom
+nmake
 if errorlevel 1 exit 1
 
-jom install
+nmake install
 if errorlevel 1 exit 1
 
 cd ..
@@ -75,10 +75,10 @@ cd pyqtwebengine
 %PYTHON% configure.py
 if errorlevel 1 exit 1
 
-jom
+nmake
 if errorlevel 1 exit 1
 
-jom install
+nmake install
 if errorlevel 1 exit 1
 
 cd ..
