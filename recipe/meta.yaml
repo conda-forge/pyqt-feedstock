@@ -11,6 +11,8 @@ source:
     #  - 0003-configure.patch
     #  # remove build path from .bat
     #  - 0004-configure-winbat.patch  # [win]
+    patches:
+        - debug.patch  # [win]
     folder: pyqt5
 
   - url: https://www.riverbankcomputing.com/static/Downloads/sip/4.19.18/sip-4.19.18.tar.gz
