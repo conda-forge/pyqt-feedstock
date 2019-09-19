@@ -12,9 +12,11 @@ source:
       # remove build path from .bat
       - 0004-configure-winbat.patch  # [win]
     folder: pyqt5
+
   - url: https://www.riverbankcomputing.com/static/Downloads/sip/4.19.18/sip-4.19.18.tar.gz
     sha1: d001eb00f6dae26a952770e805b1519f61cae77d
     folder: sip
+
   - url: https://www.riverbankcomputing.com/static/Downloads/PyQtWebEngine/5.12.1/PyQtWebEngine_gpl-5.12.1.tar.gz
     sha1: 737acf93ecf39e5e2136e094a8b0a9ffa47bd2de
     folder: pyqtwebengine

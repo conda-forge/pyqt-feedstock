@@ -7,6 +7,9 @@
 
 
 :: need to build a private copy of sip to avoid "module PyQt5.sip not found" error
+echo.
+echo ************** start building a private sip module **************
+echo.
 cd sip
 
 %PYTHON% configure.py --sip-module PyQt5.sip
@@ -19,9 +22,15 @@ nmake install
 if errorlevel 1 exit 1
 
 cd ..
+echo.
+echo ************************ built sip module ***********************
+echo.
 
 
 :: build PyQt5
+echo.
+echo ************** start building PyQt5 **************
+echo.
 cd pyqt5
 
 %PYTHON% configure.py ^
@@ -30,7 +39,6 @@ cd pyqt5
         --assume-shared ^
         --qmake="%LIBRARY_BIN%\qmake.exe" ^
         --bindir="%LIBRARY_BIN%" ^
-        --spec=win32-msvc ^
         --enable QtWidgets ^
         --enable QtGui ^
         --enable QtCore ^
@@ -67,9 +75,15 @@ jom install
 if errorlevel 1 exit 1
 
 cd ..
+echo.
+echo ******************* built PyQt5 ******************
+echo.
 
 
 :: install PyQtWebEngine
+echo.
+echo ************** start building PyQtWebEngine **************
+echo.
 cd pyqtwebengine
 
 %PYTHON% configure.py
@@ -82,3 +96,6 @@ nmake install
 if errorlevel 1 exit 1
 
 cd ..
+echo.
+echo ****************** built PyQtWebEngine *******************
+echo.
