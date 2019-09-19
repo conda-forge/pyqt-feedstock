@@ -6,11 +6,12 @@ package:
 
 source:
   url:  https://www.riverbankcomputing.com/static/Downloads/PyQt5/5.12.3/PyQt5_gpl-5.12.3.tar.gz
-  #sha1: 058c5b37981b515cc4e16faa04a4a6d8892cdaa9
+  sha1: f442a876794947a24474cf85eb02abd60f00f642
   patches:
     - 0003-configure.patch
     # remove build path from .bat
     - 0004-configure-winbat.patch  # [win]
+  #path: get_sip.py
 
 build:
   number: 0
@@ -53,6 +54,7 @@ requirements:
     - {{ cdt('mesa-libgbm') }}           # [linux]
     - jom  # [win]
     - pkg-config  # [not win]
+    - conda  # Only used to download sip
   host:
     - python
     - dbus  # [not win]

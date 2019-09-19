@@ -33,7 +33,14 @@ export PATH=${PWD}/bin:${PATH}
 #        --enable Qt3DRender \
 
 # need to build a private copy of sip to avoid "module PyQt5.sip not found" error
-wget https://www.riverbankcomputing.com/static/Downloads/sip/4.19.18/sip-4.19.18.tar.gz
+echo "************** start building a private sip module **************"
+echo "PWD: ${SRC_DIR}"
+#wget https://www.riverbankcomputing.com/static/Downloads/sip/4.19.18/sip-4.19.18.tar.gz
+export SIP_URL=https://www.riverbankcomputing.com/static/Downloads/sip/4.19.18/sip-4.19.18.tar.gz
+export SIP_FILE=${SRC_DIR}/temp/sip-4.19.18.tar.gz
+mkdir ${SRC_DIR}/temp
+cd ${SRC_DIR}/temp
+$PYTHON -c "from conda.exports import download; download(\"${SIP_URL}\", \"${SIP_FILE}\")"
 tar -zxvf sip-4.19.18.tar.gz
 cd sip-4.19.18/
 $PYTHON configure.py --sip-module PyQt5.sip
@@ -41,6 +48,10 @@ make -j${CPU_COUNT} # ${VERBOSE_AT}
 make install
 cd ../
 rm -rf sip-4.19.18/
+rm sip-4.19.18.tar.gz
+cd ../
+rmdir ${SRC_DIR}/temp
+echo "*****************************************************************"
 
 ## START BUILD
 $PYTHON configure.py \
