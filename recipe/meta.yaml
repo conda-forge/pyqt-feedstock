@@ -60,6 +60,7 @@ requirements:
     - {{ cdt('mesa-libgbm') }}           # [linux]
     - jom  # [win]
     - pkg-config  # [not win]
+    - enum34  # [py27]
   host:
 #    - {{ cdt('mesa-libgl-devel') }}      # [linux]
     - python
@@ -87,9 +88,9 @@ test:
     - PyQt5.QtSvg
     - PyQt5.QtTest
     - PyQt5.QtWebChannel
-    - PyQt5.QtWebEngine         # [not win]
-    - PyQt5.QtWebEngineCore     # [not win]
-    - PyQt5.QtWebEngineWidgets  # [not win]
+    - PyQt5.QtWebEngine
+    - PyQt5.QtWebEngineCore
+    - PyQt5.QtWebEngineWidgets
     - PyQt5.QtWebSockets
     - PyQt5.QtWidgets
     - PyQt5.QtXml

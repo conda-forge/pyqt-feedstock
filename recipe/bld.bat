@@ -5,6 +5,25 @@
 ::    Creating library release\QtNfc.lib and object release\QtNfc.exp
 :: release\QtNfc.dll : fatal error LNK1169: one or more multiply defined symbols found
 
+
+:: need to build a private copy of sip to avoid "module PyQt5.sip not found" error
+cd sip
+
+%PYTHON% configure.py --sip-module PyQt5.sip
+if errorlevel 1 exit 1
+
+jom
+if errorlevel 1 exit 1
+
+jom install
+if errorlevel 1 exit 1
+
+cd ..
+
+
+:: build PyQt5
+cd pyqt5
+
 %PYTHON% configure.py ^
         --verbose ^
         --confirm-license ^
@@ -39,7 +58,6 @@
         --enable QtLocation ^
         --enable QtPositioning ^
         --enable QtSerialPort
-
 if errorlevel 1 exit 1
 
 jom
@@ -47,3 +65,20 @@ if errorlevel 1 exit 1
 
 jom install
 if errorlevel 1 exit 1
+
+cd ..
+
+
+:: install PyQtWebEngine
+cd pyqtwebengine
+
+%PYTHON% configure.py
+if errorlevel 1 exit 1
+
+jom
+if errorlevel 1 exit 1
+
+jom install
+if errorlevel 1 exit 1
+
+cd ..
