@@ -15,6 +15,9 @@ source:
   - url: https://www.riverbankcomputing.com/static/Downloads/sip/4.19.18/sip-4.19.18.tar.gz
     sha1: d001eb00f6dae26a952770e805b1519f61cae77d
     folder: sip
+  - url: https://www.riverbankcomputing.com/static/Downloads/PyQtWebEngine/5.12.1/PyQtWebEngine_gpl-5.12.1.tar.gz
+    sha1: 737acf93ecf39e5e2136e094a8b0a9ffa47bd2de
+    folder: pyqtwebengine
 
 build:
   number: 0
@@ -35,7 +38,7 @@ requirements:
     - {{ cdt('libxcb') }}                # [linux]
     - {{ cdt('libxext-devel') }}         # [linux]
     - {{ cdt('libxrender-devel') }}      # [linux]
-    #- {{ cdt('mesa-libgl-devel') }}      # [linux]
+    - {{ cdt('mesa-libgl-devel') }}      # [linux]
     - {{ cdt('mesa-libegl-devel') }}     # [linux]
     - {{ cdt('mesa-dri-drivers') }}      # [linux]
     - {{ cdt('libxau-devel') }}          # [linux]
@@ -58,9 +61,9 @@ requirements:
     - jom  # [win]
     - pkg-config  # [not win]
   host:
-    - {{ cdt('mesa-libgl-devel') }}      # [linux]
+#    - {{ cdt('mesa-libgl-devel') }}      # [linux]
     - python
-    #- dbus  # [not win]
+    - dbus  # [not win]
     - qt 5.12.*
   run:
     - python
@@ -84,14 +87,16 @@ test:
     - PyQt5.QtSvg
     - PyQt5.QtTest
     - PyQt5.QtWebChannel
+    - PyQt5.QtWebEngine         # [not win]
+    - PyQt5.QtWebEngineCore     # [not win]
     - PyQt5.QtWebEngineWidgets  # [not win]
     - PyQt5.QtWebSockets
     - PyQt5.QtWidgets
     - PyQt5.QtXml
     - PyQt5.QtXmlPatterns
-  requires:
-    # for xvfb-run
-    - {{ cdt('xorg-x11-server-xvfb') }}  # [linux]
+#  requires:
+#    # for xvfb-run
+#    - {{ cdt('xorg-x11-server-xvfb') }}  # [linux]
   commands:
     - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux]
 

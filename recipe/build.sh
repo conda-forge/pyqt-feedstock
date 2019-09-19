@@ -33,20 +33,21 @@ export PATH=${PWD}/bin:${PATH}
 #        --enable Qt3DRender \
 
 # need to build a private copy of sip to avoid "module PyQt5.sip not found" error
-echo -e "\n************** start building a private sip module **************"
-echo "PWD: ${SRC_DIR}"
+echo -e "\n************** start building a private sip module **************\n"
+#echo "PWD: ${SRC_DIR}"
 cd sip
 $PYTHON configure.py --sip-module PyQt5.sip
 make -j${CPU_COUNT} # ${VERBOSE_AT}
 make install
 cd ../
-echo -e "*****************************************************************\n"
+echo -e "\n************************ built sip module ***********************\n"
 
 ## create alias for libGL.so
 #ln -s ${PREFIX}/x86_64-conda_cos6-linux-gnu/sysroot/usr/lib64/libGL.so.1 \
 #      ${PREFIX}/x86_64-conda_cos6-linux-gnu/sysroot/usr/lib64/libGL.so
 
 ## START BUILD
+echo -e "\n************** start building PyQt5 **************\n"
 cd pyqt5
 $PYTHON configure.py \
         --verbose \
@@ -85,14 +86,14 @@ $PYTHON configure.py \
 make -j${CPU_COUNT} ${VERBOSE_AT}
 make check
 make install
+cd ../
+echo -e "\n******************* built PyQt5 ******************\n"
 
 # install PyQtWebEngine
-if [ "$PY_VER" == "3.5" ] || [ "$PY_VER" == "3.6" ] || [ "$PY_VER" == "3.7" ] || [ "$PY_VER" == "3.8" ]; then
-    if [ `uname` == Darwin ]; then
-        pip install --no-deps https://files.pythonhosted.org/packages/c8/7f/e16146569e881d588933641fe17f7d6a33a667b8ca1f6b7b231f8d11db33/PyQtWebEngine-5.12.1-5.12.4-cp35.cp36.cp37.cp38-abi3-macosx_10_6_intel.whl
-    fi
-
-    if [ `uname` == Linux ]; then
-        pip install --no-deps https://files.pythonhosted.org/packages/da/fb/aa8344730c31174ffc81453da2d8ad2a626e618915529da5c73185ccca89/PyQtWebEngine-5.12.1-5.12.4-cp35.cp36.cp37.cp38-abi3-manylinux1_x86_64.whl
-    fi
-fi
+echo -e "\n************** start building PyQtWebEngine **************\n"
+cd pyqtwebengine
+${PYTHON} configure.py
+make -j${CPU_COUNT} ${VERBOSE_AT}
+make install
+cd ../
+echo -e "\n****************** built PyQtWebEngine *******************\n"
