@@ -84,9 +84,7 @@ test:
     - PyQt5.QtSvg
     - PyQt5.QtTest
     - PyQt5.QtWebChannel
-    - PyQt5.QtWebEngine         # [linux]
-    - PyQt5.QtWebEngineCore     # [linux]
-    - PyQt5.QtWebEngineWidgets  # [linux]
+    - PyQt5.QtWebEngineWidgets  # [not win]
     - PyQt5.QtWebSockets
     - PyQt5.QtWidgets
     - PyQt5.QtXml
