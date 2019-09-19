@@ -5,13 +5,16 @@ package:
   version: {{ version }}
 
 source:
-  url:  https://www.riverbankcomputing.com/static/Downloads/PyQt5/5.12.3/PyQt5_gpl-5.12.3.tar.gz
-  sha1: f442a876794947a24474cf85eb02abd60f00f642
-  patches:
-    - 0003-configure.patch
-    # remove build path from .bat
-    - 0004-configure-winbat.patch  # [win]
-  #path: get_sip.py
+  - url: https://www.riverbankcomputing.com/static/Downloads/PyQt5/5.12.3/PyQt5_gpl-5.12.3.tar.gz
+    sha1: f442a876794947a24474cf85eb02abd60f00f642
+    patches:
+      - 0003-configure.patch
+      # remove build path from .bat
+      - 0004-configure-winbat.patch  # [win]
+    folder: pyqt5
+  - url: https://www.riverbankcomputing.com/static/Downloads/sip/4.19.18/sip-4.19.18.tar.gz
+    sha1: d001eb00f6dae26a952770e805b1519f61cae77d
+    folder: sip
 
 build:
   number: 0
@@ -32,7 +35,7 @@ requirements:
     - {{ cdt('libxcb') }}                # [linux]
     - {{ cdt('libxext-devel') }}         # [linux]
     - {{ cdt('libxrender-devel') }}      # [linux]
-    - {{ cdt('mesa-libgl-devel') }}      # [linux]
+    #- {{ cdt('mesa-libgl-devel') }}      # [linux]
     - {{ cdt('mesa-libegl-devel') }}     # [linux]
     - {{ cdt('mesa-dri-drivers') }}      # [linux]
     - {{ cdt('libxau-devel') }}          # [linux]
@@ -54,10 +57,10 @@ requirements:
     - {{ cdt('mesa-libgbm') }}           # [linux]
     - jom  # [win]
     - pkg-config  # [not win]
-    - conda  # Only used to download sip
   host:
+    - {{ cdt('mesa-libgl-devel') }}      # [linux]
     - python
-    - dbus  # [not win]
+    #- dbus  # [not win]
     - qt 5.12.*
   run:
     - python
@@ -92,7 +95,7 @@ about:
   home: http://www.riverbankcomputing.co.uk/software/pyqt
   license: Commercial, GPL-2.0, GPL-3.0
   license_family: GPL
-  license_file: LICENSE
+  license_file: pyqt5/LICENSE
   summary: 'Python binding of the cross-platform GUI toolkit Qt.'
   description: |
     "PyQt is a set of Python v2 and v3 bindings for The Qt Company's Qt
