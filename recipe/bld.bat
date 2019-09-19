@@ -37,7 +37,6 @@ cd pyqt5
         --verbose ^
         --confirm-license ^
         --assume-shared ^
-        --qmake="%LIBRARY_BIN%\qmake.exe" ^
         --bindir="%LIBRARY_BIN%" ^
         --enable QtWidgets ^
         --enable QtGui ^
