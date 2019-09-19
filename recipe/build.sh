@@ -85,3 +85,14 @@ $PYTHON configure.py \
 make -j${CPU_COUNT} ${VERBOSE_AT}
 make check
 make install
+
+# install PyQtWebEngine
+if [ "$PY_VER" == "3.5" ] || [ "$PY_VER" == "3.6" ] || [ "$PY_VER" == "3.7" ] || [ "$PY_VER" == "3.8" ]; then
+    if [ `uname` == Darwin ]; then
+        pip install --no-deps https://files.pythonhosted.org/packages/c8/7f/e16146569e881d588933641fe17f7d6a33a667b8ca1f6b7b231f8d11db33/PyQtWebEngine-5.12.1-5.12.4-cp35.cp36.cp37.cp38-abi3-macosx_10_6_intel.whl
+    fi
+
+    if [ `uname` == Linux ]; then
+        pip install --no-deps https://files.pythonhosted.org/packages/da/fb/aa8344730c31174ffc81453da2d8ad2a626e618915529da5c73185ccca89/PyQtWebEngine-5.12.1-5.12.4-cp35.cp36.cp37.cp38-abi3-manylinux1_x86_64.whl
+    fi
+fi
