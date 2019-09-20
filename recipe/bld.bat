@@ -39,6 +39,7 @@ echo.
 cd pyqt5
 
 %PYTHON% configure.py ^
+        --debug ^
         --verbose ^
         --confirm-license ^
         --qmake="%LIBRARY_BIN%\qmake.exe" ^
