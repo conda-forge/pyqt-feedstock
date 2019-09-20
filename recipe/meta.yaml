@@ -11,11 +11,13 @@ source:
       - 0003-configure.patch
       # remove build path from .bat
       - 0004-configure-winbat.patch  # [win]
-      - debug.patch  # [win]
+      #- debug.patch  # [win]
     folder: pyqt5
 
   - url: https://www.riverbankcomputing.com/static/Downloads/sip/4.19.18/sip-4.19.18.tar.gz
     sha1: d001eb00f6dae26a952770e805b1519f61cae77d
+    patches:
+      - 0001-Do-not-override-CC-CXX-LINK-in-sipgen-Makefile.patch
     folder: sip
 
   - url: https://www.riverbankcomputing.com/static/Downloads/PyQtWebEngine/5.12.1/PyQtWebEngine_gpl-5.12.1.tar.gz

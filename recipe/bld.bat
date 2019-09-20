@@ -17,7 +17,7 @@ echo ************** start building a private sip module **************
 echo.
 cd sip
 
-%PYTHON% configure.py --sip-module PyQt5.sip
+%PYTHON% configure.py --sysroot=%PREFIX% --bindir=%LIBRARY_BIN% --sip-module PyQt5.sip
 if errorlevel 1 exit 1
 
 nmake
@@ -39,7 +39,6 @@ echo.
 cd pyqt5
 
 %PYTHON% configure.py ^
-        --debug ^
         --verbose ^
         --confirm-license ^
         --qmake="%LIBRARY_BIN%\qmake.exe" ^
