@@ -11,7 +11,6 @@ source:
       - 0003-configure.patch
       # remove build path from .bat
       - 0004-configure-winbat.patch  # [win]
-      #- debug.patch  # [win]
     folder: pyqt5
 
   - url: https://www.riverbankcomputing.com/static/Downloads/sip/4.19.18/sip-4.19.18.tar.gz
@@ -26,6 +25,8 @@ source:
 
 build:
   number: 0
+  # Windows build keeps failing with "cannot open shell32.lib", so disable it in conda-forge/pyqt-feedstock#61
+  skip: true  # [win]
   # On Python 2, PyQt 5.12.3 has a bug (Fatal Python error: PyQt5.QtCore: Unable to embed qt.conf)
   # This seems to be resolved in 5.13.0, see https://www.riverbankcomputing.com/pipermail/pyqt/2019-July/041897.html
   skip: true  # [py2k]
@@ -102,9 +103,6 @@ test:
     - PyQt5.QtWidgets
     - PyQt5.QtXml
     - PyQt5.QtXmlPatterns
-#  requires:
-#    # for xvfb-run
-#    - {{ cdt('xorg-x11-server-xvfb') }}  # [linux]
   commands:
     - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux]
     - pyuic5 --version  # [not win]

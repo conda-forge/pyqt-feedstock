@@ -41,9 +41,10 @@ cd pyqt5
 %PYTHON% configure.py ^
         --verbose ^
         --confirm-license ^
+        --assume-shared ^
         --qmake="%LIBRARY_BIN%\qmake.exe" ^
         --bindir="%LIBRARY_BIN%" ^
-        --spec=win32-msvc2015 ^
+        --spec=win32-msvc ^
         --enable QtWidgets ^
         --enable QtGui ^
         --enable QtCore ^
