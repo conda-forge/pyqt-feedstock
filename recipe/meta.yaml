@@ -5,14 +5,13 @@ package:
   version: {{ version }}
 
 source:
-  - url: https://www.riverbankcomputing.com/static/Downloads/PyQt5/5.12.3/PyQt5_gpl-5.12.3.tar.gz
+  - url: https://www.riverbankcomputing.com/static/Downloads/PyQt5/{{ version }}/PyQt5_gpl-{{ version }}.tar.gz
     sha1: f442a876794947a24474cf85eb02abd60f00f642
-    #patches:
-    #  - 0003-configure.patch
-    #  # remove build path from .bat
-    #  - 0004-configure-winbat.patch  # [win]
     patches:
-        - debug.patch  # [win]
+      - 0003-configure.patch
+      # remove build path from .bat
+      - 0004-configure-winbat.patch  # [win]
+      - debug.patch  # [win]
     folder: pyqt5
 
   - url: https://www.riverbankcomputing.com/static/Downloads/sip/4.19.18/sip-4.19.18.tar.gz

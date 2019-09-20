@@ -1,8 +1,21 @@
 diff --git a/home/leofang/sources/PyQt5_gpl-5.12.3/configure-original.py b/home/leofang/sources/PyQt5_gpl-5.12.3/configure.py
-index d85f778..f31da2c 100644
+index d85f778..dc5b257 100644
 --- a/home/leofang/sources/PyQt5_gpl-5.12.3/configure-original.py
 +++ b/home/leofang/sources/PyQt5_gpl-5.12.3/configure.py
-@@ -2107,6 +2107,7 @@ def run_make(target_config, verbose, exe, makefile_name):
+@@ -2078,6 +2078,12 @@ def run_qmake(target_config, verbose, pro_name, makefile_name='', fatal=True, re
+ 
+         return False
+ 
++    with open(mf, 'r') as f:
++        data = f.read()
++        print("~~~~~~ DEBUG ~~~~~~")
++        print(data)
++        print("~~~~~~~~~~~~~~~~~~~")
++
+     # Restore the current directory.
+     if cwd is not None:
+         os.chdir(cwd)
+@@ -2107,6 +2113,7 @@ def run_make(target_config, verbose, exe, makefile_name):
          else:
              makefile_target = 'release'
              platform_exe = os.path.join('release', exe + '.exe')
@@ -10,7 +23,7 @@ index d85f778..f31da2c 100644
      else:
          make = 'make'
          makefile_target = ''
-@@ -2123,6 +2124,7 @@ def run_make(target_config, verbose, exe, makefile_name):
+@@ -2123,6 +2130,7 @@ def run_make(target_config, verbose, exe, makefile_name):
      if makefile_target != '':
          args.append(makefile_target)
  
@@ -18,7 +31,7 @@ index d85f778..f31da2c 100644
      run_command(' '.join(args), verbose)
  
      return platform_exe if os.access(platform_exe, os.X_OK) else None
-@@ -2134,7 +2136,7 @@ def run_command(cmd, verbose):
+@@ -2134,7 +2142,7 @@ def run_command(cmd, verbose):
      """
  
      if verbose:

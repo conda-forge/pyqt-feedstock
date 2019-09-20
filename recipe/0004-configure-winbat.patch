@@ -1,6 +1,6 @@
 --- configure.py.orig	2019-09-09 08:01:05.922231200 +1000
 +++ configure.py	2019-09-09 08:01:13.156085000 +1000
-@@ -1763,7 +1763,7 @@
+@@ -1904,7 +1904,7 @@
      wf = open_for_writing(wrapper)
  
      if target_config.py_platform == 'win32':
