@@ -25,9 +25,6 @@ source:
 
 build:
   number: 0
-  # On Python 2, PyQt 5.12.3 has a bug (Fatal Python error: PyQt5.QtCore: Unable to embed qt.conf)
-  # This seems to be resolved in 5.13.0, see https://www.riverbankcomputing.com/pipermail/pyqt/2019-July/041897.html
-  skip: true  # [py2k]
   skip: true  # [ppc64le]
   run_exports:
     {{ pin_subpackage('pyqt', max_pin='x.x') }}
@@ -74,7 +71,7 @@ requirements:
     - enum34  # [py27]
   run:
     - python
-    - qt 5.12.*
+    - {{ pin_compatible("qt", max_pin="x.x") }}
 
 test:
   files:
