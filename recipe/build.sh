@@ -80,6 +80,7 @@ $PYTHON configure.py \
         --enable QtLocation \
         --enable QtPositioning \
         --enable QtSerialPort \
+        --pyuic5-interpreter=`which python` \
         "${_extra_modules[@]}" \
         -q ${PREFIX}/bin/qmake
 
