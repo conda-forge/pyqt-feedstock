@@ -74,7 +74,7 @@ cd pyqt5
         --enable QtSerialPort
 if errorlevel 1 exit 1
 
-nmake
+jom
 if errorlevel 1 exit 1
 
 nmake install
