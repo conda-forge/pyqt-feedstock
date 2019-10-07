@@ -85,6 +85,7 @@ echo.
 echo ******************* built PyQt5 ******************
 echo.
 
+%PYTHON% -c "import PyQt5.QtCore"
 
 :: install PyQtWebEngine
 echo.
