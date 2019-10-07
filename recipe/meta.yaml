@@ -1,20 +1,32 @@
-{% set version = "5.9.2" %}
+{% set version = "5.12.3" %}
 
 package:
   name: pyqt
   version: {{ version }}
 
 source:
-  url:  http://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.9.2/PyQt5_gpl-5.9.2.tar.gz
-  sha1: 058c5b37981b515cc4e16faa04a4a6d8892cdaa9
-  patches:
-    - 0003-configure.patch
-    # remove build path from .bat
-    - 0004-configure-winbat.patch  # [win]
+  - url: https://www.riverbankcomputing.com/static/Downloads/PyQt5/{{ version }}/PyQt5_gpl-{{ version }}.tar.gz
+    sha1: f442a876794947a24474cf85eb02abd60f00f642
+    patches:
+      - 0003-configure.patch
+      # remove build path from .bat
+      - 0004-configure-winbat.patch  # [win]
+      - py2_segfault.diff
+      - qt5_dll.diff
+    folder: pyqt5
+
+  - url: https://www.riverbankcomputing.com/static/Downloads/sip/4.19.18/sip-4.19.18.tar.gz
+    sha1: d001eb00f6dae26a952770e805b1519f61cae77d
+    patches:
+      - 0001-Do-not-override-CC-CXX-LINK-in-sipgen-Makefile.patch
+    folder: sip
+
+  - url: https://www.riverbankcomputing.com/static/Downloads/PyQtWebEngine/5.12.1/PyQtWebEngine_gpl-5.12.1.tar.gz
+    sha1: 737acf93ecf39e5e2136e094a8b0a9ffa47bd2de
+    folder: pyqtwebengine
 
 build:
-  number: 4
-  skip: true  # [win and py27]
+  number: 0
   skip: true  # [ppc64le]
   run_exports:
     {{ pin_subpackage('pyqt', max_pin='x.x') }}
@@ -54,19 +66,21 @@ requirements:
     - jom  # [win]
     - pkg-config  # [not win]
   host:
+    - {{ cdt('mesa-libgl-devel') }}      # [linux]
     - python
-    - sip >=4.19.4,<=4.19.8
     - dbus  # [not win]
-    - qt 5.9.*
+    - qt 5.12.*
+    - enum34  # [py27]
   run:
     - python
-    - sip >=4.19.4,<=4.19.8
-    - qt 5.9.*
+    - {{ pin_compatible("qt", max_pin="x.x") }}
+    - enum34  # [py27]
 
 test:
   files:
     - pyqt_test.py
   imports:
+    - PyQt5.sip
     - PyQt5.QtCore
     - PyQt5.QtGui
     - PyQt5.QtHelp
@@ -80,6 +94,8 @@ test:
     - PyQt5.QtSvg
     - PyQt5.QtTest
     - PyQt5.QtWebChannel
+    - PyQt5.QtWebEngine
+    - PyQt5.QtWebEngineCore
     - PyQt5.QtWebEngineWidgets
     - PyQt5.QtWebSockets
     - PyQt5.QtWidgets
@@ -87,12 +103,13 @@ test:
     - PyQt5.QtXmlPatterns
   commands:
     - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux]
+    - pyuic5 --version  # [not win]
 
 about:
   home: http://www.riverbankcomputing.co.uk/software/pyqt
   license: Commercial, GPL-2.0, GPL-3.0
   license_family: GPL
-  license_file: LICENSE
+  license_file: pyqt5/LICENSE
   summary: 'Python binding of the cross-platform GUI toolkit Qt.'
   description: |
     "PyQt is a set of Python v2 and v3 bindings for The Qt Company's Qt

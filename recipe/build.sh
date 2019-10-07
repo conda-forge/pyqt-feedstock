@@ -32,7 +32,23 @@ export PATH=${PWD}/bin:${PATH}
 #        --enable Qt3DLogic \
 #        --enable Qt3DRender \
 
+# need to build a private copy of sip to avoid "module PyQt5.sip not found" error
+echo -e "\n************** start building a private sip module **************\n"
+#echo "PWD: ${SRC_DIR}"
+cd sip
+$PYTHON configure.py --sip-module PyQt5.sip
+make -j${CPU_COUNT} # ${VERBOSE_AT}
+make install
+cd ../
+echo -e "\n************************ built sip module ***********************\n"
+
+## create alias for libGL.so
+#ln -s ${PREFIX}/x86_64-conda_cos6-linux-gnu/sysroot/usr/lib64/libGL.so.1 \
+#      ${PREFIX}/x86_64-conda_cos6-linux-gnu/sysroot/usr/lib64/libGL.so
+
 ## START BUILD
+echo -e "\n************** start building PyQt5 **************\n"
+cd pyqt5
 $PYTHON configure.py \
         --verbose \
         --confirm-license \
@@ -49,10 +65,7 @@ $PYTHON configure.py \
         --enable QtDBus \
         --enable QtWebSockets \
         --enable QtWebChannel \
-        --enable QtWebEngineWidgets \
         --enable QtNfc \
-        --enable QtWebEngineCore \
-        --enable QtWebEngine \
         --enable QtOpenGL \
         --enable QtQml \
         --enable QtQuick \
@@ -67,8 +80,21 @@ $PYTHON configure.py \
         --enable QtLocation \
         --enable QtPositioning \
         --enable QtSerialPort \
+        --pyuic5-interpreter=`which python` \
         "${_extra_modules[@]}" \
         -q ${PREFIX}/bin/qmake
+
 make -j${CPU_COUNT} ${VERBOSE_AT}
 make check
 make install
+cd ../
+echo -e "\n******************* built PyQt5 ******************\n"
+
+# install PyQtWebEngine
+echo -e "\n************** start building PyQtWebEngine **************\n"
+cd pyqtwebengine
+${PYTHON} configure.py
+make -j${CPU_COUNT} ${VERBOSE_AT}
+make install
+cd ../
+echo -e "\n****************** built PyQtWebEngine *******************\n"

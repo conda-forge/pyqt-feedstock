@@ -2,7 +2,7 @@ diff --git a/configure.py b/configure.py
 index a263efb..d1bce53 100644
 --- a/configure.py
 +++ b/configure.py
-@@ -641,23 +641,23 @@ class TargetConfiguration:
+@@ -663,23 +663,23 @@ class TargetConfiguration:
  
              config_args = ducfg.get('CONFIG_ARGS', '')
  

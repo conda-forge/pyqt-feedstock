@@ -1,0 +1,17 @@
+--- work/siputils.py.orig	2017-09-04 07:49:58.370772959 +0000
++++ work/siputils.py	2017-09-04 07:50:07.367771132 +0000
+@@ -1157,9 +1157,11 @@
+         if self._deployment_target:
+             mfile.write("export MACOSX_DEPLOYMENT_TARGET = %s\n" % self._deployment_target)
+ 
+-        mfile.write("CC = %s\n" % self.required_string("CC"))
+-        mfile.write("CXX = %s\n" % self.required_string("CXX"))
+-        mfile.write("LINK = %s\n" % self.required_string("LINK"))
++        # Really we want to be testing for nmake here instead since it does not grok '?='
++        maybe_env = '=' if sys.platform == "win32" else '?='
++        mfile.write("CC %s %s\n" % (maybe_env, self.required_string("CC")))
++        mfile.write("CXX %s %s\n" % (maybe_env, self.required_string("CXX")))
++        mfile.write("LINK %s %s\n" % (maybe_env, self.required_string("LINK")))
+ 
+         cppflags = []
+ 
