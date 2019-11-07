@@ -1,4 +1,4 @@
-{% set version = "5.12.3" %}
+{% set version = "5.13.0" %}
 
 package:
   name: pyqt
@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://www.riverbankcomputing.com/static/Downloads/PyQt5/{{ version }}/PyQt5_gpl-{{ version }}.tar.gz
-    sha1: f442a876794947a24474cf85eb02abd60f00f642
+    sha1: bb0eab41729b5763bd1fe6aefd62819f98237e05
     patches:
       - 0003-configure.patch
       # remove build path from .bat
