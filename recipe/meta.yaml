@@ -26,12 +26,15 @@ source:
     folder: pyqtwebengine
 
 build:
-  number: 0
+  number: 1
+  skip: true  # [win and py27]
   skip: true  # [ppc64le]
   run_exports:
     {{ pin_subpackage('pyqt', max_pin='x.x') }}
 
 requirements:
+  run_constrained:                                            # [osx]
+    - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
   build:
     # We may want to find and add a Python dbus library?
     # pkg-config --cflags-only-I --libs dbus-1
