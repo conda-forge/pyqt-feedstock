@@ -1,4 +1,4 @@
-{% set version = "5.12.3" %}
+{% set version = "5.13.1" %}
 
 package:
   name: pyqt
@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://www.riverbankcomputing.com/static/Downloads/PyQt5/{{ version }}/PyQt5_gpl-{{ version }}.tar.gz
-    sha1: f442a876794947a24474cf85eb02abd60f00f642
+    sha1: 7be4319ca785305677509a928dd29a484cd5873a
     patches:
       - 0003-configure.patch
       # remove build path from .bat
@@ -26,14 +26,13 @@ source:
     folder: pyqtwebengine
 
 build:
-  number: 1
+  number: 0
   skip: true  # [win and py27]
   skip: true  # [ppc64le]
-  run_exports:
-    {{ pin_subpackage('pyqt', max_pin='x.x') }}
+  run_exports: {{ pin_subpackage('pyqt', max_pin='x.x') }}
 
 requirements:
-  run_constrained:                                            # [osx]
+  run_constrained:   # [osx]
     - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
   build:
     # We may want to find and add a Python dbus library?
@@ -105,7 +104,7 @@ test:
     - PyQt5.QtXml
     - PyQt5.QtXmlPatterns
   commands:
-    - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux]
+    - DISPLAY=localhost: 1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux]
     - pyuic5 --version  # [not win]
 
 about:
@@ -113,7 +112,7 @@ about:
   license: Commercial, GPL-2.0, GPL-3.0
   license_family: GPL
   license_file: pyqt5/LICENSE
-  summary: 'Python binding of the cross-platform GUI toolkit Qt.'
+  summary: Python binding of the cross-platform GUI toolkit Qt.
   description: |
     "PyQt is a set of Python v2 and v3 bindings for The Qt Company's Qt
     application framework and runs on all platforms supported by Qt including
