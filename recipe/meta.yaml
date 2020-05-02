@@ -24,9 +24,13 @@ source:
   - url: https://www.riverbankcomputing.com/static/Downloads/PyQtWebEngine/5.12.1/PyQtWebEngine_gpl-5.12.1.tar.gz
     sha1: 737acf93ecf39e5e2136e094a8b0a9ffa47bd2de
     folder: pyqtwebengine
+    
+  - url: https://www.riverbankcomputing.com/static/Downloads/PyQtChart/5.12/PyQtChart_gpl-5.12.tar.gz
+    sha1: 6a876ac37d0ccb5392f67669de5e790c8f9188da
+    folder: pyqtcharts
 
 build:
-  number: 1
+  number: 2
   skip: true  # [win and py27]
   skip: true  # [ppc64le]
   run_exports:
@@ -84,6 +88,7 @@ test:
     - pyqt_test.py
   imports:
     - PyQt5.sip
+    - PyQt5.QtChart
     - PyQt5.QtCore
     - PyQt5.QtGui
     - PyQt5.QtHelp

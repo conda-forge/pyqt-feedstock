@@ -98,3 +98,12 @@ make -j${CPU_COUNT} ${VERBOSE_AT}
 make install
 cd ../
 echo -e "\n****************** built PyQtWebEngine *******************\n"
+
+# install PyQtCharts
+echo -e "\n************** start building PyQtCharts **************\n"
+cd pyqtcharts
+${PYTHON} configure.py
+make -j${CPU_COUNT} ${VERBOSE_AT}
+make install
+cd ../
+echo -e "\n****************** built PyQtCharts *******************\n"

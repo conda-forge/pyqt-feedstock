@@ -106,3 +106,24 @@ cd ..
 echo.
 echo ****************** built PyQtWebEngine *******************
 echo.
+
+
+:: install PyQtCharts
+echo.
+echo ************** start building PyQtCharts **************
+echo.
+cd pyqtcharts
+
+%PYTHON% configure.py
+if errorlevel 1 exit 1
+
+nmake
+if errorlevel 1 exit 1
+
+nmake install
+if errorlevel 1 exit 1
+
+cd ..
+echo.
+echo ****************** built PyQtCharts *******************
+echo.
