@@ -98,6 +98,7 @@ jobs:
 
     - script: |
         call activate base
+        pip install https://github.com/conda/conda-build/archive/master.zip
         conda.exe build "recipe" -m .ci_support\%CONFIG%.yaml
       displayName: Build recipe
       env:
