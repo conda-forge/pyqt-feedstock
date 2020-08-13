@@ -98,6 +98,8 @@ jobs:
 
     - script: |
         call activate base
+        conda.exe install m2-git
+        pip install git+https://github.com/mingwandroid/conda-build@14-For-new-release
         conda.exe build "recipe" -m .ci_support\%CONFIG%.yaml
       displayName: Build recipe
       env:
