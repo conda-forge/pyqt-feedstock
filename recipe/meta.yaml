@@ -1,38 +1,42 @@
-{% set version = "5.12.3" %}
+{% set version = "5.15.0" %}
+{% set version2 = "5.15" %}
 
 package:
   name: pyqt
   version: {{ version }}
 
 source:
-  - url: https://www.riverbankcomputing.com/static/Downloads/PyQt5/{{ version }}/PyQt5_gpl-{{ version }}.tar.gz
-    sha1: f442a876794947a24474cf85eb02abd60f00f642
+  # - url: https://www.riverbankcomputing.com/static/Downloads/PyQt5/{{ version }}/PyQt5_gpl-{{ version }}.tar.gz
+  - url: https://distfiles.macports.org/py-pyqt5/PyQt5-{{ version }}.tar.gz
+    sha1: 928746291aca68a3bb9f1e56053728a942887ab8
     patches:
       - 0003-configure.patch
       # remove build path from .bat
       - 0004-configure-winbat.patch  # [win]
       - py2_segfault.diff
-      - qt5_dll.diff
+      # - qt5_dll.diff
     folder: pyqt5
 
-  - url: https://www.riverbankcomputing.com/static/Downloads/sip/4.19.18/sip-4.19.18.tar.gz
-    sha1: d001eb00f6dae26a952770e805b1519f61cae77d
+  - url: https://www.riverbankcomputing.com/static/Downloads/sip/4.19.24/sip-4.19.24.tar.gz
+    sha1: bc509d2a9999e454751f1ccb674d01d204c09286
     patches:
       - 0001-Do-not-override-CC-CXX-LINK-in-sipgen-Makefile.patch
       # AttributeError: module 'distutils.sysconfig' has no attribute 'get_config_h_filename'
       - sip-get_config_h_filename.patch
     folder: sip
 
-  - url: https://www.riverbankcomputing.com/static/Downloads/PyQtWebEngine/5.12.1/PyQtWebEngine_gpl-5.12.1.tar.gz
-    sha1: 737acf93ecf39e5e2136e094a8b0a9ffa47bd2de
+  # - url: https://www.riverbankcomputing.com/static/Downloads/PyQtWebEngine/{{ version }}/PyQtWebEngine_gpl-{{ version }}.tar.gz
+  - url: https://distfiles.macports.org/py-pyqt5/PyQtWebEngine-{{ version }}.tar.gz
+    sha1: 6cc5819492bae4b0de0cba046e5527876a6653df
     folder: pyqtwebengine
     
-  - url: https://www.riverbankcomputing.com/static/Downloads/PyQtChart/5.12/PyQtChart_gpl-5.12.tar.gz
-    sha1: 6a876ac37d0ccb5392f67669de5e790c8f9188da
+  # - url: https://www.riverbankcomputing.com/static/Downloads/PyQtChart/{{ version2 }}/PyQtChart_gpl-{{ version2 }}.tar.gz
+  - url: https://distfiles.macports.org/py-pyqt5/PyQtChart-{{ version }}.tar.gz
+    sha1: a1cab476abd1de8225deae75c638ecabdfcae559
     folder: pyqtcharts
 
 build:
-  number: 4
+  number: 0
   skip: true  # [win and py27]
   skip: true  # [ppc64le]
   run_exports:
@@ -74,16 +78,18 @@ requirements:
     - {{ cdt('mesa-libgbm') }}           # [linux]
     - jom  # [win]
     - pkg-config  # [not win]
+    - patch  # [not win]
+    - m2-patch  # [win]
+    - m2-gcc-libs  # [win]
   host:
     - {{ cdt('mesa-libgl-devel') }}      # [linux]
     - python
-    - sip >=4.19.4,<=4.19.8
     - dbus  # [not win]
-    - qt 5.12.*
+    - qt 5.15.*
     - enum34  # [py27]
   run:
     - python
-    - sip >=4.19.4,<=4.19.8
+    - {{ pin_compatible("qt", max_pin="x.x") }}
     - enum34  # [py27]
 
 test:
