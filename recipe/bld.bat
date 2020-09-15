@@ -71,7 +71,8 @@ cd pyqt5
         --enable QtBluetooth ^
         --enable QtLocation ^
         --enable QtPositioning ^
-        --enable QtSerialPort
+        --enable QtSerialPort ^
+        --enable QtWinExtas
 if errorlevel 1 exit 1
 
 jom
