@@ -72,7 +72,7 @@ cd pyqt5
         --enable QtLocation ^
         --enable QtPositioning ^
         --enable QtSerialPort ^
-        --enable QtWinExtas
+        --enable QtWinExtras
 if errorlevel 1 exit 1
 
 jom
@@ -109,11 +109,11 @@ echo ****************** built PyQtWebEngine *******************
 echo.
 
 
-:: install PyQtCharts
+:: install PyQtChart
 echo.
-echo ************** start building PyQtCharts **************
+echo ************** start building PyQtChart **************
 echo.
-cd pyqtcharts
+cd pyqtchart
 
 %PYTHON% configure.py
 if errorlevel 1 exit 1
@@ -126,5 +126,5 @@ if errorlevel 1 exit 1
 
 cd ..
 echo.
-echo ****************** built PyQtCharts *******************
+echo ****************** built PyQtChart *******************
 echo.
