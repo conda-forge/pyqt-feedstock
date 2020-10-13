@@ -27,8 +27,8 @@ source:
     sha1: 737acf93ecf39e5e2136e094a8b0a9ffa47bd2de
     folder: pyqtwebengine
     
-  - url: https://distfiles.macports.org/py-pyqt5/PyQtChart_gpl-5.13.0.tar.gz
-    sha1: d970794aa6dde5f01671c2e7e8647ecf6c593c59
+  - url: https://github.com/ocefpaf/pyqt-feedstock/releases/download/v5.12.3/PyQtChart_gpl-5.12.tar.gz
+    sha1: 6a876ac37d0ccb5392f67669de5e790c8f9188da
     folder: pyqtcharts
 
 build:
