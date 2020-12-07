@@ -1,7 +1,7 @@
 {% set version = "5.12.3" %}
 
 package:
-  name: pyqt
+  name: pyqt_split
   version: {{ version }}
 
 source:

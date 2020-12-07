@@ -1,5 +1,5 @@
-About pyqt
-==========
+About pyqt_split
+================
 
 Home: http://www.riverbankcomputing.co.uk/software/pyqt
 
@@ -112,10 +112,10 @@ Current release info
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt--sip-green.svg)](https://anaconda.org/conda-forge/pyqt-sip) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt-sip.svg)](https://anaconda.org/conda-forge/pyqt-sip) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt-sip.svg)](https://anaconda.org/conda-forge/pyqt-sip) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt-sip.svg)](https://anaconda.org/conda-forge/pyqt-sip) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt--webengine-green.svg)](https://anaconda.org/conda-forge/pyqt-webengine) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt-webengine.svg)](https://anaconda.org/conda-forge/pyqt-webengine) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt-webengine.svg)](https://anaconda.org/conda-forge/pyqt-webengine) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt-webengine.svg)](https://anaconda.org/conda-forge/pyqt-webengine) |
 
-Installing pyqt
-===============
+Installing pyqt_split
+=====================
 
-Installing `pyqt` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `pyqt_split` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
 
 ```
 conda config --add channels conda-forge
@@ -172,17 +172,17 @@ Terminology
                   produce the finished article (built conda distributions)
 
 
-Updating pyqt-feedstock
-=======================
+Updating pyqt_split-feedstock
+=============================
 
-If you would like to improve the pyqt recipe or build a new
+If you would like to improve the pyqt_split recipe or build a new
 package version, please fork this repository and submit a PR. Upon submission,
 your changes will be run on the appropriate platforms to give the reviewer an
 opportunity to confirm that the changes result in a successful build. Once
 merged, the recipe will be re-built and uploaded automatically to the
 `conda-forge` channel, whereupon the built conda packages will be available for
 everybody to install and use from the `conda-forge` channel.
-Note that all branches in the conda-forge/pyqt-feedstock are
+Note that all branches in the conda-forge/pyqt_split-feedstock are
 immediately built and any created packages are uploaded, so PRs should be based
 on branches in forks and branches in the main repository should only be used to
 build distinct package versions.
