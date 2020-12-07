@@ -86,6 +86,9 @@ outputs:
         - python
         - {{ pin_compatible("qt", max_pin="x.x") }}
         - enum34  # [py27]
+    test:
+      imports:
+        - PyQt5.sip
 
   - name: pyqt-impl
     script: build-pyqt.sh
