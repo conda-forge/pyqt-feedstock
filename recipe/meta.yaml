@@ -317,6 +317,7 @@ outputs:
       commands:
         - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux]
         - pyuic5 --version  # [not win]
+        - conda list  # [not win]
 
 about:
   home: http://www.riverbankcomputing.co.uk/software/pyqt
