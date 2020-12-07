@@ -32,16 +32,6 @@ export PATH=${PWD}/bin:${PATH}
 #        --enable Qt3DLogic \
 #        --enable Qt3DRender \
 
-# need to build a private copy of sip to avoid "module PyQt5.sip not found" error
-echo -e "\n************** start building a private sip module **************\n"
-#echo "PWD: ${SRC_DIR}"
-cd sip
-$PYTHON configure.py --sip-module PyQt5.sip
-make -j${CPU_COUNT} # ${VERBOSE_AT}
-make install
-cd ../
-echo -e "\n************************ built sip module ***********************\n"
-
 ## create alias for libGL.so
 #ln -s ${PREFIX}/x86_64-conda_cos6-linux-gnu/sysroot/usr/lib64/libGL.so.1 \
 #      ${PREFIX}/x86_64-conda_cos6-linux-gnu/sysroot/usr/lib64/libGL.so
