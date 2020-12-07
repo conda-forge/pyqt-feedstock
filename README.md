@@ -107,8 +107,10 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt-green.svg)](https://anaconda.org/conda-forge/pyqt) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt.svg)](https://anaconda.org/conda-forge/pyqt) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt.svg)](https://anaconda.org/conda-forge/pyqt) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt.svg)](https://anaconda.org/conda-forge/pyqt) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt--charts-green.svg)](https://anaconda.org/conda-forge/pyqt-charts) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt-charts.svg)](https://anaconda.org/conda-forge/pyqt-charts) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt-charts.svg)](https://anaconda.org/conda-forge/pyqt-charts) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt-charts.svg)](https://anaconda.org/conda-forge/pyqt-charts) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt--impl-green.svg)](https://anaconda.org/conda-forge/pyqt-impl) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt-impl.svg)](https://anaconda.org/conda-forge/pyqt-impl) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt-impl.svg)](https://anaconda.org/conda-forge/pyqt-impl) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt-impl.svg)](https://anaconda.org/conda-forge/pyqt-impl) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt--sip-green.svg)](https://anaconda.org/conda-forge/pyqt-sip) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt-sip.svg)](https://anaconda.org/conda-forge/pyqt-sip) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt-sip.svg)](https://anaconda.org/conda-forge/pyqt-sip) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt-sip.svg)](https://anaconda.org/conda-forge/pyqt-sip) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt--webengine-green.svg)](https://anaconda.org/conda-forge/pyqt-webengine) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt-webengine.svg)](https://anaconda.org/conda-forge/pyqt-webengine) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt-webengine.svg)](https://anaconda.org/conda-forge/pyqt-webengine) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt-webengine.svg)](https://anaconda.org/conda-forge/pyqt-webengine) |
 
 Installing pyqt
 ===============
@@ -119,10 +121,10 @@ Installing `pyqt` from the `conda-forge` channel can be achieved by adding `cond
 conda config --add channels conda-forge
 ```
 
-Once the `conda-forge` channel has been enabled, `pyqt, pyqt-impl, pyqt-sip` can be installed with:
+Once the `conda-forge` channel has been enabled, `pyqt, pyqt-charts, pyqt-impl, pyqt-sip, pyqt-webengine` can be installed with:
 
 ```
-conda install pyqt pyqt-impl pyqt-sip
+conda install pyqt pyqt-charts pyqt-impl pyqt-sip pyqt-webengine
 ```
 
 It is possible to list all of the versions of `pyqt` available on your platform with:
