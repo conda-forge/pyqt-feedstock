@@ -35,12 +35,12 @@ build:
   number: 5
   skip: true  # [win and py27]
   skip: true  # [ppc64le]
-  skip: true  # [win]
 
 outputs:
   - name: pyqt5-sip
     version: 4.19.18
-    script: build-pyqt-sip.sh
+    script: build-pyqt-sip.sh   # [not win]
+    script: bld-pyqt-sip.bat  # [win]
     requirements:
       build:
         - {{ compiler('cxx') }}
@@ -55,7 +55,8 @@ outputs:
         - PyQt5.sip
 
   - name: pyqt-impl
-    script: build-pyqt.sh
+    script: build-pyqt.sh   # [not win]
+    script: bld-pyqt.bat  # [win]
     requirements:
       run_constrained:                                            # [osx]
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
@@ -132,7 +133,8 @@ outputs:
 
   - name: pyqtwebengine
     version: 5.12.1
-    script: build-pyqtwebengine.sh
+    script: build-pyqtwebengine.sh   # [not win]
+    script: bld-pyqtwebengine.bat  # [win]
     requirements:
       run_constrained:                                            # [osx]
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
@@ -189,7 +191,8 @@ outputs:
 
   - name: pyqtchart
     version: "5.12"
-    script: build-pyqtcharts.sh
+    script: build-pyqtcharts.sh   # [not win]
+    script: bld-pyqtcharts.bat  # [win]
     requirements:
       run_constrained:                                            # [osx]
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
