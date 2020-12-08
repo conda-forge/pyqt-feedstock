@@ -32,7 +32,7 @@ source:
     folder: pyqtcharts
 
 build:
-  number: 5
+  number: 6
   skip: true  # [win and py27]
   skip: true  # [ppc64le]
 
@@ -252,7 +252,10 @@ outputs:
     requirements:
       run_constrained:                                            # [osx]
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
+      host:
+        - python
       run:
+        - python
         - {{ pin_subpackage('pyqt5-sip', exact=True) }}
         - {{ pin_subpackage('pyqt-impl', exact=True) }}
         - {{ pin_subpackage('pyqtwebengine', exact=True) }}
