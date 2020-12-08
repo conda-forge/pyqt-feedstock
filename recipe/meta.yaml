@@ -26,21 +26,18 @@ source:
   - url: https://distfiles.macports.org/py-pyqt5/PyQtWebEngine_gpl-5.12.1.tar.gz
     sha1: 737acf93ecf39e5e2136e094a8b0a9ffa47bd2de
     folder: pyqtwebengine
-    
+
   - url: https://github.com/ocefpaf/pyqt-feedstock/releases/download/v5.12.3/PyQtChart_gpl-5.12.tar.gz
     sha1: 6a876ac37d0ccb5392f67669de5e790c8f9188da
     folder: pyqtcharts
 
 build:
-  number: 4
+  number: 5
   skip: true  # [win and py27]
   skip: true  # [ppc64le]
-  run_exports:
-    {{ pin_subpackage('pyqt', max_pin='x.x') }}
+  skip: true  # [win]
 
 requirements:
-  run_constrained:                                            # [osx]
-    - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
   build:
     # We may want to find and add a Python dbus library?
     # pkg-config --cflags-only-I --libs dbus-1
@@ -80,40 +77,170 @@ requirements:
     - dbus  # [not win]
     - qt 5.12.*
     - enum34  # [py27]
-  run:
-    - python
-    - {{ pin_compatible("qt", max_pin="x.x") }}
-    - enum34  # [py27]
 
-test:
-  files:
-    - pyqt_test.py
-  imports:
-    - PyQt5.sip
-    - PyQt5.QtChart
-    - PyQt5.QtCore
-    - PyQt5.QtGui
-    - PyQt5.QtHelp
-    - PyQt5.QtMultimedia
-    - PyQt5.QtMultimediaWidgets
-    - PyQt5.QtNetwork
-    - PyQt5.QtOpenGL
-    - PyQt5.QtPrintSupport
-    - PyQt5.QtQml
-    - PyQt5.QtQuick
-    - PyQt5.QtSvg
-    - PyQt5.QtTest
-    - PyQt5.QtWebChannel
-    - PyQt5.QtWebEngine
-    - PyQt5.QtWebEngineCore
-    - PyQt5.QtWebEngineWidgets
-    - PyQt5.QtWebSockets
-    - PyQt5.QtWidgets
-    - PyQt5.QtXml
-    - PyQt5.QtXmlPatterns
-  commands:
-    - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux]
-    - pyuic5 --version  # [not win]
+outputs:
+  - name: pyqt5-sip
+    version: 4.19.18
+    script: build-pyqt-sip.sh
+    requirements:
+      build:
+        - {{ compiler('cxx') }}
+        - {{ compiler('c') }}
+        - make  # [not win]
+      host:
+        - python
+      run:
+        - python
+    test:
+      imports:
+        - PyQt5.sip
+
+  - name: pyqt-impl
+    script: build-pyqt.sh
+    requirements:
+      run_constrained:                                            # [osx]
+        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
+      build:
+        - {{ compiler('cxx') }}
+        - {{ compiler('c') }}
+        - jom  # [win]
+        - make  # [not win]
+      host:
+        - {{ cdt('mesa-libgl-devel') }}      # [linux]
+        - python
+        - dbus  # [not win]
+        - qt 5.12.*
+        - enum34  # [py27]
+        - {{ pin_subpackage('pyqt5-sip', exact=True) }}
+      run:
+        - python
+        - {{ pin_compatible("qt", max_pin="x.x") }}
+        - enum34  # [py27]
+        - {{ pin_subpackage('pyqt5-sip', exact=True) }}
+    test:
+      files:
+        - pyqt_test.py
+      imports:
+        - PyQt5.sip
+        - PyQt5.QtCore
+        - PyQt5.QtGui
+        - PyQt5.QtHelp
+        - PyQt5.QtMultimedia
+        - PyQt5.QtMultimediaWidgets
+        - PyQt5.QtNetwork
+        - PyQt5.QtOpenGL
+        - PyQt5.QtPrintSupport
+        - PyQt5.QtQml
+        - PyQt5.QtQuick
+        - PyQt5.QtSvg
+        - PyQt5.QtTest
+        - PyQt5.QtWebChannel
+        - PyQt5.QtWebSockets
+        - PyQt5.QtWidgets
+        - PyQt5.QtXml
+        - PyQt5.QtXmlPatterns
+      commands:
+        - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux]
+        - pyuic5 --version  # [not win]
+
+  - name: pyqtwebengine
+    version: 5.12.1
+    script: build-pyqtwebengine.sh
+    requirements:
+      run_constrained:                                            # [osx]
+        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
+      build:
+        - {{ compiler('cxx') }}
+        - {{ compiler('c') }}
+        - jom  # [win]
+        - make  # [not win]
+      host:
+        - {{ cdt('mesa-libgl-devel') }}      # [linux]
+        - python
+        - dbus  # [not win]
+        - qt 5.12.*
+        - enum34  # [py27]
+        - {{ pin_subpackage('pyqt-impl', exact=True) }}
+      run:
+        - python
+        - {{ pin_compatible("qt", max_pin="x.x") }}
+        - enum34  # [py27]
+        - {{ pin_subpackage('pyqt-impl', exact=True) }}
+    test:
+      imports:
+        - PyQt5.QtWebEngine
+        - PyQt5.QtWebEngineCore
+        - PyQt5.QtWebEngineWidgets
+
+  - name: pyqtchart
+    version: "5.12"
+    script: build-pyqtcharts.sh
+    requirements:
+      run_constrained:                                            # [osx]
+        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
+      build:
+        - {{ compiler('cxx') }}
+        - {{ compiler('c') }}
+        - jom  # [win]
+        - make  # [not win]
+      host:
+        - {{ cdt('mesa-libgl-devel') }}      # [linux]
+        - python
+        - dbus  # [not win]
+        - qt 5.12.*
+        - enum34  # [py27]
+        - {{ pin_subpackage('pyqt-impl', exact=True) }}
+      run:
+        - python
+        - {{ pin_compatible("qt", max_pin="x.x") }}
+        - enum34  # [py27]
+        - {{ pin_subpackage('pyqt-impl', exact=True) }}
+    test:
+      imports:
+        - PyQt5.QtChart
+
+  - name: pyqt
+    build:
+      run_exports:
+        - {{ pin_subpackage('pyqt', max_pin='x.x') }}
+    requirements:
+      run_constrained:                                            # [osx]
+        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
+      run:
+        - {{ pin_subpackage('pyqt5-sip', exact=True) }}
+        - {{ pin_subpackage('pyqt-impl', exact=True) }}
+        - {{ pin_subpackage('pyqtwebengine', exact=True) }}
+        - {{ pin_subpackage('pyqtchart', exact=True) }}
+    test:
+      files:
+        - pyqt_test.py
+      imports:
+        - PyQt5.sip
+        - PyQt5.QtChart
+        - PyQt5.QtCore
+        - PyQt5.QtGui
+        - PyQt5.QtHelp
+        - PyQt5.QtMultimedia
+        - PyQt5.QtMultimediaWidgets
+        - PyQt5.QtNetwork
+        - PyQt5.QtOpenGL
+        - PyQt5.QtPrintSupport
+        - PyQt5.QtQml
+        - PyQt5.QtQuick
+        - PyQt5.QtSvg
+        - PyQt5.QtTest
+        - PyQt5.QtWebChannel
+        - PyQt5.QtWebEngine
+        - PyQt5.QtWebEngineCore
+        - PyQt5.QtWebEngineWidgets
+        - PyQt5.QtWebSockets
+        - PyQt5.QtWidgets
+        - PyQt5.QtXml
+        - PyQt5.QtXmlPatterns
+      commands:
+        - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux]
+        - pyuic5 --version  # [not win]
+        - conda list  # [not win]
 
 about:
   home: http://www.riverbankcomputing.co.uk/software/pyqt

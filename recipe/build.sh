@@ -38,7 +38,6 @@ echo -e "\n************** start building a private sip module **************\n"
 cd sip
 $PYTHON configure.py --sip-module PyQt5.sip
 make -j${CPU_COUNT} # ${VERBOSE_AT}
-make install
 cd ../
 echo -e "\n************************ built sip module ***********************\n"
 
@@ -86,7 +85,6 @@ $PYTHON configure.py \
 
 make -j${CPU_COUNT} ${VERBOSE_AT}
 make check
-make install
 cd ../
 echo -e "\n******************* built PyQt5 ******************\n"
 
@@ -95,7 +93,6 @@ echo -e "\n************** start building PyQtWebEngine **************\n"
 cd pyqtwebengine
 ${PYTHON} configure.py
 make -j${CPU_COUNT} ${VERBOSE_AT}
-make install
 cd ../
 echo -e "\n****************** built PyQtWebEngine *******************\n"
 
@@ -104,6 +101,5 @@ echo -e "\n************** start building PyQtCharts **************\n"
 cd pyqtcharts
 ${PYTHON} configure.py
 make -j${CPU_COUNT} ${VERBOSE_AT}
-make install
 cd ../
 echo -e "\n****************** built PyQtCharts *******************\n"
