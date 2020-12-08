@@ -11,27 +11,6 @@ set "INCLUDE=%LIBRARY_INC%;%INCLUDE%"
 set "LIB=%LIBRARY_LIB%;%LIB%"
 
 
-:: need to build a private copy of sip to avoid "module PyQt5.sip not found" error
-echo.
-echo ************** start building a private sip module **************
-echo.
-cd sip
-
-%PYTHON% configure.py --sysroot=%PREFIX% --bindir=%LIBRARY_BIN% --sip-module PyQt5.sip
-if errorlevel 1 exit 1
-
-nmake
-if errorlevel 1 exit 1
-
-nmake install
-if errorlevel 1 exit 1
-
-cd ..
-echo.
-echo ************************ built sip module ***********************
-echo.
-
-
 :: build PyQt5
 echo.
 echo ************** start building PyQt5 **************
@@ -86,44 +65,3 @@ echo ******************* built PyQt5 ******************
 echo.
 
 %PYTHON% -c "import PyQt5.QtCore"
-
-:: install PyQtWebEngine
-echo.
-echo ************** start building PyQtWebEngine **************
-echo.
-cd pyqtwebengine
-
-%PYTHON% configure.py
-if errorlevel 1 exit 1
-
-nmake
-if errorlevel 1 exit 1
-
-nmake install
-if errorlevel 1 exit 1
-
-cd ..
-echo.
-echo ****************** built PyQtWebEngine *******************
-echo.
-
-
-:: install PyQtCharts
-echo.
-echo ************** start building PyQtCharts **************
-echo.
-cd pyqtcharts
-
-%PYTHON% configure.py
-if errorlevel 1 exit 1
-
-nmake
-if errorlevel 1 exit 1
-
-nmake install
-if errorlevel 1 exit 1
-
-cd ..
-echo.
-echo ****************** built PyQtCharts *******************
-echo.
