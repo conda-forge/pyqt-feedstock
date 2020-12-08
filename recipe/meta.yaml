@@ -38,7 +38,8 @@ build:
   skip: true  # [win]
 
 outputs:
-  - name: pyqt-sip
+  - name: pyqt5-sip
+    version: 4.19.18
     script: build-pyqt-sip.sh
     requirements:
       run_constrained:                                            # [osx]
@@ -134,12 +135,12 @@ outputs:
         - dbus  # [not win]
         - qt 5.12.*
         - enum34  # [py27]
-        - {{ pin_subpackage('pyqt-sip', exact=True) }}
+        - {{ pin_subpackage('pyqt5-sip', exact=True) }}
       run:
         - python
         - {{ pin_compatible("qt", max_pin="x.x") }}
         - enum34  # [py27]
-        - {{ pin_subpackage('pyqt-sip', exact=True) }}
+        - {{ pin_subpackage('pyqt5-sip', exact=True) }}
     test:
       files:
         - pyqt_test.py
@@ -166,7 +167,8 @@ outputs:
         - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux]
         - pyuic5 --version  # [not win]
 
-  - name: pyqt-webengine
+  - name: pyqtwebengine
+    version: 5.12.1
     script: build-pyqtwebengine.sh
     requirements:
       run_constrained:                                            # [osx]
@@ -222,7 +224,8 @@ outputs:
         - PyQt5.QtWebEngineCore
         - PyQt5.QtWebEngineWidgets
 
-  - name: pyqt-charts
+  - name: pyqtchart
+    version: "5.12"
     script: build-pyqtcharts.sh
     requirements:
       run_constrained:                                            # [osx]
@@ -284,10 +287,10 @@ outputs:
       run_constrained:                                            # [osx]
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
       run:
-        - {{ pin_subpackage('pyqt-sip', exact=True) }}
+        - {{ pin_subpackage('pyqt5-sip', exact=True) }}
         - {{ pin_subpackage('pyqt-impl', exact=True) }}
-        - {{ pin_subpackage('pyqt-webengine', exact=True) }}
-        - {{ pin_subpackage('pyqt-charts', exact=True) }}
+        - {{ pin_subpackage('pyqtwebengine', exact=True) }}
+        - {{ pin_subpackage('pyqtchart', exact=True) }}
     test:
       files:
         - pyqt_test.py
