@@ -3,7 +3,7 @@ About pyqt
 
 Home: http://www.riverbankcomputing.co.uk/software/pyqt
 
-Package license: Commercial, GPL-2.0, GPL-3.0
+Package license: LicenseRef-Commercial or GPL-2.0-only or GPL-3.0-only
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/pyqt-feedstock/blob/master/LICENSE.txt)
 
@@ -93,34 +93,6 @@ Current build status
                   <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/pyqt-feedstock?branchName=master&jobName=osx&configuration=osx_64_python3.9.____cpython" alt="variant">
                 </a>
               </td>
-            </tr><tr>
-              <td>win_64_python3.6.____cpython</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4133&branchName=master">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/pyqt-feedstock?branchName=master&jobName=win&configuration=win_64_python3.6.____cpython" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>win_64_python3.7.____cpython</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4133&branchName=master">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/pyqt-feedstock?branchName=master&jobName=win&configuration=win_64_python3.7.____cpython" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>win_64_python3.8.____cpython</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4133&branchName=master">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/pyqt-feedstock?branchName=master&jobName=win&configuration=win_64_python3.8.____cpython" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>win_64_python3.9.____cpython</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4133&branchName=master">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/pyqt-feedstock?branchName=master&jobName=win&configuration=win_64_python3.9.____cpython" alt="variant">
-                </a>
-              </td>
             </tr>
           </tbody>
         </table>
@@ -135,6 +107,10 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt-green.svg)](https://anaconda.org/conda-forge/pyqt) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt.svg)](https://anaconda.org/conda-forge/pyqt) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt.svg)](https://anaconda.org/conda-forge/pyqt) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt.svg)](https://anaconda.org/conda-forge/pyqt) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt--impl-green.svg)](https://anaconda.org/conda-forge/pyqt-impl) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt-impl.svg)](https://anaconda.org/conda-forge/pyqt-impl) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt-impl.svg)](https://anaconda.org/conda-forge/pyqt-impl) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt-impl.svg)](https://anaconda.org/conda-forge/pyqt-impl) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt5--sip-green.svg)](https://anaconda.org/conda-forge/pyqt5-sip) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt5-sip.svg)](https://anaconda.org/conda-forge/pyqt5-sip) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt5-sip.svg)](https://anaconda.org/conda-forge/pyqt5-sip) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt5-sip.svg)](https://anaconda.org/conda-forge/pyqt5-sip) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqtchart-green.svg)](https://anaconda.org/conda-forge/pyqtchart) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqtchart.svg)](https://anaconda.org/conda-forge/pyqtchart) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqtchart.svg)](https://anaconda.org/conda-forge/pyqtchart) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqtchart.svg)](https://anaconda.org/conda-forge/pyqtchart) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqtwebengine-green.svg)](https://anaconda.org/conda-forge/pyqtwebengine) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqtwebengine.svg)](https://anaconda.org/conda-forge/pyqtwebengine) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqtwebengine.svg)](https://anaconda.org/conda-forge/pyqtwebengine) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqtwebengine.svg)](https://anaconda.org/conda-forge/pyqtwebengine) |
 
 Installing pyqt
 ===============
@@ -145,10 +121,10 @@ Installing `pyqt` from the `conda-forge` channel can be achieved by adding `cond
 conda config --add channels conda-forge
 ```
 
-Once the `conda-forge` channel has been enabled, `pyqt` can be installed with:
+Once the `conda-forge` channel has been enabled, `pyqt, pyqt-impl, pyqt5-sip, pyqtchart, pyqtwebengine` can be installed with:
 
 ```
-conda install pyqt
+conda install pyqt pyqt-impl pyqt5-sip pyqtchart pyqtwebengine
 ```
 
 It is possible to list all of the versions of `pyqt` available on your platform with:
