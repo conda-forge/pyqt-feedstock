@@ -1,0 +1,14 @@
+diff --git a/siputils.py b/siputils.py
+index a29300d..89fe76d 100644
+--- a/siputils.py
++++ b/siputils.py
+@@ -887,6 +887,9 @@ class Makefile:
+         if qt5_rename:
+             lib = "Qt5" + lib[2:]
+ 
++        if sys.platform == "win32":
++            lib += '_conda'
++
+         return lib
+ 
+     def optional_list(self, name):
