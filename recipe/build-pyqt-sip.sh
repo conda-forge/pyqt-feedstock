@@ -1,16 +1,8 @@
 #!/bin/bash
 
-set -e # Abort on error.
-
-declare -a _extra_modules
 # Avoid Xcode
 if [[ ${HOST} =~ .*darwin.* ]]; then
   PATH=${PREFIX}/bin/xc-avoidance:${PATH}
-    _extra_modules+=(--enable)
-    _extra_modules+=(QtMacExtras)
-else
-    _extra_modules+=(--enable)
-    _extra_modules+=(QtX11Extras)
 fi
 
 
@@ -36,7 +28,8 @@ export PATH=${PWD}/bin:${PATH}
 echo -e "\n************** start building a private sip module **************\n"
 #echo "PWD: ${SRC_DIR}"
 cd sip
-$PYTHON configure.py --sip-module PyQt5.sip
+export LINK=${CC}
+$PYTHON configure.py --sip-module PyQt5.sip --sysroot=${PREFIX}
 make -j${CPU_COUNT} # ${VERBOSE_AT}
 make install
 cd ../
