@@ -32,7 +32,7 @@ source:
     folder: pyqtcharts
 
 build:
-  number: 6
+  number: 7
   skip: true  # [win and py27]
   skip: true  # [ppc64le]
 
