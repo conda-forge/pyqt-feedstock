@@ -1,5 +1,3 @@
-alsa_lib:
-- 1.2.3
 c_compiler:
 - vs2017
 channel_sources:

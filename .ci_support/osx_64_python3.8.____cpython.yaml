@@ -1,7 +1,5 @@
 MACOSX_DEPLOYMENT_TARGET:
 - '10.12'
-alsa_lib:
-- 1.2.3
 c_compiler:
 - clang
 c_compiler_version:
