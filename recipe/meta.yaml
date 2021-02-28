@@ -92,15 +92,15 @@ outputs:
         - {{ cdt('libxxf86vm') }}            # [linux]
         - {{ cdt('mesa-libgbm') }}           # [linux]
         - {{ cdt('pcre') }}                  # [linux and cdt_name != 'cos6']
-        - jom  # [win]
-        - pkg-config  # [not win]
+        - jom                                # [win]
+        - pkg-config                         # [not win]
       host:
         - {{ cdt('mesa-libgl-devel') }}      # [linux]
         - python
-        - dbus  # [not win]
+        - dbus                               # [not win]
         - qt 5.12.*
-        - enum34  # [py27]
-        - alsa-lib
+        - enum34                             # [py27]
+        - alsa-lib                           # [linux]
         - {{ pin_subpackage('pyqt5-sip', exact=True) }}
       run:
         - python
