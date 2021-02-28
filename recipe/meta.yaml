@@ -91,6 +91,7 @@ outputs:
         - {{ cdt('libxfixes') }}             # [linux]
         - {{ cdt('libxxf86vm') }}            # [linux]
         - {{ cdt('mesa-libgbm') }}           # [linux]
+        - {{ cdt('pcre') }}                  # [linux and cdt_name != 'cos6']
         - jom  # [win]
         - pkg-config  # [not win]
       host:
@@ -99,6 +100,7 @@ outputs:
         - dbus  # [not win]
         - qt 5.12.*
         - enum34  # [py27]
+        - alsa-lib
         - {{ pin_subpackage('pyqt5-sip', exact=True) }}
       run:
         - python
