@@ -3,4 +3,7 @@ max_py_ver: '37'
 max_r_ver: '35'
 provider:
   win: azure
+  # qt5.12 and hence pyqt claims not to support ppc64
+  # therefore, only build for aarch
+  linux_aarch64: default
 conda_forge_output_validation: true
