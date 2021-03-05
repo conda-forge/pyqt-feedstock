@@ -91,14 +91,17 @@ outputs:
         - {{ cdt('libxfixes') }}             # [linux]
         - {{ cdt('libxxf86vm') }}            # [linux]
         - {{ cdt('mesa-libgbm') }}           # [linux]
-        - jom  # [win]
-        - pkg-config  # [not win]
+        - {{ cdt('pcre') }}                  # [linux and cdt_name != 'cos6']
+        - make                               # [not win]
+        - jom                                # [win]
+        - pkg-config                         # [not win]
       host:
         - {{ cdt('mesa-libgl-devel') }}      # [linux]
         - python
-        - dbus  # [not win]
+        - dbus                               # [not win]
         - qt 5.12.*
-        - enum34  # [py27]
+        - enum34                             # [py27]
+        - alsa-lib                           # [linux]
         - {{ pin_subpackage('pyqt5-sip', exact=True) }}
       run:
         - python
@@ -169,8 +172,9 @@ outputs:
         - {{ cdt('libxfixes') }}             # [linux]
         - {{ cdt('libxxf86vm') }}            # [linux]
         - {{ cdt('mesa-libgbm') }}           # [linux]
-        - jom  # [win]
-        - pkg-config  # [not win]
+        - make                               # [not win]
+        - jom                                # [win]
+        - pkg-config                         # [not win]
       host:
         - {{ cdt('mesa-libgl-devel') }}      # [linux]
         - python
@@ -227,8 +231,9 @@ outputs:
         - {{ cdt('libxfixes') }}             # [linux]
         - {{ cdt('libxxf86vm') }}            # [linux]
         - {{ cdt('mesa-libgbm') }}           # [linux]
-        - jom  # [win]
-        - pkg-config  # [not win]
+        - make                               # [not win]
+        - jom                                # [win]
+        - pkg-config                         # [not win]
       host:
         - {{ cdt('mesa-libgl-devel') }}      # [linux]
         - python

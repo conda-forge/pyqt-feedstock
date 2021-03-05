@@ -3,6 +3,7 @@ gtk2-devel
 libXScrnSaver
 libXtst
 alsa-lib
+mesa-libGL
 mesa-libEGL
 gtkmm24
 pciutils
