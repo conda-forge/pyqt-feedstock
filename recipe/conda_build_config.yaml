@@ -1,2 +1,4 @@
 MACOSX_DEPLOYMENT_TARGET:   # [osx]
 - '10.12'                   # [osx]
+cdt_name:
+- amzn2  # [linux and aarch64]
