@@ -132,7 +132,7 @@ test:
     - PyQt5.QtXml
     - PyQt5.QtXmlPatterns
   commands:
-    - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux]
+    - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and not aarch64]
     - pyuic5 --version  # [not win]
 
 about:

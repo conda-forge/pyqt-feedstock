@@ -84,6 +84,10 @@ $PYTHON configure.py \
         "${_extra_modules[@]}" \
         -q ${PREFIX}/bin/qmake
 
+# 7/22/2021 PJY: TEST
+cp -n ${BUILD_PREFIX}/aarch64-conda-linux-gnu/sysroot/usr/lib64/*.so* ${PREFIX}/lib/
+cp -n ${BUILD_PREFIX}/aarch64-conda-linux-gnu/sysroot/lib64/libasound.so* ${PREFIX}/lib/
+
 make -j${CPU_COUNT} ${VERBOSE_AT}
 make check
 make install
