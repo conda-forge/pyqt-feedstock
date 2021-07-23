@@ -82,14 +82,13 @@ requirements:
     - m2-gcc-libs  # [win]
   host:
     - {{ cdt('mesa-libgl-devel') }}      # [linux]
-    - python
+    - python >=3.7,<3.8
     - dbus  # [not win]
-      #- qt 5.15.*
-    - qt-main
+    - qt 5.15.*
     - enum34  # [py27]
   run:
-    - python
-    - {{ pin_compatible("qt-main", max_pin="x.x") }}
+    - python >=3.7,<3.8
+    - {{ pin_compatible("qt", max_pin="x.x") }}
     - enum34  # [py27]
 
 test:
