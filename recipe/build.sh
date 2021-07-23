@@ -13,7 +13,6 @@ else
     _extra_modules+=(QtX11Extras)
 fi
 
-
 # Dumb .. is this Qt or PyQt's fault? (or mine, more likely).
 # The spec file could be bad, or PyQt could be missing the
 # ability to set QMAKE_CXX
@@ -83,10 +82,6 @@ $PYTHON configure.py \
         --pyuic5-interpreter=`which python` \
         "${_extra_modules[@]}" \
         -q ${PREFIX}/bin/qmake
-
-# 7/22/2021 PJY: TEST
-cp -n ${BUILD_PREFIX}/aarch64-conda-linux-gnu/sysroot/usr/lib64/*.so* ${PREFIX}/lib/
-cp -n ${BUILD_PREFIX}/aarch64-conda-linux-gnu/sysroot/lib64/libasound.so* ${PREFIX}/lib/
 
 make -j${CPU_COUNT} ${VERBOSE_AT}
 make check
