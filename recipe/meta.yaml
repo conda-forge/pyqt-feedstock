@@ -1,4 +1,4 @@
-{% set version = "5.15.0" %}
+{% set version = "5.15.2" %}
 {% set version2 = "5.15" %}
 
 package:
@@ -6,33 +6,30 @@ package:
   version: {{ version }}
 
 source:
-  # - url: https://www.riverbankcomputing.com/static/Downloads/PyQt5/{{ version }}/PyQt5_gpl-{{ version }}.tar.gz
   - url: https://distfiles.macports.org/py-pyqt5/PyQt5-{{ version }}.tar.gz
-    sha1: 928746291aca68a3bb9f1e56053728a942887ab8
+    sha256: 372b08dc9321d1201e4690182697c5e7ffb2e0770e6b4a45519025134b12e4fc
     patches:
       - 0003-configure.patch
       # remove build path from .bat
       - 0004-configure-winbat.patch  # [win]
-      - py2_segfault.diff
+      #- py2_segfault.diff
       # - qt5_dll.diff
     folder: pyqt5
 
-  - url: https://www.riverbankcomputing.com/static/Downloads/sip/4.19.24/sip-4.19.24.tar.gz
-    sha1: bc509d2a9999e454751f1ccb674d01d204c09286
+  - url: https://www.riverbankcomputing.com/static/Downloads/sip/4.19.25/sip-4.19.25.tar.gz
+    sha256: b39d93e937647807bac23579edbff25fe46d16213f708370072574ab1f1b4211
     patches:
       - 0001-Do-not-override-CC-CXX-LINK-in-sipgen-Makefile.patch
       # AttributeError: module 'distutils.sysconfig' has no attribute 'get_config_h_filename'
       - sip-get_config_h_filename.patch
     folder: sip
 
-  # - url: https://www.riverbankcomputing.com/static/Downloads/PyQtWebEngine/{{ version }}/PyQtWebEngine_gpl-{{ version }}.tar.gz
   - url: https://distfiles.macports.org/py-pyqt5/PyQtWebEngine-{{ version }}.tar.gz
-    sha1: 6cc5819492bae4b0de0cba046e5527876a6653df
+    sha256: 4d72fea774071ce6f76e341a3d2c5d595886c9906a9b9493239c841cce54a634
     folder: pyqtwebengine
     
-  # - url: https://www.riverbankcomputing.com/static/Downloads/PyQtChart/{{ version2 }}/PyQtChart_gpl-{{ version2 }}.tar.gz
   - url: https://distfiles.macports.org/py-pyqt5/PyQtChart-{{ version }}.tar.gz
-    sha1: a1cab476abd1de8225deae75c638ecabdfcae559
+    sha256: 93a6212fb4944d8266ec1f1c10c6e857a06ae6ffb55377ebef58c817b629cbf0
     folder: pyqtcharts
 
 build:
@@ -76,6 +73,8 @@ requirements:
     - {{ cdt('libxfixes') }}             # [linux]
     - {{ cdt('libxxf86vm') }}            # [linux]
     - {{ cdt('mesa-libgbm') }}           # [linux]
+    - make                               # [linux and aarch64]
+    - binutils                           # [linux and aarch64]
     - jom  # [win]
     - pkg-config  # [not win]
     - patch  # [not win]
@@ -84,7 +83,7 @@ requirements:
   host:
     - {{ cdt('mesa-libgl-devel') }}      # [linux]
     - python
-    - dbus  # [not win]
+    - dbus  # [not (win or aarch64)]
     - qt 5.15.*
     - enum34  # [py27]
   run:
@@ -93,33 +92,39 @@ requirements:
     - enum34  # [py27]
 
 test:
+  # NOTE: Import tests are done in the run_test.sh because linux-aarch64 requires
+  # additional shared objects to be present in the env when the imports are run.
+  requires:
+    - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
+    - {{ cdt('libx11-devel') }}          # [linux]
+    - {{ cdt('libxcb') }}                # [linux]
+    - {{ cdt('libxext-devel') }}         # [linux]
+    - {{ cdt('libxrender-devel') }}      # [linux]
+    - {{ cdt('mesa-libgl-devel') }}      # [linux]
+    - {{ cdt('mesa-libegl-devel') }}     # [linux]
+    - {{ cdt('mesa-dri-drivers') }}      # [linux]
+    - {{ cdt('libxau-devel') }}          # [linux]
+    - {{ cdt('alsa-lib-devel') }}        # [linux]
+    - {{ cdt('gtk2-devel') }}            # [linux]
+    - {{ cdt('gtkmm24-devel') }}         # [linux]
+    - {{ cdt('libdrm-devel') }}          # [linux]
+    - {{ cdt('libxcomposite-devel') }}   # [linux]
+    - {{ cdt('libxcursor-devel') }}      # [linux]
+    - {{ cdt('libxi-devel') }}           # [linux]
+    - {{ cdt('libxrandr-devel') }}       # [linux]
+    - {{ cdt('pciutils-devel') }}        # [linux]
+    - {{ cdt('libxscrnsaver-devel') }}   # [linux]
+    - {{ cdt('libxtst-devel') }}         # [linux]
+    - {{ cdt('libselinux-devel') }}      # [linux]
+    - {{ cdt('libxdamage') }}            # [linux]
+    - {{ cdt('libxfixes') }}             # [linux]
+    - {{ cdt('libxxf86vm') }}            # [linux]
+    - {{ cdt('mesa-libgbm') }}           # [linux]
   files:
     - pyqt_test.py
-  imports:
-    - PyQt5.sip
-    - PyQt5.QtChart
-    - PyQt5.QtCore
-    - PyQt5.QtGui
-    - PyQt5.QtHelp
-    - PyQt5.QtMultimedia
-    - PyQt5.QtMultimediaWidgets
-    - PyQt5.QtNetwork
-    - PyQt5.QtOpenGL
-    - PyQt5.QtPrintSupport
-    - PyQt5.QtQml
-    - PyQt5.QtQuick
-    - PyQt5.QtSvg
-    - PyQt5.QtTest
-    - PyQt5.QtWebChannel
-    - PyQt5.QtWebEngine
-    - PyQt5.QtWebEngineCore
-    - PyQt5.QtWebEngineWidgets
-    - PyQt5.QtWebSockets
-    - PyQt5.QtWidgets
-    - PyQt5.QtXml
-    - PyQt5.QtXmlPatterns
+    - run_test.sh
   commands:
-    - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux]
+    - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and not aarch64]
     - pyuic5 --version  # [not win]
 
 about:

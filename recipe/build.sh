@@ -13,7 +13,6 @@ else
     _extra_modules+=(QtX11Extras)
 fi
 
-
 # Dumb .. is this Qt or PyQt's fault? (or mine, more likely).
 # The spec file could be bad, or PyQt could be missing the
 # ability to set QMAKE_CXX
