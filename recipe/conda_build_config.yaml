@@ -1,4 +1,4 @@
-MACOSX_DEPLOYMENT_TARGET:   # [osx]
-- '10.12'                   # [osx]
+MACOSX_DEPLOYMENT_TARGET:   # [osx and x86_64]
+- '10.12'                   # [osx and x86_64]
 cdt_name:
 - amzn2  # [linux and aarch64]
