@@ -101,7 +101,7 @@ outputs:
         - {{ cdt('mesa-libgl-devel') }}      # [linux]
         - python
         - dbus                               # [not win]
-        - qt 5.12.*
+        - qt 5.12.9
         - alsa-lib                           # [linux]
         - {{ pin_subpackage('pyqt5-sip', exact=True) }}
       run:
@@ -179,7 +179,7 @@ outputs:
         - {{ cdt('mesa-libgl-devel') }}      # [linux]
         - python
         - dbus  # [not win]
-        - qt 5.12.*
+        - qt 5.12.9
         - {{ pin_subpackage('pyqt-impl', exact=True) }}
       run:
         - python
@@ -236,7 +236,7 @@ outputs:
         - {{ cdt('mesa-libgl-devel') }}      # [linux]
         - python
         - dbus  # [not win]
-        - qt 5.12.*
+        - qt 5.12.9
         - {{ pin_subpackage('pyqt-impl', exact=True) }}
       run:
         - python
