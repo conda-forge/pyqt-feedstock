@@ -2,6 +2,7 @@ xorg-x11-server-Xvfb
 gtk2-devel
 libXScrnSaver
 libXtst
+libXext
 alsa-lib
 mesa-libGL
 mesa-libEGL
