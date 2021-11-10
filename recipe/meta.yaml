@@ -98,14 +98,14 @@ outputs:
         - jom                                # [win]
         - pkg-config                         # [not win]
       host:
+        - {{ pin_subpackage('pyqt5-sip', exact=True) }}
         - {{ cdt('mesa-libgl-devel') }}      # [linux]
-        - python
+        - alsa-lib                           # [linux]
         - dbus                               # [not win]
         # one unconstrained to pick up global pinning + a lower bound
         - qt
         - qt >=5.12.9
-        - alsa-lib                           # [linux]
-        - {{ pin_subpackage('pyqt5-sip', exact=True) }}
+        - python
       run:
         - python
         - {{ pin_compatible("qt", max_pin="x.x") }}
@@ -178,13 +178,13 @@ outputs:
         - jom                                # [win]
         - pkg-config                         # [not win]
       host:
+        - {{ pin_subpackage('pyqt-impl', exact=True) }}
         - {{ cdt('mesa-libgl-devel') }}      # [linux]
-        - python
-        - dbus  # [not win]
+        - dbus                               # [not win]
         # one unconstrained to pick up global pinning + a lower bound
         - qt
         - qt >=5.12.9
-        - {{ pin_subpackage('pyqt-impl', exact=True) }}
+        - python
       run:
         - python
         - {{ pin_compatible("qt", max_pin="x.x") }}
@@ -237,13 +237,13 @@ outputs:
         - jom                                # [win]
         - pkg-config                         # [not win]
       host:
+        - {{ pin_subpackage('pyqt-impl', exact=True) }}
         - {{ cdt('mesa-libgl-devel') }}      # [linux]
-        - python
-        - dbus  # [not win]
+        - dbus                               # [not win]
         # one unconstrained to pick up global pinning + a lower bound
         - qt
         - qt >=5.12.9
-        - {{ pin_subpackage('pyqt-impl', exact=True) }}
+        - python
       run:
         - python
         - {{ pin_compatible("qt", max_pin="x.x") }}
