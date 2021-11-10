@@ -33,7 +33,6 @@ source:
 
 build:
   number: 7
-  skip: true  # [win and py27]
   skip: true  # [ppc64le]
 
 outputs:
@@ -100,13 +99,11 @@ outputs:
         - python
         - dbus                               # [not win]
         - qt 5.12.*
-        - enum34                             # [py27]
         - alsa-lib                           # [linux]
         - {{ pin_subpackage('pyqt5-sip', exact=True) }}
       run:
         - python
         - {{ pin_compatible("qt", max_pin="x.x") }}
-        - enum34  # [py27]
         - {{ pin_subpackage('pyqt5-sip', exact=True) }}
     test:
       files:
@@ -180,12 +177,10 @@ outputs:
         - python
         - dbus  # [not win]
         - qt 5.12.*
-        - enum34  # [py27]
         - {{ pin_subpackage('pyqt-impl', exact=True) }}
       run:
         - python
         - {{ pin_compatible("qt", max_pin="x.x") }}
-        - enum34  # [py27]
         - {{ pin_subpackage('pyqt-impl', exact=True) }}
     test:
       imports:
@@ -239,12 +234,10 @@ outputs:
         - python
         - dbus  # [not win]
         - qt 5.12.*
-        - enum34  # [py27]
         - {{ pin_subpackage('pyqt-impl', exact=True) }}
       run:
         - python
         - {{ pin_compatible("qt", max_pin="x.x") }}
-        - enum34  # [py27]
         - {{ pin_subpackage('pyqt-impl', exact=True) }}
     test:
       imports:
