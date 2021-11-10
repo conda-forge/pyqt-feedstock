@@ -1,6 +1,7 @@
 provider:
   win: azure
+build_platform:
   # qt5.12 and hence pyqt claims not to support ppc64
   # therefore, only build for aarch
-  linux_aarch64: azure
+  linux_aarch64: linux_64
 conda_forge_output_validation: true
