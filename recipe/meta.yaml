@@ -133,6 +133,11 @@ outputs:
         - PyQt5.QtXml
         - PyQt5.QtXmlPatterns
       commands:
+        - export PATH="$QEMU_LD_PREFIX/usr/bin:$PATH"                      # [build_platform != target_platform]
+        - echo $PATH
+        - ls ${QEMU_LD_PREFIX:-}/usr/bin
+        - echo ${QEMU_LD_PREFIX}
+        - which xvfb-run
         - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux]
         - pyuic5 --version  # [not win]
 
