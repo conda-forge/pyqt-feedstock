@@ -4,6 +4,7 @@ gtkmm24
 libXScrnSaver
 libXcomposite
 libXcursor
+libXdamage
 libXext
 libXtst
 libselinux
