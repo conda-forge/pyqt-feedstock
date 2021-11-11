@@ -3,6 +3,7 @@ gtk2-devel
 libXScrnSaver
 libXtst
 libXext
+libXcomposite
 alsa-lib
 mesa-libGL
 mesa-libEGL
