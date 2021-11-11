@@ -4,6 +4,7 @@ libXScrnSaver
 libXtst
 libXext
 libXcomposite
+libXcursor
 alsa-lib
 mesa-libGL
 mesa-libEGL
