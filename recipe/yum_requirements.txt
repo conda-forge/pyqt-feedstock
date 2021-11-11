@@ -6,6 +6,7 @@ libXcomposite
 libXcursor
 libXdamage
 libXext
+libXfixes
 libXtst
 libselinux
 mesa-libEGL
