@@ -17,11 +17,14 @@ fi
 # Dumb .. is this Qt or PyQt's fault? (or mine, more likely).
 # The spec file could be bad, or PyQt could be missing the
 # ability to set QMAKE_CXX
-mkdir bin || true
-pushd bin
-  ln -s ${GXX} g++ || true
-  ln -s ${GCC} gcc || true
-popd
+mkdir -p bin
+if [[ "${target_platform}" == linux-* ]]; then
+  pushd bin
+    ln -s $(which ${STRIP}) strip || true
+    ln -s $(which ${GXX}) g++ || true
+    ln -s $(which ${GCC}) gcc || true
+  popd
+fi
 export PATH=${PWD}/bin:${PATH}
 
 ## Future:

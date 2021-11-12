@@ -1,4 +1,7 @@
 {% set version = "5.12.3" %}
+{% set sip_version = "4.19.18" %}
+{% set chart_version = "5.12" %}
+{% set webengine_version = "5.12.1" %}
 
 package:
   name: pyqt_split
@@ -8,37 +11,36 @@ source:
   - url: https://distfiles.macports.org/py-pyqt5/PyQt5_gpl-{{ version }}.tar.gz
     sha1: f442a876794947a24474cf85eb02abd60f00f642
     patches:
-      - 0003-configure.patch
+      - patches/0003-configure.patch
       # remove build path from .bat
-      - 0004-configure-winbat.patch  # [win]
-      - py2_segfault.diff
-      - qt5_dll.diff
+      - patches/0004-configure-winbat.patch  # [win]
+      - patches/py2_segfault.diff
+      - patches/qt5_dll.diff
     folder: pyqt5
 
-  - url: https://distfiles.macports.org/py-sip/sip-4.19.18.tar.gz
+  - url: https://distfiles.macports.org/py-sip/sip-{{ sip_version }}.tar.gz
     sha1: d001eb00f6dae26a952770e805b1519f61cae77d
     patches:
-      - 0001-Do-not-override-CC-CXX-LINK-in-sipgen-Makefile.patch
+      - patches/0001-Do-not-override-CC-CXX-LINK-in-sipgen-Makefile.patch
       # AttributeError: module 'distutils.sysconfig' has no attribute 'get_config_h_filename'
-      - sip-get_config_h_filename.patch
+      - patches/sip-get_config_h_filename.patch
     folder: sip
 
-  - url: https://distfiles.macports.org/py-pyqt5/PyQtWebEngine_gpl-5.12.1.tar.gz
+  - url: https://distfiles.macports.org/py-pyqt5/PyQtWebEngine_gpl-{{ webengine_version }}.tar.gz
     sha1: 737acf93ecf39e5e2136e094a8b0a9ffa47bd2de
     folder: pyqtwebengine
 
-  - url: https://github.com/ocefpaf/pyqt-feedstock/releases/download/v5.12.3/PyQtChart_gpl-5.12.tar.gz
+  - url: https://github.com/ocefpaf/pyqt-feedstock/releases/download/v5.12.3/PyQtChart_gpl-{{ chart_version }}.tar.gz
     sha1: 6a876ac37d0ccb5392f67669de5e790c8f9188da
     folder: pyqtcharts
 
 build:
-  number: 7
-  skip: true  # [win and py27]
+  number: 8
   skip: true  # [ppc64le]
 
 outputs:
   - name: pyqt5-sip
-    version: 4.19.18
+    version: {{ sip_version }}
     script: build-pyqt-sip.sh   # [not win]
     script: bld-pyqt-sip.bat  # [win]
     requirements:
@@ -96,17 +98,17 @@ outputs:
         - jom                                # [win]
         - pkg-config                         # [not win]
       host:
-        - {{ cdt('mesa-libgl-devel') }}      # [linux]
-        - python
-        - dbus                               # [not win]
-        - qt 5.12.*
-        - enum34                             # [py27]
-        - alsa-lib                           # [linux]
         - {{ pin_subpackage('pyqt5-sip', exact=True) }}
+        - {{ cdt('mesa-libgl-devel') }}      # [linux]
+        - alsa-lib                           # [linux]
+        - dbus                               # [not win]
+        # one unconstrained to pick up global pinning + a lower bound
+        - qt
+        - qt >=5.12.9
+        - python
       run:
         - python
         - {{ pin_compatible("qt", max_pin="x.x") }}
-        - enum34  # [py27]
         - {{ pin_subpackage('pyqt5-sip', exact=True) }}
     test:
       files:
@@ -131,11 +133,11 @@ outputs:
         - PyQt5.QtXml
         - PyQt5.QtXmlPatterns
       commands:
-        - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux]
+        - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
         - pyuic5 --version  # [not win]
 
   - name: pyqtwebengine
-    version: 5.12.1
+    version: {{ webengine_version }}
     script: build-pyqtwebengine.sh   # [not win]
     script: bld-pyqtwebengine.bat  # [win]
     requirements:
@@ -176,16 +178,16 @@ outputs:
         - jom                                # [win]
         - pkg-config                         # [not win]
       host:
-        - {{ cdt('mesa-libgl-devel') }}      # [linux]
-        - python
-        - dbus  # [not win]
-        - qt 5.12.*
-        - enum34  # [py27]
         - {{ pin_subpackage('pyqt-impl', exact=True) }}
+        - {{ cdt('mesa-libgl-devel') }}      # [linux]
+        - dbus                               # [not win]
+        # one unconstrained to pick up global pinning + a lower bound
+        - qt
+        - qt >=5.12.9
+        - python
       run:
         - python
         - {{ pin_compatible("qt", max_pin="x.x") }}
-        - enum34  # [py27]
         - {{ pin_subpackage('pyqt-impl', exact=True) }}
     test:
       imports:
@@ -194,7 +196,7 @@ outputs:
         - PyQt5.QtWebEngineWidgets
 
   - name: pyqtchart
-    version: "5.12"
+    version: {{ chart_version }}
     script: build-pyqtcharts.sh   # [not win]
     script: bld-pyqtcharts.bat  # [win]
     requirements:
@@ -235,16 +237,16 @@ outputs:
         - jom                                # [win]
         - pkg-config                         # [not win]
       host:
-        - {{ cdt('mesa-libgl-devel') }}      # [linux]
-        - python
-        - dbus  # [not win]
-        - qt 5.12.*
-        - enum34  # [py27]
         - {{ pin_subpackage('pyqt-impl', exact=True) }}
+        - {{ cdt('mesa-libgl-devel') }}      # [linux]
+        - dbus                               # [not win]
+        # one unconstrained to pick up global pinning + a lower bound
+        - qt
+        - qt >=5.12.9
+        - python
       run:
         - python
         - {{ pin_compatible("qt", max_pin="x.x") }}
-        - enum34  # [py27]
         - {{ pin_subpackage('pyqt-impl', exact=True) }}
     test:
       imports:
@@ -292,7 +294,7 @@ outputs:
         - PyQt5.QtXml
         - PyQt5.QtXmlPatterns
       commands:
-        - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux]
+        - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
         - pyuic5 --version  # [not win]
         - conda list  # [not win]
 
