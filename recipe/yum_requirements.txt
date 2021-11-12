@@ -8,6 +8,7 @@ libXdamage
 libXext
 libXfixes
 libXi
+libXrender
 libXtst
 libselinux
 mesa-libEGL
