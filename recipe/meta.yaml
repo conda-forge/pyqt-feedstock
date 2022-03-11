@@ -1,7 +1,7 @@
-{% set version = "5.12.3" %}
-{% set sip_version = "4.19.18" %}
-{% set chart_version = "5.12" %}
-{% set webengine_version = "5.12.1" %}
+{% set version = "5.15.2" %}
+{% set sip_version = "6.5.1" %}
+{% set chart_version = "5.15" %}
+{% set webengine_version = "5.15.4" %}
 
 package:
   name: pyqt_split
@@ -35,7 +35,7 @@ source:
     folder: pyqtcharts
 
 build:
-  number: 8
+  number: 0
   skip: true  # [ppc64le]
 
 outputs:
@@ -103,8 +103,8 @@ outputs:
         - alsa-lib                           # [linux]
         - dbus                               # [not win]
         # one unconstrained to pick up global pinning + a lower bound
-        - qt
-        - qt >=5.12.9
+        - qt-main
+        - qt-main >=5.15.2
         - python
       run:
         - python
@@ -182,8 +182,9 @@ outputs:
         - {{ cdt('mesa-libgl-devel') }}      # [linux]
         - dbus                               # [not win]
         # one unconstrained to pick up global pinning + a lower bound
-        - qt
-        - qt >=5.12.9
+        - qt-main
+        - qt-main >=5.15.2
+        - qt-webengine
         - python
       run:
         - python
