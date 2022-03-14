@@ -1,79 +1,82 @@
-{% set version = "5.12.3" %}
-{% set sip_version = "4.19.18" %}
-{% set chart_version = "5.12" %}
-{% set webengine_version = "5.12.1" %}
+{% set name = "PyQt" %}
+{% set version = "5.15.4" %}
+
+{% set sip_name = "PyQt5-sip" %}
+{% set sip_version = "12.9.0" %}
+
+{% set webengine_name = "PyQtWebEngine" %}
+{% set webengine_version = "5.15.4" %}
+
+{% set charts_name = "PyQtChart" %}
+{% set charts_version = "5.15.5" %}
+
 
 package:
-  name: pyqt_split
+  name: pyqt-split
   version: {{ version }}
 
 source:
-  - url: https://distfiles.macports.org/py-pyqt5/PyQt5_gpl-{{ version }}.tar.gz
-    sha1: f442a876794947a24474cf85eb02abd60f00f642
-    patches:
-      - patches/0003-configure.patch
-      # remove build path from .bat
-      - patches/0004-configure-winbat.patch  # [win]
-      - patches/py2_segfault.diff
-      - patches/qt5_dll.diff
-    folder: pyqt5
+  - url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}{{ version[0] }}/{{ name }}{{ version[0] }}-{{ version }}.tar.gz
+    sha256: 2a69597e0dd11caabe75fae133feca66387819fc9bc050f547e5551bce97e5be
+    folder: pyqt
 
-  - url: https://distfiles.macports.org/py-sip/sip-{{ sip_version }}.tar.gz
-    sha1: d001eb00f6dae26a952770e805b1519f61cae77d
-    patches:
-      - patches/0001-Do-not-override-CC-CXX-LINK-in-sipgen-Makefile.patch
-      # AttributeError: module 'distutils.sysconfig' has no attribute 'get_config_h_filename'
-      - patches/sip-get_config_h_filename.patch
-    folder: sip
+  - url:  https://pypi.io/packages/source/{{ sip_name[0] }}/{{ sip_name }}/{{ sip_name.replace('-', '_') }}-{{ sip_version }}.tar.gz
+    sha256: d3e4489d7c2b0ece9d203ae66e573939f7f60d4d29e089c9f11daa17cfeaae32
+    folder: pyqt_sip
 
-  - url: https://distfiles.macports.org/py-pyqt5/PyQtWebEngine_gpl-{{ webengine_version }}.tar.gz
-    sha1: 737acf93ecf39e5e2136e094a8b0a9ffa47bd2de
-    folder: pyqtwebengine
+  - url: https://pypi.io/packages/source/{{ webengine_name[0] }}/{{ webengine_name }}/{{ webengine_name }}-{{ webengine_version }}.tar.gz
+    sha256: cedc28f54165f4b8067652145aec7f732a17eadf6736835852868cf76119cc19
+    folder: pyqt_webengine
 
-  - url: https://github.com/ocefpaf/pyqt-feedstock/releases/download/v5.12.3/PyQtChart_gpl-{{ chart_version }}.tar.gz
-    sha1: 6a876ac37d0ccb5392f67669de5e790c8f9188da
-    folder: pyqtcharts
+  - url: https://pypi.io/packages/source/{{ charts_name[0] }}/{{ charts_name }}/{{ charts_name }}-{{ charts_version }}.tar.gz
+    sha256: e2cd55a8a72cef99bc0126f3b1daa914eb5f21e20a70127b6985299f1dc50107
+    folder: pyqt_charts
 
 build:
-  number: 8
-  skip: true  # [ppc64le]
+  number: 0
 
 outputs:
-  - name: pyqt5-sip
+  - name: {{ sip_name|lower }}
     version: {{ sip_version }}
-    script: build-pyqt-sip.sh   # [not win]
-    script: bld-pyqt-sip.bat  # [win]
+    script: pyqt_sip_build.sh   # [not win]
+    script: pyqt_sip_bld.bat    # [win]
     requirements:
       build:
-        - {{ compiler('cxx') }}
         - {{ compiler('c') }}
-        - make  # [not win]
+        - {{ compiler('cxx') }}
+        - python                                 # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
       host:
         - python
+        - setuptools
+        - wheel
+        - pip
       run:
         - python
+        - sip
+        - packaging
+        - toml
     test:
       imports:
         - PyQt5.sip
 
   - name: pyqt-impl
-    script: build-pyqt.sh   # [not win]
-    script: bld-pyqt.bat  # [win]
+    version: {{ version }}
+    script: pyqt_build.sh  # [not win]
+    script: pyqt_bld.bat  # [win]
     requirements:
-      run_constrained:                                            # [osx]
-        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
+      run_constrained:                                            # [osx and x86_64]
+        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
       build:
-        # We may want to find and add a Python dbus library?
-        # pkg-config --cflags-only-I --libs dbus-1
-        # The Python dbus module doesn't seem to be installed.
-        - {{ compiler('cxx') }}
         - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
         - {{ cdt('libx11-devel') }}          # [linux]
-        - {{ cdt('libxcb') }}                # [linux]
+        - {{ cdt('libxext') }}               # [linux]
         - {{ cdt('libxext-devel') }}         # [linux]
         - {{ cdt('libxrender-devel') }}      # [linux]
         - {{ cdt('mesa-libgl-devel') }}      # [linux]
+        - {{ cdt('mesa-libegl') }}           # [linux]
         - {{ cdt('mesa-libegl-devel') }}     # [linux]
         - {{ cdt('mesa-dri-drivers') }}      # [linux]
         - {{ cdt('libxau-devel') }}          # [linux]
@@ -88,33 +91,53 @@ outputs:
         - {{ cdt('pciutils-devel') }}        # [linux]
         - {{ cdt('libxscrnsaver-devel') }}   # [linux]
         - {{ cdt('libxtst-devel') }}         # [linux]
+        - {{ cdt('libselinux') }}            # [linux]
         - {{ cdt('libselinux-devel') }}      # [linux]
         - {{ cdt('libxdamage') }}            # [linux]
+        - {{ cdt('libxdamage-devel') }}      # [linux]
         - {{ cdt('libxfixes') }}             # [linux]
+        - {{ cdt('libxfixes-devel') }}       # [linux]
         - {{ cdt('libxxf86vm') }}            # [linux]
-        - {{ cdt('mesa-libgbm') }}           # [linux]
-        - {{ cdt('pcre') }}                  # [linux and cdt_name != 'cos6']
-        - make                               # [not win]
+        - {{ cdt('libxxf86vm-devel') }}      # [linux]
+        - {{ cdt('libsm-devel') }}           # [linux]
+        - {{ cdt('libice-devel') }}          # [linux]
+        - {{ cdt('libxcb') }}                # [linux]
+        - {{ cdt('libxcb-devel') }}          # [linux]
+        - {{ cdt('expat-devel') }}           # [linux]
+        - {{ cdt('pcre') }}                  # [linux]
+        - {{ cdt('libglvnd-glx') }}          # [linux]
+        - {{ cdt('libglvnd-egl') }}          # [linux]
+        - {{ cdt('libxkbcommon-devel') }}    # [linux]
+        - {{ cdt('xcb-util-devel') }}        # [linux]
+        - {{ cdt('xcb-util-image-devel') }}  # [linux]
+        - {{ cdt('xcb-util-keysyms-devel') }}     # [linux]
+        - {{ cdt('xcb-util-renderutil-devel') }}  # [linux]
+        - {{ cdt('xcb-util-wm-devel') }}          # [linux]
         - jom                                # [win]
-        - pkg-config                         # [not win]
+        - python                                 # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+        - pyqt-builder                           # [build_platform != target_platform]
+        - sip                                    # [build_platform != target_platform]
+        - make
       host:
-        - {{ pin_subpackage('pyqt5-sip', exact=True) }}
-        - {{ cdt('mesa-libgl-devel') }}      # [linux]
-        - alsa-lib                           # [linux]
-        - dbus                               # [not win]
-        # one unconstrained to pick up global pinning + a lower bound
-        - qt
-        - qt >=5.12.9
         - python
+        - pip
+        - sip                                    # [build_platform == target_platform]
+        - toml
+        - pyqt-builder                           # [build_platform == target_platform]
+        - packaging
+        - qt-main
+        - {{ cdt('mesa-libgl-devel') }}          # [linux]
+        - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
         - python
-        - {{ pin_compatible("qt", max_pin="x.x") }}
+        - {{ pin_compatible("qt-main", max_pin="x.x") }}
         - {{ pin_subpackage('pyqt5-sip', exact=True) }}
     test:
       files:
         - pyqt_test.py
       imports:
-        - PyQt5.sip
+        - PyQt5
         - PyQt5.QtCore
         - PyQt5.QtGui
         - PyQt5.QtHelp
@@ -136,25 +159,23 @@ outputs:
         - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
         - pyuic5 --version  # [not win]
 
-  - name: pyqtwebengine
-    version: {{ webengine_version }}
-    script: build-pyqtwebengine.sh   # [not win]
-    script: bld-pyqtwebengine.bat  # [win]
+  - name: {{ webengine_name|lower }}
+    version: {{ version }}
+    script: webengine_build.sh  # [not win]
+    script: webengine_bld.bat  # [win]
     requirements:
-      run_constrained:                                            # [osx]
-        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
+      run_constrained:                                             # [osx and x86_64]
+        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
       build:
-        # We may want to find and add a Python dbus library?
-        # pkg-config --cflags-only-I --libs dbus-1
-        # The Python dbus module doesn't seem to be installed.
-        - {{ compiler('cxx') }}
         - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
         - {{ cdt('libx11-devel') }}          # [linux]
-        - {{ cdt('libxcb') }}                # [linux]
+        - {{ cdt('libxext') }}               # [linux]
         - {{ cdt('libxext-devel') }}         # [linux]
         - {{ cdt('libxrender-devel') }}      # [linux]
         - {{ cdt('mesa-libgl-devel') }}      # [linux]
+        - {{ cdt('mesa-libegl') }}           # [linux]
         - {{ cdt('mesa-libegl-devel') }}     # [linux]
         - {{ cdt('mesa-dri-drivers') }}      # [linux]
         - {{ cdt('libxau-devel') }}          # [linux]
@@ -169,51 +190,74 @@ outputs:
         - {{ cdt('pciutils-devel') }}        # [linux]
         - {{ cdt('libxscrnsaver-devel') }}   # [linux]
         - {{ cdt('libxtst-devel') }}         # [linux]
+        - {{ cdt('libselinux') }}            # [linux]
         - {{ cdt('libselinux-devel') }}      # [linux]
         - {{ cdt('libxdamage') }}            # [linux]
+        - {{ cdt('libxdamage-devel') }}      # [linux]
         - {{ cdt('libxfixes') }}             # [linux]
+        - {{ cdt('libxfixes-devel') }}       # [linux]
         - {{ cdt('libxxf86vm') }}            # [linux]
-        - {{ cdt('mesa-libgbm') }}           # [linux]
-        - make                               # [not win]
-        - jom                                # [win]
-        - pkg-config                         # [not win]
+        - {{ cdt('libxxf86vm-devel') }}      # [linux]
+        - {{ cdt('libsm-devel') }}           # [linux]
+        - {{ cdt('libice-devel') }}          # [linux]
+        - {{ cdt('libxcb') }}                # [linux]
+        - {{ cdt('libxcb-devel') }}          # [linux]
+        - {{ cdt('expat-devel') }}           # [linux]
+        - {{ cdt('pcre') }}                  # [linux]
+        - {{ cdt('libglvnd-glx') }}          # [linux]
+        - {{ cdt('libglvnd-egl') }}          # [linux]
+        - {{ cdt('libxkbcommon-devel') }}    # [linux]
+        - {{ cdt('xcb-util-devel') }}        # [linux]
+        - {{ cdt('xcb-util-image-devel') }}  # [linux]
+        - {{ cdt('xcb-util-keysyms-devel') }}     # [linux]
+        - {{ cdt('xcb-util-renderutil-devel') }}  # [linux]
+        - {{ cdt('xcb-util-wm-devel') }}          # [linux]
+        - jom                                    # [win]
+        - python                                 # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+        - pyqt-builder                           # [build_platform != target_platform]
+        - sip                                    # [build_platform != target_platform]
+        - make
       host:
-        - {{ pin_subpackage('pyqt-impl', exact=True) }}
-        - {{ cdt('mesa-libgl-devel') }}      # [linux]
-        - dbus                               # [not win]
-        # one unconstrained to pick up global pinning + a lower bound
-        - qt
-        - qt >=5.12.9
         - python
+        - pip
+        - sip                                    # [build_platform == target_platform]
+        - toml
+        - pyqt-builder                           # [build_platform == target_platform]
+        - packaging
+        - qt-main
+        - qt-webengine
+        - pyqt-impl
+        - {{ cdt('mesa-libgl-devel') }}          # [linux]
+        - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
         - python
-        - {{ pin_compatible("qt", max_pin="x.x") }}
-        - {{ pin_subpackage('pyqt-impl', exact=True) }}
+        - {{ pin_compatible("qt-main", max_pin="x.x") }}
+        - {{ pin_compatible("qt-webengine", max_pin="x.x") }}
+        - {{ pin_subpackage('pyqt-impl', max_pin='x.x') }}
     test:
       imports:
         - PyQt5.QtWebEngine
         - PyQt5.QtWebEngineCore
         - PyQt5.QtWebEngineWidgets
 
-  - name: pyqtchart
-    version: {{ chart_version }}
-    script: build-pyqtcharts.sh   # [not win]
-    script: bld-pyqtcharts.bat  # [win]
+  - name: {{ charts_name|lower }}
+    version: {{ version }}
+    script: charts_build.sh  # [not win]
+    script: charts_bld.bat  # [win]
     requirements:
-      run_constrained:                                            # [osx]
-        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
+      run_constrained:                                             # [osx and x86_64]
+        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
       build:
-        # We may want to find and add a Python dbus library?
-        # pkg-config --cflags-only-I --libs dbus-1
-        # The Python dbus module doesn't seem to be installed.
-        - {{ compiler('cxx') }}
         - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
         - {{ cdt('libx11-devel') }}          # [linux]
-        - {{ cdt('libxcb') }}                # [linux]
+        - {{ cdt('libxext') }}               # [linux]
         - {{ cdt('libxext-devel') }}         # [linux]
         - {{ cdt('libxrender-devel') }}      # [linux]
         - {{ cdt('mesa-libgl-devel') }}      # [linux]
+        - {{ cdt('mesa-libegl') }}           # [linux]
         - {{ cdt('mesa-libegl-devel') }}     # [linux]
         - {{ cdt('mesa-dri-drivers') }}      # [linux]
         - {{ cdt('libxau-devel') }}          # [linux]
@@ -228,45 +272,68 @@ outputs:
         - {{ cdt('pciutils-devel') }}        # [linux]
         - {{ cdt('libxscrnsaver-devel') }}   # [linux]
         - {{ cdt('libxtst-devel') }}         # [linux]
+        - {{ cdt('libselinux') }}            # [linux]
         - {{ cdt('libselinux-devel') }}      # [linux]
         - {{ cdt('libxdamage') }}            # [linux]
+        - {{ cdt('libxdamage-devel') }}      # [linux]
         - {{ cdt('libxfixes') }}             # [linux]
+        - {{ cdt('libxfixes-devel') }}       # [linux]
         - {{ cdt('libxxf86vm') }}            # [linux]
-        - {{ cdt('mesa-libgbm') }}           # [linux]
-        - make                               # [not win]
-        - jom                                # [win]
-        - pkg-config                         # [not win]
+        - {{ cdt('libxxf86vm-devel') }}      # [linux]
+        - {{ cdt('libsm-devel') }}           # [linux]
+        - {{ cdt('libice-devel') }}          # [linux]
+        - {{ cdt('libxcb') }}                # [linux]
+        - {{ cdt('libxcb-devel') }}          # [linux]
+        - {{ cdt('expat-devel') }}           # [linux]
+        - {{ cdt('pcre') }}                  # [linux]
+        - {{ cdt('libglvnd-glx') }}          # [linux]
+        - {{ cdt('libglvnd-egl') }}          # [linux]
+        - {{ cdt('libxkbcommon-devel') }}    # [linux]
+        - {{ cdt('xcb-util-devel') }}        # [linux]
+        - {{ cdt('xcb-util-image-devel') }}  # [linux]
+        - {{ cdt('xcb-util-keysyms-devel') }}     # [linux]
+        - {{ cdt('xcb-util-renderutil-devel') }}  # [linux]
+        - {{ cdt('xcb-util-wm-devel') }}          # [linux]
+        - jom                                    # [win]
+        - python                                 # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+        - pyqt-builder                           # [build_platform != target_platform]
+        - sip                                    # [build_platform != target_platform]
+        - make
       host:
-        - {{ pin_subpackage('pyqt-impl', exact=True) }}
-        - {{ cdt('mesa-libgl-devel') }}      # [linux]
-        - dbus                               # [not win]
-        # one unconstrained to pick up global pinning + a lower bound
-        - qt
-        - qt >=5.12.9
         - python
+        - pip
+        - sip                                    # [build_platform == target_platform]
+        - toml
+        - pyqt-builder                           # [build_platform == target_platform]
+        - packaging
+        - qt-main
+        - pyqt-impl
+        - {{ cdt('mesa-libgl-devel') }}          # [linux]
+        - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
         - python
-        - {{ pin_compatible("qt", max_pin="x.x") }}
-        - {{ pin_subpackage('pyqt-impl', exact=True) }}
+        - {{ pin_compatible("qt-main", max_pin="x.x") }}
+        - {{ pin_subpackage('pyqt-impl', max_pin='x.x') }}
     test:
       imports:
         - PyQt5.QtChart
 
-  - name: pyqt
+  - name: {{ name|lower }}
     build:
       run_exports:
         - {{ pin_subpackage('pyqt', max_pin='x.x') }}
     requirements:
-      run_constrained:                                            # [osx]
-        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
+      run_constrained:                                            # [osx and x86_64]
+        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
       host:
         - python
       run:
         - python
-        - {{ pin_subpackage('pyqt5-sip', exact=True) }}
-        - {{ pin_subpackage('pyqt-impl', exact=True) }}
-        - {{ pin_subpackage('pyqtwebengine', exact=True) }}
-        - {{ pin_subpackage('pyqtchart', exact=True) }}
+        - {{ pin_subpackage('pyqt5-sip', max_pin='x.x') }}
+        - {{ pin_subpackage('pyqt-impl', max_pin='x.x') }}
+        - {{ pin_subpackage('pyqtwebengine', max_pin='x.x') }}
+        - {{ pin_subpackage('pyqtchart', max_pin='x.x') }}
     test:
       files:
         - pyqt_test.py
@@ -299,22 +366,23 @@ outputs:
         - conda list  # [not win]
 
 about:
-  home: http://www.riverbankcomputing.co.uk/software/pyqt
-  license: LicenseRef-Commercial or GPL-2.0-only or GPL-3.0-only
+  home: https://www.riverbankcomputing.com/software/pyqt/
+  license: GPL-3.0-only
   license_family: GPL
-  license_file: pyqt5/LICENSE
-  summary: 'Python binding of the cross-platform GUI toolkit Qt.'
+  license_file: pyqt/LICENSE
+  summary: 'Python bindings for the Qt cross platform application toolkit'
+  # The remaining entries in this section are optional, but recommended.
   description: |
-    "PyQt is a set of Python v2 and v3 bindings for The Qt Company's Qt
-    application framework and runs on all platforms supported by Qt including
-    Windows, MacOS/X and Linux. PyQt5 supports Qt v5. PyQt4 supports Qt v4 and
-    will build against Qt v5. The bindings are implemented as a set of Python
-    modules and contain over 1,000 classes."
-  doc_url: https://www.riverbankcomputing.com/software/pyqt/
-  dev_url: https://github.com/pyqt
+    PyQt5 is a comprehensive set of Python bindings for Qt v5.
+    It is implemented as more than 35 extension modules and enables Python
+    to be used as an alternative application development language to C++ on
+    all supported platforms including iOS and Android.
+  doc_url: https://www.riverbankcomputing.com/static/Docs/PyQt5/
+  dev_url: https://www.riverbankcomputing.com/mailman/listinfo/pyqt/
 
 extra:
   recipe-maintainers:
+    - andfoy
     - ccordoba12
     - mingwandroid
     - gillins
