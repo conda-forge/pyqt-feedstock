@@ -1,23 +1,22 @@
-About pyqt_split
+About pyqt-split
 ================
 
-Home: http://www.riverbankcomputing.co.uk/software/pyqt
+Home: https://www.riverbankcomputing.com/software/pyqt/
 
-Package license: LicenseRef-Commercial or GPL-2.0-only or GPL-3.0-only
+Package license: GPL-3.0-only
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/pyqt-feedstock/blob/master/LICENSE.txt)
 
-Summary: Python binding of the cross-platform GUI toolkit Qt.
+Summary: Python bindings for the Qt cross platform application toolkit
 
-Development: https://github.com/pyqt
+Development: https://www.riverbankcomputing.com/mailman/listinfo/pyqt/
 
-Documentation: https://www.riverbankcomputing.com/software/pyqt/
+Documentation: https://www.riverbankcomputing.com/static/Docs/PyQt5/
 
-"PyQt is a set of Python v2 and v3 bindings for The Qt Company's Qt
-application framework and runs on all platforms supported by Qt including
-Windows, MacOS/X and Linux. PyQt5 supports Qt v5. PyQt4 supports Qt v4 and
-will build against Qt v5. The bindings are implemented as a set of Python
-modules and contain over 1,000 classes."
+PyQt5 is a comprehensive set of Python bindings for Qt v5.
+It is implemented as more than 35 extension modules and enables Python
+to be used as an alternative application development language to C++ on
+all supported platforms including iOS and Android.
 
 
 Current build status
@@ -168,10 +167,10 @@ Current release info
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyqtchart-green.svg)](https://anaconda.org/conda-forge/pyqtchart) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqtchart.svg)](https://anaconda.org/conda-forge/pyqtchart) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqtchart.svg)](https://anaconda.org/conda-forge/pyqtchart) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqtchart.svg)](https://anaconda.org/conda-forge/pyqtchart) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyqtwebengine-green.svg)](https://anaconda.org/conda-forge/pyqtwebengine) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqtwebengine.svg)](https://anaconda.org/conda-forge/pyqtwebengine) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqtwebengine.svg)](https://anaconda.org/conda-forge/pyqtwebengine) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqtwebengine.svg)](https://anaconda.org/conda-forge/pyqtwebengine) |
 
-Installing pyqt_split
+Installing pyqt-split
 =====================
 
-Installing `pyqt_split` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `pyqt-split` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
 
 ```
 conda config --add channels conda-forge
@@ -230,17 +229,17 @@ Terminology
                   produce the finished article (built conda distributions)
 
 
-Updating pyqt_split-feedstock
+Updating pyqt-split-feedstock
 =============================
 
-If you would like to improve the pyqt_split recipe or build a new
+If you would like to improve the pyqt-split recipe or build a new
 package version, please fork this repository and submit a PR. Upon submission,
 your changes will be run on the appropriate platforms to give the reviewer an
 opportunity to confirm that the changes result in a successful build. Once
 merged, the recipe will be re-built and uploaded automatically to the
 `conda-forge` channel, whereupon the built conda packages will be available for
 everybody to install and use from the `conda-forge` channel.
-Note that all branches in the conda-forge/pyqt_split-feedstock are
+Note that all branches in the conda-forge/pyqt-split-feedstock are
 immediately built and any created packages are uploaded, so PRs should be based
 on branches in forks and branches in the main repository should only be used to
 build distinct package versions.
@@ -255,6 +254,7 @@ In order to produce a uniquely identifiable distribution:
 Feedstock Maintainers
 =====================
 
+* [@andfoy](https://github.com/andfoy/)
 * [@ccordoba12](https://github.com/ccordoba12/)
 * [@gillins](https://github.com/gillins/)
 * [@jschueller](https://github.com/jschueller/)
