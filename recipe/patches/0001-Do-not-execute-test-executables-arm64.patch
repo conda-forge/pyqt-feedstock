@@ -1,0 +1,21 @@
+--- configure.py	2022-03-14 13:21:51.664620355 -0500
++++ configure.py	2022-03-14 13:25:25.448980272 -0500
+@@ -2438,7 +2438,11 @@
+ 
+     # Create the output file, first making sure it doesn't exist.
+     remove_file(out_file)
+-    run_command(test + ' ' + out_file, verbose)
++    if not bool(int(os.environ.get('CONDA_BUILD_CROSS_COMPILATION', '0'))):
++        run_command(test + ' ' + out_file, verbose)
++    else:
++        with open(out_file, 'w') as f:
++            f.write('shared\n')
+ 
+     if not os.access(out_file, os.F_OK):
+         error("%s failed to create %s. Make sure your Qt installation is correct." % (test, out_file))
+@@ -3155,3 +3159,4 @@
+ including the following traceback, to support@riverbankcomputing.com.
+ """)
+         raise
++|
+\ No hay ningún carácter de nueva línea al final del archivo
