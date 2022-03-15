@@ -19,8 +19,6 @@ source:
   - url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}{{ version[0] }}/{{ name }}{{ version[0] }}-{{ version }}.tar.gz
     sha256: 2a69597e0dd11caabe75fae133feca66387819fc9bc050f547e5551bce97e5be
     folder: pyqt
-    patches:
-      - patches/0001-Do-not-execute-test-executables-arm64.patch        # [arm64 and build_platform != target_platform]
 
   - url:  https://pypi.io/packages/source/{{ sip_name[0] }}/{{ sip_name }}/{{ sip_name.replace('-', '_') }}-{{ sip_version }}.tar.gz
     sha256: d3e4489d7c2b0ece9d203ae66e573939f7f60d4d29e089c9f11daa17cfeaae32
