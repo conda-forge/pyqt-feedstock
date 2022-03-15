@@ -6,6 +6,8 @@ provider:
   linux_aarch64: azure
 build_platform:
   osx_arm64: osx_64
+  linux_aarch64: linux_64
 os_version:
   linux_64: cos7
+test: native
 conda_forge_output_validation: true
