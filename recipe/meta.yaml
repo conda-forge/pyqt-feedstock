@@ -34,12 +34,13 @@ source:
 
 build:
   number: 0
+  skip: true  # [ppcle64]
 
 outputs:
   - name: {{ sip_name|lower }}
     version: {{ sip_version }}
-    script: pyqt_sip_build.sh   # [not win]
-    script: pyqt_sip_bld.bat    # [win]
+    script: build-pyqt-sip.sh   # [not win]
+    script: bld-pyqt-sip.bat    # [win]
     requirements:
       build:
         - {{ compiler('c') }}
@@ -62,8 +63,8 @@ outputs:
 
   - name: pyqt-impl
     version: {{ version }}
-    script: pyqt_build.sh  # [not win]
-    script: pyqt_bld.bat  # [win]
+    script: build-pyqt.sh  # [not win]
+    script: bld-pyqt.bat  # [win]
     requirements:
       run_constrained:                                            # [osx and x86_64]
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
@@ -161,8 +162,8 @@ outputs:
 
   - name: {{ webengine_name|lower }}
     version: {{ version }}
-    script: webengine_build.sh  # [not win]
-    script: webengine_bld.bat  # [win]
+    script: build-pyqtwebengine.sh  # [not win]
+    script: bld-pyqtwebengine.bat  # [win]
     requirements:
       run_constrained:                                             # [osx and x86_64]
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
@@ -243,8 +244,8 @@ outputs:
 
   - name: {{ charts_name|lower }}
     version: {{ version }}
-    script: charts_build.sh  # [not win]
-    script: charts_bld.bat  # [win]
+    script: build-pyqtcharts.sh  # [not win]
+    script: bld-pyqtcharts.bat  # [win]
     requirements:
       run_constrained:                                             # [osx and x86_64]
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
