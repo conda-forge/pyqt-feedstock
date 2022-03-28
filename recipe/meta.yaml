@@ -61,10 +61,13 @@ outputs:
       imports:
         - PyQt5.sip
 
-  - name: pyqt-impl
+  - name: {{ name|lower }}
     version: {{ version }}
     script: build-pyqt.sh  # [not win]
     script: bld-pyqt.bat  # [win]
+    build:
+      run_exports:
+        - {{ pin_subpackage('pyqt', max_pin='x.x') }}
     requirements:
       run_constrained:                                            # [osx and x86_64]
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
@@ -139,6 +142,7 @@ outputs:
         - pyqt_test.py
       imports:
         - PyQt5
+        - PyQt5.sip
         - PyQt5.QtCore
         - PyQt5.QtGui
         - PyQt5.QtHelp
@@ -164,6 +168,9 @@ outputs:
     version: {{ version }}
     script: build-pyqtwebengine.sh  # [not win]
     script: bld-pyqtwebengine.bat  # [win]
+    build:
+      run_exports:
+        - {{ pin_subpackage('pyqtwebengine', max_pin='x.x') }}
     requirements:
       run_constrained:                                             # [osx and x86_64]
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
@@ -226,16 +233,16 @@ outputs:
         - toml
         - pyqt-builder                           # [build_platform == target_platform]
         - packaging
+        - pyqt
         - qt-main
         - qt-webengine
-        - pyqt-impl
         - {{ cdt('mesa-libgl-devel') }}          # [linux]
         - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
         - python
         - {{ pin_compatible("qt-main", max_pin="x.x") }}
         - {{ pin_compatible("qt-webengine", max_pin="x.x") }}
-        - {{ pin_subpackage('pyqt-impl', max_pin='x.x') }}
+        - {{ pin_subpackage('pyqt', max_pin='x.x') }}
     test:
       imports:
         - PyQt5.QtWebEngine
@@ -246,6 +253,9 @@ outputs:
     version: {{ version }}
     script: build-pyqtcharts.sh  # [not win]
     script: bld-pyqtcharts.bat  # [win]
+    build:
+      run_exports:
+        - {{ pin_subpackage('pyqtchart', max_pin='x.x') }}
     requirements:
       run_constrained:                                             # [osx and x86_64]
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
@@ -309,62 +319,16 @@ outputs:
         - pyqt-builder                           # [build_platform == target_platform]
         - packaging
         - qt-main
-        - pyqt-impl
+        - pyqt
         - {{ cdt('mesa-libgl-devel') }}          # [linux]
         - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
         - python
         - {{ pin_compatible("qt-main", max_pin="x.x") }}
-        - {{ pin_subpackage('pyqt-impl', max_pin='x.x') }}
-    test:
-      imports:
-        - PyQt5.QtChart
-
-  - name: {{ name|lower }}
-    build:
-      run_exports:
         - {{ pin_subpackage('pyqt', max_pin='x.x') }}
-    requirements:
-      run_constrained:                                            # [osx and x86_64]
-        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
-      host:
-        - python
-      run:
-        - python
-        - {{ pin_subpackage('pyqt5-sip', max_pin='x.x') }}
-        - {{ pin_subpackage('pyqt-impl', max_pin='x.x') }}
-        - {{ pin_subpackage('pyqtwebengine', max_pin='x.x') }}
-        - {{ pin_subpackage('pyqtchart', max_pin='x.x') }}
     test:
-      files:
-        - pyqt_test.py
       imports:
-        - PyQt5.sip
         - PyQt5.QtChart
-        - PyQt5.QtCore
-        - PyQt5.QtGui
-        - PyQt5.QtHelp
-        - PyQt5.QtMultimedia
-        - PyQt5.QtMultimediaWidgets
-        - PyQt5.QtNetwork
-        - PyQt5.QtOpenGL
-        - PyQt5.QtPrintSupport
-        - PyQt5.QtQml
-        - PyQt5.QtQuick
-        - PyQt5.QtSvg
-        - PyQt5.QtTest
-        - PyQt5.QtWebChannel
-        - PyQt5.QtWebEngine
-        - PyQt5.QtWebEngineCore
-        - PyQt5.QtWebEngineWidgets
-        - PyQt5.QtWebSockets
-        - PyQt5.QtWidgets
-        - PyQt5.QtXml
-        - PyQt5.QtXmlPatterns
-      commands:
-        - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
-        - pyuic5 --version  # [not win]
-        - conda list  # [not win]
 
 about:
   home: https://www.riverbankcomputing.com/software/pyqt/
