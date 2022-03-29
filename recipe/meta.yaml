@@ -34,10 +34,10 @@ source:
 
 build:
   number: 0
-  skip: true  # [ppcle64]
+  skip: true  # [ppc64le]
 
 outputs:
-  - name: {{ sip_name|lower }}
+  - name: pyqt5-sip
     version: {{ sip_version }}
     script: build-pyqt-sip.sh   # [not win]
     script: bld-pyqt-sip.bat    # [win]
