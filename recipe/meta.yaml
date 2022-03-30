@@ -61,7 +61,7 @@ outputs:
       imports:
         - PyQt5.sip
 
-  - name: {{ name|lower }}
+  - name: pyqt
     version: {{ version }}
     script: build-pyqt.sh  # [not win]
     script: bld-pyqt.bat  # [win]
@@ -164,7 +164,7 @@ outputs:
         - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
         - pyuic5 --version  # [not win]
 
-  - name: {{ webengine_name|lower }}
+  - name: pyqtwebengine
     version: {{ version }}
     script: build-pyqtwebengine.sh  # [not win]
     script: bld-pyqtwebengine.bat  # [win]
@@ -249,7 +249,7 @@ outputs:
         - PyQt5.QtWebEngineCore
         - PyQt5.QtWebEngineWidgets
 
-  - name: {{ charts_name|lower }}
+  - name: pyqtchart
     version: {{ version }}
     script: build-pyqtcharts.sh  # [not win]
     script: bld-pyqtcharts.bat  # [win]
