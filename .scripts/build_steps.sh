@@ -44,7 +44,7 @@ source run_conda_forge_build_setup
 # "recipe/yum_requirements.txt" file. After updating that file,
 # run "conda smithy rerender" and this line will be updated
 # automatically.
-/usr/bin/sudo -n yum install -y libX11 libXext libXrender mesa-libGL mesa-libEGL mesa-dri-drivers libXau alsa-lib gtk2 gtkmm24 libdrm libXcomposite libXcursor libXi libXrandr pciutils libXScrnSaver libXtst libselinux libXdamage libXfixes libXxf86vm libSM libICE libxcb expat pcre libglvnd-glx libglvnd-egl libxkbcommon xcb-util xcb-util-image xcb-util-keysyms xcb-util-renderutil xcb-util-wm xorg-x11-server-Xvfb
+/usr/bin/sudo -n yum install -y alsa-lib expat gtk2 gtkmm24 libdrm libglvnd-egl libglvnd-glx libICE libselinux libSM libX11 libXau libxcb libXcomposite libXcursor libXdamage libXext libXfixes libXi libxkbcommon libXrandr libXrender libXScrnSaver libXtst libXxf86vm mesa-dri-drivers mesa-libEGL mesa-libGL pciutils pcre xcb-util xcb-util-image xcb-util-keysyms xcb-util-renderutil xcb-util-wm xorg-x11-server-Xvfb
 
 
 # make the build number clobber
