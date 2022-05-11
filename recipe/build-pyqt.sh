@@ -1,81 +1,58 @@
-#!/bin/bash
+set -exou
 
-set -e # Abort on error.
+pushd pyqt
+cp LICENSE ..
 
-declare -a _extra_modules
-# Avoid Xcode
-if [[ ${HOST} =~ .*darwin.* ]]; then
-  PATH=${PREFIX}/bin/xc-avoidance:${PATH}
-    _extra_modules+=(--enable)
-    _extra_modules+=(QtMacExtras)
-else
-    _extra_modules+=(--enable)
-    _extra_modules+=(QtX11Extras)
+SIP_COMMAND="sip-build"
+EXTRA_FLAGS=""
+
+if [[ $(uname) == "Linux" ]]; then
+    USED_BUILD_PREFIX=${BUILD_PREFIX:-${PREFIX}}
+    echo USED_BUILD_PREFIX=${BUILD_PREFIX}
+
+    ln -s ${GXX} g++ || true
+    ln -s ${GCC} gcc || true
+    ln -s ${USED_BUILD_PREFIX}/bin/${HOST}-gcc-ar gcc-ar || true
+
+    export LD=${GXX}
+    export CC=${GCC}
+    export CXX=${GXX}
+    export PKG_CONFIG_EXECUTABLE=$(basename $(which pkg-config))
+
+    chmod +x g++ gcc gcc-ar
+    export PATH=${PWD}:${PATH}
+
+    SYSROOT_FLAGS="-L ${BUILD_PREFIX}/${HOST}/sysroot/usr/lib64 -L ${BUILD_PREFIX}/${HOST}/sysroot/usr/lib"
+    export CFLAGS="$SYSROOT_FLAGS $CFLAGS"
+    export CXXFLAGS="$SYSROOT_FLAGS $CXXFLAGS"
+    export LDFLAGS="$SYSROOT_FLAGS $LDFLAGS"
 fi
 
+if [[ $(uname) == "Darwin" ]]; then
+    # Use xcode-avoidance scripts
+    export PATH=$PREFIX/bin/xc-avoidance:$PATH
+fi
 
-# Dumb .. is this Qt or PyQt's fault? (or mine, more likely).
-# The spec file could be bad, or PyQt could be missing the
-# ability to set QMAKE_CXX
-mkdir bin || true
-pushd bin
-  ln -s ${GXX} g++ || true
-  ln -s ${GCC} gcc || true
-popd
-export PATH=${PWD}/bin:${PATH}
+if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
+  SIP_COMMAND="$BUILD_PREFIX/bin/python -m sipbuild.tools.build"
+  SITE_PKGS_PATH=$($PREFIX/bin/python -c 'import site;print(site.getsitepackages()[0])')
+  EXTRA_FLAGS="--target-dir $SITE_PKGS_PATH"
+fi
 
-## Future:
-#        --enable Qt3DAnimation \
-#        --enable Qt3DCore \
-#        --enable Qt3DExtras \
-#        --enable Qt3DInput \
-#        --enable Qt3DLogic \
-#        --enable Qt3DRender \
+$SIP_COMMAND \
+--verbose \
+--confirm-license \
+--no-make \
+$EXTRA_FLAGS
 
-## create alias for libGL.so
-#ln -s ${PREFIX}/x86_64-conda_cos6-linux-gnu/sysroot/usr/lib64/libGL.so.1 \
-#      ${PREFIX}/x86_64-conda_cos6-linux-gnu/sysroot/usr/lib64/libGL.so
+pushd build
 
-## START BUILD
-echo -e "\n************** start building PyQt5 **************\n"
-cd pyqt5
-$PYTHON configure.py \
-        --verbose \
-        --confirm-license \
-        --assume-shared \
-        --enable QtWidgets \
-        --enable QtGui \
-        --enable QtCore \
-        --enable QtHelp \
-        --enable QtMultimedia \
-        --enable QtMultimediaWidgets \
-        --enable QtNetwork \
-        --enable QtXml \
-        --enable QtXmlPatterns \
-        --enable QtDBus \
-        --enable QtWebSockets \
-        --enable QtWebChannel \
-        --enable QtNfc \
-        --enable QtOpenGL \
-        --enable QtQml \
-        --enable QtQuick \
-        --enable QtQuickWidgets \
-        --enable QtSql \
-        --enable QtSvg \
-        --enable QtDesigner \
-        --enable QtPrintSupport \
-        --enable QtSensors \
-        --enable QtTest \
-        --enable QtBluetooth \
-        --enable QtLocation \
-        --enable QtPositioning \
-        --enable QtSerialPort \
-        --pyuic5-interpreter=`which python` \
-        "${_extra_modules[@]}" \
-        -q ${PREFIX}/bin/qmake
+if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
+  # Make sure BUILD_PREFIX sip-distinfo is called instead of the HOST one
+  cat Makefile | sed -r 's|\t(.*)sip-distinfo(.*)|\t'$BUILD_PREFIX/bin/python' -m sipbuild.distinfo.main \2|' > Makefile.temp
+  rm Makefile
+  mv Makefile.temp Makefile
+fi
 
-make -j${CPU_COUNT} ${VERBOSE_AT}
-make check
+CPATH=$PREFIX/include make -j$CPU_COUNT
 make install
-cd ../
-echo -e "\n******************* built PyQt5 ******************\n"

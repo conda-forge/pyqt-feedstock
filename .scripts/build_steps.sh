@@ -5,6 +5,8 @@
 # changes to this script, consider a proposal to conda-smithy so that other feedstocks can also
 # benefit from the improvement.
 
+# -*- mode: jinja-shell -*-
+
 set -xeuo pipefail
 export FEEDSTOCK_ROOT="${FEEDSTOCK_ROOT:-/home/conda/feedstock_root}"
 source ${FEEDSTOCK_ROOT}/.scripts/logging_utils.sh
@@ -25,10 +27,12 @@ conda-build:
  root-dir: ${FEEDSTOCK_ROOT}/build_artifacts
 
 CONDARC
-GET_BOA=boa
-BUILD_CMD=mambabuild
 
-conda install --yes --quiet "conda-forge-ci-setup=3" conda-build pip ${GET_BOA:-} -c conda-forge
+
+mamba install --update-specs --yes --quiet --channel conda-forge \
+    conda-build pip boa conda-forge-ci-setup=3
+mamba update --update-specs --yes --quiet --channel conda-forge \
+    conda-build pip boa conda-forge-ci-setup=3
 
 # set up the condarc
 setup_conda_rc "${FEEDSTOCK_ROOT}" "${RECIPE_ROOT}" "${CONFIG_FILE}"
@@ -40,13 +44,15 @@ source run_conda_forge_build_setup
 # "recipe/yum_requirements.txt" file. After updating that file,
 # run "conda smithy rerender" and this line will be updated
 # automatically.
-/usr/bin/sudo -n yum install -y xorg-x11-server-Xvfb gtk2-devel libXScrnSaver libXtst alsa-lib mesa-libGL mesa-libEGL gtkmm24 pciutils libselinux mesa-libgbm
+/usr/bin/sudo -n yum install -y alsa-lib expat gtk2 gtkmm24 libdrm libglvnd-egl libglvnd-glx libICE libselinux libSM libX11 libXau libxcb libXcomposite libXcursor libXdamage libXext libXfixes libXi libxkbcommon libXrandr libXrender libXScrnSaver libXtst libXxf86vm mesa-dri-drivers mesa-libEGL mesa-libGL pciutils pcre xcb-util xcb-util-image xcb-util-keysyms xcb-util-renderutil xcb-util-wm xorg-x11-server-Xvfb
 
 
 # make the build number clobber
 make_build_number "${FEEDSTOCK_ROOT}" "${RECIPE_ROOT}" "${CONFIG_FILE}"
 
-
+if [[ "${HOST_PLATFORM}" != "${BUILD_PLATFORM}" ]] && [[ "${BUILD_WITH_CONDA_DEBUG:-0}" != 1 ]]; then
+    EXTRA_CB_OPTIONS="${EXTRA_CB_OPTIONS:-} --no-test"
+fi
 
 ( endgroup "Configuring conda" ) 2> /dev/null
 
@@ -61,7 +67,7 @@ if [[ "${BUILD_WITH_CONDA_DEBUG:-0}" == 1 ]]; then
     # Drop into an interactive shell
     /bin/bash
 else
-    conda $BUILD_CMD "${RECIPE_ROOT}" -m "${CI_SUPPORT}/${CONFIG}.yaml" \
+    conda mambabuild "${RECIPE_ROOT}" -m "${CI_SUPPORT}/${CONFIG}.yaml" \
         --suppress-variables ${EXTRA_CB_OPTIONS:-} \
         --clobber-file "${CI_SUPPORT}/clobber_${CONFIG}.yaml"
     ( startgroup "Validating outputs" ) 2> /dev/null

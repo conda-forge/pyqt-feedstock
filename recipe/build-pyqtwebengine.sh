@@ -1,46 +1,60 @@
-#!/bin/bash
+set -exou
 
-set -e # Abort on error.
+pushd pyqt_webengine
 
-declare -a _extra_modules
-# Avoid Xcode
-if [[ ${HOST} =~ .*darwin.* ]]; then
-  PATH=${PREFIX}/bin/xc-avoidance:${PATH}
-    _extra_modules+=(--enable)
-    _extra_modules+=(QtMacExtras)
-else
-    _extra_modules+=(--enable)
-    _extra_modules+=(QtX11Extras)
+SIP_COMMAND="sip-build"
+EXTRA_FLAGS=""
+
+if [[ $(uname) == "Linux" ]]; then
+    USED_BUILD_PREFIX=${BUILD_PREFIX:-${PREFIX}}
+    echo USED_BUILD_PREFIX=${BUILD_PREFIX}
+
+    ln -s ${GXX} g++ || true
+    ln -s ${GCC} gcc || true
+    ln -s ${USED_BUILD_PREFIX}/bin/${HOST}-gcc-ar gcc-ar || true
+
+    export LD=${GXX}
+    export CC=${GCC}
+    export CXX=${GXX}
+    export PKG_CONFIG_EXECUTABLE=$(basename $(which pkg-config))
+
+    chmod +x g++ gcc gcc-ar
+    export PATH=${PWD}:${PATH}
 fi
 
+if [[ $(uname) == "Darwin" ]]; then
+    # Use xcode-avoidance scripts
+    export PATH=$PREFIX/bin/xc-avoidance:$PATH
+fi
 
-# Dumb .. is this Qt or PyQt's fault? (or mine, more likely).
-# The spec file could be bad, or PyQt could be missing the
-# ability to set QMAKE_CXX
-mkdir bin || true
-pushd bin
-  ln -s ${GXX} g++ || true
-  ln -s ${GCC} gcc || true
-popd
-export PATH=${PWD}/bin:${PATH}
+if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
+  SIP_COMMAND="$BUILD_PREFIX/bin/python -m sipbuild.tools.build"
+  SITE_PKGS_PATH=$($PREFIX/bin/python -c 'import site;print(site.getsitepackages()[0])')
+  EXTRA_FLAGS="--target-dir $SITE_PKGS_PATH"
 
-## Future:
-#        --enable Qt3DAnimation \
-#        --enable Qt3DCore \
-#        --enable Qt3DExtras \
-#        --enable Qt3DInput \
-#        --enable Qt3DLogic \
-#        --enable Qt3DRender \
+  PYQT5_LOCATION=$($BUILD_PREFIX/bin/python -c 'import PyQt5;import os;print(os.path.join(os.path.dirname(PyQt5.__file__), "bindings"))')
+  awk 'NR==25{$0="sip-include-dirs = [\"'$PYQT5_LOCATION'\"]\n"}1' pyproject.toml >  pyproject.toml.tmp
+  rm pyproject.toml
+  mv pyproject.toml.tmp pyproject.toml
+fi
 
-## create alias for libGL.so
-#ln -s ${PREFIX}/x86_64-conda_cos6-linux-gnu/sysroot/usr/lib64/libGL.so.1 \
-#      ${PREFIX}/x86_64-conda_cos6-linux-gnu/sysroot/usr/lib64/libGL.so
+$SIP_COMMAND \
+--verbose \
+--no-make \
+$EXTRA_FLAGS
 
-# install PyQtWebEngine
-echo -e "\n************** start building PyQtWebEngine **************\n"
-cd pyqtwebengine
-${PYTHON} configure.py
-make -j${CPU_COUNT} ${VERBOSE_AT}
+pushd build
+if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
+  # Make sure BUILD_PREFIX sip-distinfo is called instead of the HOST one
+  cat Makefile | sed -r 's|\t(.*)sip-distinfo(.*)|\t'$BUILD_PREFIX/bin/python' -m sipbuild.distinfo.main \2|' > Makefile.temp
+  rm Makefile
+  mv Makefile.temp Makefile
+
+  # For some reason SIP does not add the QtPrintSupport headers
+  cat QtWebEngineWidgets/Makefile | sed -r 's|INCPATH       =(.*)|INCPATH       =\1 -I'$PREFIX/include/qt/QtPrintSupport'|' > QtWebEngineWidgets/Makefile.temp
+  rm QtWebEngineWidgets/Makefile
+  mv QtWebEngineWidgets/Makefile.temp QtWebEngineWidgets/Makefile
+fi
+
+CPATH=$PREFIX/include make -j$CPU_COUNT
 make install
-cd ../
-echo -e "\n****************** built PyQtWebEngine *******************\n"

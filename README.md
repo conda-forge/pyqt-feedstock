@@ -1,23 +1,22 @@
-About pyqt_split
-================
+About pyqt
+==========
 
-Home: http://www.riverbankcomputing.co.uk/software/pyqt
+Home: https://www.riverbankcomputing.com/software/pyqt/
 
-Package license: LicenseRef-Commercial or GPL-2.0-only or GPL-3.0-only
+Package license: GPL-3.0-only
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/pyqt-feedstock/blob/master/LICENSE.txt)
 
-Summary: Python binding of the cross-platform GUI toolkit Qt.
+Summary: Python bindings for the Qt cross platform application toolkit
 
-Development: https://github.com/pyqt
+Development: https://www.riverbankcomputing.com/mailman/listinfo/pyqt/
 
-Documentation: https://www.riverbankcomputing.com/software/pyqt/
+Documentation: https://www.riverbankcomputing.com/static/Docs/PyQt5/
 
-"PyQt is a set of Python v2 and v3 bindings for The Qt Company's Qt
-application framework and runs on all platforms supported by Qt including
-Windows, MacOS/X and Linux. PyQt5 supports Qt v5. PyQt4 supports Qt v4 and
-will build against Qt v5. The bindings are implemented as a set of Python
-modules and contain over 1,000 classes."
+PyQt5 is a comprehensive set of Python bindings for Qt v5.
+It is implemented as more than 35 extension modules and enables Python
+to be used as an alternative application development language to C++ on
+all supported platforms including iOS and Android.
 
 
 Current build status
@@ -122,6 +121,27 @@ Current build status
                 </a>
               </td>
             </tr><tr>
+              <td>osx_arm64_python3.10.____cpython</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4133&branchName=master">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/pyqt-feedstock?branchName=master&jobName=osx&configuration=osx_arm64_python3.10.____cpython" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_arm64_python3.8.____cpython</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4133&branchName=master">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/pyqt-feedstock?branchName=master&jobName=osx&configuration=osx_arm64_python3.8.____cpython" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_arm64_python3.9.____cpython</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4133&branchName=master">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/pyqt-feedstock?branchName=master&jobName=osx&configuration=osx_arm64_python3.9.____cpython" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
               <td>win_64_python3.10.____cpython</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4133&branchName=master">
@@ -163,31 +183,55 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt-green.svg)](https://anaconda.org/conda-forge/pyqt) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt.svg)](https://anaconda.org/conda-forge/pyqt) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt.svg)](https://anaconda.org/conda-forge/pyqt) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt.svg)](https://anaconda.org/conda-forge/pyqt) |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt--impl-green.svg)](https://anaconda.org/conda-forge/pyqt-impl) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt-impl.svg)](https://anaconda.org/conda-forge/pyqt-impl) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt-impl.svg)](https://anaconda.org/conda-forge/pyqt-impl) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt-impl.svg)](https://anaconda.org/conda-forge/pyqt-impl) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt5--sip-green.svg)](https://anaconda.org/conda-forge/pyqt5-sip) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt5-sip.svg)](https://anaconda.org/conda-forge/pyqt5-sip) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt5-sip.svg)](https://anaconda.org/conda-forge/pyqt5-sip) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt5-sip.svg)](https://anaconda.org/conda-forge/pyqt5-sip) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyqtchart-green.svg)](https://anaconda.org/conda-forge/pyqtchart) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqtchart.svg)](https://anaconda.org/conda-forge/pyqtchart) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqtchart.svg)](https://anaconda.org/conda-forge/pyqtchart) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqtchart.svg)](https://anaconda.org/conda-forge/pyqtchart) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyqtwebengine-green.svg)](https://anaconda.org/conda-forge/pyqtwebengine) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqtwebengine.svg)](https://anaconda.org/conda-forge/pyqtwebengine) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqtwebengine.svg)](https://anaconda.org/conda-forge/pyqtwebengine) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqtwebengine.svg)](https://anaconda.org/conda-forge/pyqtwebengine) |
 
-Installing pyqt_split
-=====================
+Installing pyqt
+===============
 
-Installing `pyqt_split` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `pyqt` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
 
 ```
 conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `pyqt, pyqt-impl, pyqt5-sip, pyqtchart, pyqtwebengine` can be installed with:
+Once the `conda-forge` channel has been enabled, `pyqt, pyqt5-sip, pyqtchart, pyqtwebengine` can be installed with `conda`:
 
 ```
-conda install pyqt pyqt-impl pyqt5-sip pyqtchart pyqtwebengine
+conda install pyqt pyqt5-sip pyqtchart pyqtwebengine
 ```
 
-It is possible to list all of the versions of `pyqt` available on your platform with:
+or with `mamba`:
+
+```
+mamba install pyqt pyqt5-sip pyqtchart pyqtwebengine
+```
+
+It is possible to list all of the versions of `pyqt` available on your platform with `conda`:
 
 ```
 conda search pyqt --channel conda-forge
+```
+
+or with `mamba`:
+
+```
+mamba search pyqt --channel conda-forge
+```
+
+Alternatively, `mamba repoquery` may provide more information:
+
+```
+# Search all versions available on your platform:
+mamba repoquery search pyqt --channel conda-forge
+
+# List packages depending on `pyqt`:
+mamba repoquery whoneeds pyqt --channel conda-forge
+
+# List dependencies of `pyqt`:
+mamba repoquery depends pyqt --channel conda-forge
 ```
 
 
@@ -205,10 +249,12 @@ for each of the installable packages. Such a repository is known as a *feedstock
 A feedstock is made up of a conda recipe (the instructions on what and how to build
 the package) and the necessary configurations for automatic building using freely
 available continuous integration services. Thanks to the awesome service provided by
-[CircleCI](https://circleci.com/), [AppVeyor](https://www.appveyor.com/)
-and [TravisCI](https://travis-ci.com/) it is possible to build and upload installable
-packages to the [conda-forge](https://anaconda.org/conda-forge)
-[Anaconda-Cloud](https://anaconda.org/) channel for Linux, Windows and OSX respectively.
+[Azure](https://azure.microsoft.com/en-us/services/devops/), [GitHub](https://github.com/),
+[CircleCI](https://circleci.com/), [AppVeyor](https://www.appveyor.com/),
+[Drone](https://cloud.drone.io/welcome), and [TravisCI](https://travis-ci.com/)
+it is possible to build and upload installable packages to the
+[conda-forge](https://anaconda.org/conda-forge) [Anaconda-Cloud](https://anaconda.org/)
+channel for Linux, Windows and OSX respectively.
 
 To manage the continuous integration and simplify feedstock maintenance
 [conda-smithy](https://github.com/conda-forge/conda-smithy) has been developed.
@@ -230,17 +276,17 @@ Terminology
                   produce the finished article (built conda distributions)
 
 
-Updating pyqt_split-feedstock
-=============================
+Updating pyqt-feedstock
+=======================
 
-If you would like to improve the pyqt_split recipe or build a new
+If you would like to improve the pyqt recipe or build a new
 package version, please fork this repository and submit a PR. Upon submission,
 your changes will be run on the appropriate platforms to give the reviewer an
 opportunity to confirm that the changes result in a successful build. Once
 merged, the recipe will be re-built and uploaded automatically to the
 `conda-forge` channel, whereupon the built conda packages will be available for
 everybody to install and use from the `conda-forge` channel.
-Note that all branches in the conda-forge/pyqt_split-feedstock are
+Note that all branches in the conda-forge/pyqt-feedstock are
 immediately built and any created packages are uploaded, so PRs should be based
 on branches in forks and branches in the main repository should only be used to
 build distinct package versions.
@@ -255,6 +301,7 @@ In order to produce a uniquely identifiable distribution:
 Feedstock Maintainers
 =====================
 
+* [@andfoy](https://github.com/andfoy/)
 * [@ccordoba12](https://github.com/ccordoba12/)
 * [@gillins](https://github.com/gillins/)
 * [@jschueller](https://github.com/jschueller/)
