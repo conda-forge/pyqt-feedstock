@@ -36,6 +36,8 @@ outputs:
     script: bld-pyqt-sip.bat    # [win]
     requirements:
       build:
+        - python                                 # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - python                                 # [build_platform != target_platform]

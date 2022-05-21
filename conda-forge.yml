@@ -1,16 +1,13 @@
-compiler_stack: comp7
-max_py_ver: '37'
-max_r_ver: '35'
-provider:
-  win: azure
-  linux_aarch64: azure
 build_platform:
   osx_arm64: osx_64
-  linux_aarch64: linux_64
-os_version:
-  linux_64: cos7
-test: native
 conda_forge_output_validation: true
 github:
   branch_name: main
   tooling_branch_name: main
+os_version:
+  linux_64: cos7
+provider:
+  linux_aarch64: azure
+  win: azure
+test: native
+test_on_native_only: true
