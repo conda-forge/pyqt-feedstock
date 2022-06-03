@@ -26,7 +26,7 @@ source:
     folder: pyqt_charts
 
 build:
-  number: 0
+  number: 1
   skip: true  # [ppc64le]
 
 outputs:
@@ -123,13 +123,11 @@ outputs:
         - toml
         - pyqt-builder                           # [build_platform == target_platform]
         - packaging
-        - qt-main 5.15.2
+        - qt-main
         - {{ cdt('mesa-libgl-devel') }}          # [linux]
         - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
         - python
-        #- {{ pin_compatible("qt-main", min_pin="x.x", max_pin="x") }}
-        - qt-main 5.15
         - {{ pin_subpackage('pyqt5-sip', exact=True) }}
     test:
       files:
@@ -228,15 +226,12 @@ outputs:
         - pyqt-builder                           # [build_platform == target_platform]
         - packaging
         - pyqt
-        - qt-main 5.15.2
+        - qt-main
         - qt-webengine
         - {{ cdt('mesa-libgl-devel') }}          # [linux]
         - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
         - python
-        #- {{ pin_compatible("qt-main", min_pin="x.x", max_pin="x") }}
-        - qt-main 5.15
-        - {{ pin_compatible("qt-webengine", max_pin="x.x") }}
         - {{ pin_subpackage('pyqt', max_pin='x.x') }}
     test:
       imports:
@@ -313,14 +308,12 @@ outputs:
         - toml
         - pyqt-builder                           # [build_platform == target_platform]
         - packaging
-        - qt-main 5.15.2
+        - qt-main
         - pyqt
         - {{ cdt('mesa-libgl-devel') }}          # [linux]
         - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
         - python
-        #- {{ pin_compatible("qt-main", min_pin="x.x", max_pin="x") }}
-        - qt-main 5.15
         - {{ pin_subpackage('pyqt', max_pin='x.x') }}
     test:
       imports:
