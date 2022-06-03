@@ -1,4 +1,4 @@
-{% set version = "5.15.4" %}
+{% set version = "5.15.6" %}
 {% set sip_version = "12.9.0" %}
 {% set webengine_version = "5.15.4" %}
 {% set charts_version = "5.15.5" %}
@@ -10,10 +10,10 @@ package:
 
 source:
   - url: https://pypi.io/packages/source/P/PyQt{{ version[0] }}/PyQt{{ version[0] }}-{{ version }}.tar.gz
-    sha256: 2a69597e0dd11caabe75fae133feca66387819fc9bc050f547e5551bce97e5be
+    sha256: 80343bcab95ffba619f2ed2467fd828ffeb0a251ad7225be5fc06dcc333af452
     folder: pyqt
 
-  - url:  https://pypi.io/packages/source/P/PyQt5-sip/PyQt5_sip-{{ sip_version }}.tar.gz
+  - url: https://pypi.io/packages/source/P/PyQt5-sip/PyQt5_sip-{{ sip_version }}.tar.gz
     sha256: d3e4489d7c2b0ece9d203ae66e573939f7f60d4d29e089c9f11daa17cfeaae32
     folder: pyqt_sip
 
@@ -26,14 +26,14 @@ source:
     folder: pyqt_charts
 
 build:
-  number: 1
+  number: 0
   skip: true  # [ppc64le]
 
 outputs:
   - name: pyqt5-sip
     version: {{ sip_version }}
-    script: build-pyqt-sip.sh   # [not win]
-    script: bld-pyqt-sip.bat    # [win]
+    script: build-pyqt-sip.sh  # [not win]
+    script: bld-pyqt-sip.bat  # [win]
     requirements:
       build:
         - {{ compiler('c') }}
@@ -62,7 +62,7 @@ outputs:
       run_exports:
         - {{ pin_subpackage('pyqt', max_pin='x.x') }}
     requirements:
-      run_constrained:                                            # [osx and x86_64]
+      run_constrained:   # [osx and x86_64]
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
       build:
         - {{ compiler('c') }}
@@ -153,7 +153,7 @@ outputs:
         - PyQt5.QtXml
         - PyQt5.QtXmlPatterns
       commands:
-        - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
+        - DISPLAY=localhost: 1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
         - pyuic5 --version  # [not win]
 
   - name: pyqtwebengine
@@ -164,7 +164,7 @@ outputs:
       run_exports:
         - {{ pin_subpackage('pyqtwebengine', max_pin='x.x') }}
     requirements:
-      run_constrained:                                             # [osx and x86_64]
+      run_constrained:   # [osx and x86_64]
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
       build:
         - {{ compiler('c') }}
@@ -247,7 +247,7 @@ outputs:
       run_exports:
         - {{ pin_subpackage('pyqtchart', max_pin='x.x') }}
     requirements:
-      run_constrained:                                             # [osx and x86_64]
+      run_constrained:   # [osx and x86_64]
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
       build:
         - {{ compiler('c') }}
@@ -324,7 +324,7 @@ about:
   license: GPL-3.0-only
   license_family: GPL
   license_file: pyqt/LICENSE
-  summary: 'Python bindings for the Qt cross platform application toolkit'
+  summary: Python bindings for the Qt cross platform application toolkit
   # The remaining entries in this section are optional, but recommended.
   description: |
     PyQt5 is a comprehensive set of Python bindings for Qt v5.
