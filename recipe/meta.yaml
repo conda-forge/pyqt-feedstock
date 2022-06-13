@@ -61,6 +61,8 @@ outputs:
     build:
       run_exports:
         - {{ pin_subpackage('pyqt', max_pin='x.x') }}
+      ignore_run_exports:
+        - qtwebkit
     requirements:
       run_constrained:   # [osx and x86_64]
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
@@ -124,7 +126,7 @@ outputs:
         - pyqt-builder                           # [build_platform == target_platform]
         - packaging
         - qt-main
-        - qtwebkit
+        - qtwebkit                               # [x86_64]
         - {{ cdt('mesa-libgl-devel') }}          # [linux]
         - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
@@ -153,11 +155,28 @@ outputs:
         - PyQt5.QtWidgets
         - PyQt5.QtXml
         - PyQt5.QtXmlPatterns
-        - PyQt5.QtWebKit
       commands:
         - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
         - pyuic5 --version  # [not win]
 
+  - name: pyqtwebkit
+    version: {{ version }}
+    build:
+      ## qtwebkit only available on x86_64
+      skip: True  # [not x86_64]
+      run_exports:
+        - {{ pin_subpackage('pyqtwebkit', max_pin='x.x') }}
+    requirements:
+      run_constrained:                                             # [osx and x86_64]
+        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
+      run:
+        - python
+        - {{ pin_subpackage('pyqt', max_pin='x.x') }}
+        - qtwebkit
+    test:
+      imports:
+        - PyQt5.QtWebKit
+        
   - name: pyqtwebengine
     version: {{ version }}
     script: build-pyqtwebengine.sh  # [not win]

@@ -43,9 +43,13 @@ $SIP_COMMAND \
 --verbose \
 --confirm-license \
 --no-make \
+--qt-shared \
+--api-dir ${PREFIX}/qsci/api/python \
 $EXTRA_FLAGS
 
 pushd build
+
+echo "Building pyqt"
 
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
   # Make sure BUILD_PREFIX sip-distinfo is called instead of the HOST one
@@ -54,5 +58,5 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
   mv Makefile.temp Makefile
 fi
 
-CPATH=$PREFIX/include make -j$CPU_COUNT
+make -j$CPU_COUNT
 make install
