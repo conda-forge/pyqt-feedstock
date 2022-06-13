@@ -124,6 +124,7 @@ outputs:
         - pyqt-builder                           # [build_platform == target_platform]
         - packaging
         - qt-main
+        - qtwebkit
         - {{ cdt('mesa-libgl-devel') }}          # [linux]
         - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
@@ -152,6 +153,7 @@ outputs:
         - PyQt5.QtWidgets
         - PyQt5.QtXml
         - PyQt5.QtXmlPatterns
+        - PyQt5.QtWebKit
       commands:
         - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
         - pyuic5 --version  # [not win]
