@@ -49,8 +49,6 @@ $EXTRA_FLAGS
 
 pushd build
 
-echo "Building pyqt"
-
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
   # Make sure BUILD_PREFIX sip-distinfo is called instead of the HOST one
   cat Makefile | sed -r 's|\t(.*)sip-distinfo(.*)|\t'$BUILD_PREFIX/bin/python' -m sipbuild.distinfo.main \2|' > Makefile.temp
@@ -58,5 +56,5 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
   mv Makefile.temp Makefile
 fi
 
-make -j$CPU_COUNT
+CPATH=$PREFIX/include make -j$CPU_COUNT
 make install
