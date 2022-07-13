@@ -58,3 +58,8 @@ fi
 
 CPATH=$PREFIX/include make -j$CPU_COUNT
 make install
+
+## remove qtwebkit stuff, this is packaged separately by build_pyqtwebkit.sh
+mkdir -p ${RECIPE_DIR}/pyqtwebkit/
+mv ${SP_DIR}/PyQt5/QtWebKit*.so ${RECIPE_DIR}/pyqtwebkit/
+mv ${SP_DIR}/PyQt5/bindings/QtWebKit ${RECIPE_DIR}/pyqtwebkit/
