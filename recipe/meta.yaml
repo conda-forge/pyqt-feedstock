@@ -161,6 +161,8 @@ outputs:
 
   - name: pyqtwebkit
     version: {{ version }}
+    script: build-pyqtwebkit.sh  # [not win]
+    script: bld-pyqtwebkit.bat  # [win]
     build:
       ## qtwebkit only available on x86_64
       skip: True  # [not x86_64]
