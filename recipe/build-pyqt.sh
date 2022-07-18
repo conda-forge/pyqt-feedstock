@@ -64,6 +64,6 @@ make install
 if [[ -d ${SP_DIR}/PyQt5/bindings/QtWebKit ]]
 then
     mkdir -p /tmp/pyqtwebkit/
-    mv ${SP_DIR}/PyQt5/QtWebKit*.so /tmp/pyqtwebkit/
+    mv ${SP_DIR}/PyQt5/QtWebKit* /tmp/pyqtwebkit/
     mv ${SP_DIR}/PyQt5/bindings/QtWebKit /tmp/pyqtwebkit/
 fi

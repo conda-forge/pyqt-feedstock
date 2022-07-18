@@ -20,6 +20,6 @@ if %ERRORLEVEL% neq 0 exit 1
 
 :: remove qtwebkit stuff, this is packaged separately by bld_pyqtwebkit.bat
 md  %TEMP%\pyqtwebkit
-move %SP_DIR%\PyQt5\QtWebKit*.so %TEMP%\pyqtwebkit\
+move %SP_DIR%\PyQt5\QtWebKit* %TEMP%\pyqtwebkit\
 move %SP_DIR%\PyQt5\bindings\QtWebKit %TEMP%\pyqtwebkit\
 
