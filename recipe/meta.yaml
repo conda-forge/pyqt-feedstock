@@ -161,8 +161,6 @@ outputs:
 
   - name: pyqtwebkit
     version: {{ version }}
-    script: build-pyqtwebkit.sh  # [not win]
-    script: bld-pyqtwebkit.bat  # [win]
     build:
       ## qtwebkit only available on x86_64
       skip: True  # [not x86_64]
@@ -178,7 +176,7 @@ outputs:
     test:
       imports:
         - PyQt5.QtWebKit
-        
+
   - name: pyqtwebengine
     version: {{ version }}
     script: build-pyqtwebengine.sh  # [not win]
