@@ -130,6 +130,8 @@ outputs:
         - {{ cdt('mesa-libgl-devel') }}          # [linux]
         - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
+        - qt-main
+        - qt-webengine
         - python
         - {{ pin_subpackage('pyqt5-sip', exact=True) }}
     test:
@@ -236,6 +238,8 @@ outputs:
         - {{ cdt('mesa-libgl-devel') }}          # [linux]
         - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
+        - qt-main
+        - qt-webengine
         - python
         - {{ pin_subpackage('pyqt', max_pin='x.x') }}
     test:
@@ -319,6 +323,7 @@ outputs:
         - {{ cdt('mesa-libgl-devel') }}          # [linux]
         - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
+        - qt-main
         - python
         - {{ pin_subpackage('pyqt', max_pin='x.x') }}
     test:
