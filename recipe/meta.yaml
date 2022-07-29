@@ -43,6 +43,7 @@ outputs:
         - setuptools
         - wheel
         - pip
+        - wheel
       run:
         - python
         - sip
@@ -61,6 +62,12 @@ outputs:
         - pyuic5 = PyQt5.uic.pyuic:main
       run_exports:
         - {{ pin_subpackage('pyqt', max_pin='x.x') }}
+      ignore_run_exports:  # [linux and aarch64]
+        - qt-webengine     # [linux and aarch64]
+      ignore_dso_whitelist:
+        - $RPATH/libm.so.6
+        - $RPATH/libpthread.so.0
+        - $RPATH/libc.so.6
     requirements:
       run_constrained:   # [osx and x86_64]
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
@@ -121,6 +128,8 @@ outputs:
         - pyqt-builder
         - python
         - pip
+        - setuptools
+        - wheel
         - sip
         - toml
         - pyqt-builder
@@ -168,6 +177,10 @@ outputs:
     build:
       run_exports:
         - {{ pin_subpackage('pyqtwebengine', max_pin='x.x') }}
+      ignore_dso_whitelist:
+        - $RPATH/libm.so.6
+        - $RPATH/libpthread.so.0
+        - $RPATH/libc.so.6
     requirements:
       run_constrained:   # [osx and x86_64]
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
@@ -228,6 +241,8 @@ outputs:
       host:
         - python
         - pip
+        - setuptools
+        - wheel
         - sip
         - toml
         - pyqt-builder
@@ -255,6 +270,10 @@ outputs:
     build:
       run_exports:
         - {{ pin_subpackage('pyqtchart', max_pin='x.x') }}
+      ignore_dso_whitelist:
+        - $RPATH/libm.so.6
+        - $RPATH/libpthread.so.0
+        - $RPATH/libc.so.6
     requirements:
       run_constrained:   # [osx and x86_64]
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
@@ -314,6 +333,8 @@ outputs:
       host:
         - python
         - pip
+        - setuptools
+        - wheel
         - sip
         - toml
         - pyqt-builder
