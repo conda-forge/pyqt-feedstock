@@ -66,8 +66,8 @@ outputs:
         - pyuic5 = PyQt5.uic.pyuic:main
       run_exports:
         - {{ pin_subpackage('pyqt', max_pin='x.x') }}
-      ignore_run_exports:  # [osx or (linux and aarch64)]
-        - qt-webengine     # [linux and aarch64]
+      ignore_run_exports:
+        - qt-webengine
         - sip  # [osx]
       ignore_dso_whitelist:
         - $RPATH/libm.so.6
