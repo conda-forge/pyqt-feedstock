@@ -69,7 +69,7 @@ outputs:
       ignore_run_exports:
         - qt-webengine
         - sip
-      ignore_dso_whitelist:
+      missing_dso_whitelist:
         - $RPATH/libm.so.6
         - $RPATH/libpthread.so.0
         - $RPATH/libc.so.6
@@ -188,7 +188,7 @@ outputs:
         - {{ pin_subpackage('pyqtwebengine', max_pin='x.x') }}
       ignore_run_exports:
         - sip
-      ignore_dso_whitelist:
+      missing_dso_whitelist:
         - $RPATH/libm.so.6
         - $RPATH/libpthread.so.0
         - $RPATH/libc.so.6
@@ -286,7 +286,7 @@ outputs:
         - {{ pin_subpackage('pyqtchart', max_pin='x.x') }}
       ignore_run_exports:
         - sip
-      ignore_dso_whitelist:
+      missing_dso_whitelist:
         - $RPATH/libm.so.6
         - $RPATH/libpthread.so.0
         - $RPATH/libc.so.6
