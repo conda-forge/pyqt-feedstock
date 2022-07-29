@@ -38,6 +38,10 @@ outputs:
       build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
+        - python
+        - setuptools
+        - wheel
+        - pip
       host:
         - python
         - setuptools
@@ -124,6 +128,10 @@ outputs:
         - pkg-config
         - qt-webengine
         - qt-main
+        - python
+        - setuptools
+        - wheel
+        - pip
       host:
         - pyqt-builder
         - python
@@ -238,6 +246,9 @@ outputs:
         - pyqt
         - qt-main
         - qt-webengine
+        - setuptools
+        - wheel
+        - pip
       host:
         - python
         - pip
@@ -330,6 +341,9 @@ outputs:
         - dbus-python  # [unix]
         - pkg-config
         - pyqt
+        - setuptools
+        - wheel
+        - pip
       host:
         - python
         - pip
