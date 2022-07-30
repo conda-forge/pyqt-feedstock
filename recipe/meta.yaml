@@ -130,6 +130,7 @@ outputs:
         - pkg-config
         - qt-webengine
         - qt-main
+        - qt-webkit
         - python
         - setuptools
         - wheel
@@ -146,6 +147,7 @@ outputs:
         - packaging
         - qt-main
         - qt-webengine
+        - qt-webkit
         - {{ cdt('mesa-libgl-devel') }}          # [linux]
         - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
@@ -283,6 +285,7 @@ outputs:
         - pyqt
         - qt-main
         - qt-webengine
+        - qt-webkit
         - setuptools
         - wheel
         - pip
@@ -303,6 +306,7 @@ outputs:
       run:
         - qt-main
         - qt-webengine
+        - qt-webkit
         - python
         - {{ pin_subpackage('pyqt', max_pin='x.x') }}
     test:
@@ -431,6 +435,8 @@ outputs:
         - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
         - qt-main
+        - qt-webkit
+        - qt-webengine
         - python
         - {{ pin_subpackage('pyqt', max_pin='x.x') }}
     test:
