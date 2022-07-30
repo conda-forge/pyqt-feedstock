@@ -113,9 +113,9 @@ outputs:
         - {{ cdt('libice-devel') }}          # [linux]
         - {{ cdt('libxcb') }}                # [linux]
         - {{ cdt('libxcb-devel') }}          # [linux and not (aarch64 or x86_64)]
-        - {{ cdt('expat-devel') }}           # [linux and not (aarch64)]
-        - {{ cdt('pcre') }}                  # [linux and not (x86_64)]
-        - {{ cdt('libglvnd-glx') }}          # [linux and not (x86_64)]
+        - {{ cdt('expat-devel') }}           # [linux and not aarch64]
+        - {{ cdt('pcre') }}                  # [linux and not x86_64]
+        - {{ cdt('libglvnd-glx') }}          # [linux and not x86_64]
         - {{ cdt('libglvnd-egl') }}          # [linux and not x86_64]
         - {{ cdt('libxkbcommon-devel') }}    # [linux and not (aarch64 or x86_64)]
         - {{ cdt('xcb-util-devel') }}        # [linux and not (aarch64 or x86_64)]
@@ -130,7 +130,7 @@ outputs:
         - pkg-config
         - qt-webengine
         - qt-main
-        - qt-webkit
+        - qtwebkit
         - python
         - setuptools
         - wheel
@@ -147,7 +147,7 @@ outputs:
         - packaging
         - qt-main
         - qt-webengine
-        - qt-webkit
+        - qtwebkit
         - {{ cdt('mesa-libgl-devel') }}          # [linux]
         - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
@@ -267,10 +267,10 @@ outputs:
         - {{ cdt('libice-devel') }}          # [linux]
         - {{ cdt('libxcb') }}                # [linux]
         - {{ cdt('libxcb-devel') }}          # [linux and not (aarch64 or x86_64)]
-        - {{ cdt('expat-devel') }}           # [linux and not (aarch64)]
-        - {{ cdt('pcre') }}                  # [linux and not (x86_64)]
-        - {{ cdt('libglvnd-glx') }}          # [linux and not (x86_64)]
-        - {{ cdt('libglvnd-egl') }}          # [linux and not (x86_64)]
+        - {{ cdt('expat-devel') }}           # [linux and not aarch64]
+        - {{ cdt('pcre') }}                  # [linux and not x86_64]
+        - {{ cdt('libglvnd-glx') }}          # [linux and not x86_64]
+        - {{ cdt('libglvnd-egl') }}          # [linux and not x86_64]
         - {{ cdt('libxkbcommon-devel') }}    # [linux and not (aarch64 or x86_64)]
         - {{ cdt('xcb-util-devel') }}        # [linux and not (aarch64 or x86_64)]
         - {{ cdt('xcb-util-image-devel') }}  # [linux and not (aarch64 or x86_64)]
@@ -285,7 +285,7 @@ outputs:
         - pyqt
         - qt-main
         - qt-webengine
-        - qt-webkit
+        - qtwebkit
         - setuptools
         - wheel
         - pip
@@ -306,7 +306,7 @@ outputs:
       run:
         - qt-main
         - qt-webengine
-        - qt-webkit
+        - qtwebkit
         - python
         - {{ pin_subpackage('pyqt', max_pin='x.x') }}
     test:
@@ -400,10 +400,10 @@ outputs:
         - {{ cdt('libice-devel') }}          # [linux]
         - {{ cdt('libxcb') }}                # [linux]
         - {{ cdt('libxcb-devel') }}          # [linux and not (aarch64 or x86_64)]
-        - {{ cdt('expat-devel') }}           # [linux and not (aarch64)]
-        - {{ cdt('pcre') }}                  # [linux and not (x86_64)]
-        - {{ cdt('libglvnd-glx') }}          # [linux and not (x86_64)]
-        - {{ cdt('libglvnd-egl') }}          # [linux and not (x86_64)]
+        - {{ cdt('expat-devel') }}           # [linux and not aarch64]
+        - {{ cdt('pcre') }}                  # [linux and not x86_64]
+        - {{ cdt('libglvnd-glx') }}          # [linux and not x86_64]
+        - {{ cdt('libglvnd-egl') }}          # [linux and not x86_64]
         - {{ cdt('libxkbcommon-devel') }}    # [linux and not (aarch64 or x86_64)]
         - {{ cdt('xcb-util-devel') }}        # [linux and not (aarch64 or x86_64)]
         - {{ cdt('xcb-util-image-devel') }}  # [linux and not (aarch64 or x86_64)]
@@ -435,7 +435,7 @@ outputs:
         - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
         - qt-main
-        - qt-webkit
+        - qtwebkit
         - qt-webengine
         - python
         - {{ pin_subpackage('pyqt', max_pin='x.x') }}
