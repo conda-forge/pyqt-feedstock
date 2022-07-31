@@ -135,6 +135,7 @@ outputs:
         - qt-main
         - qtwebkit
         - python
+        - dbus-python  # [unix]
         - setuptools
         - wheel
         - pip
@@ -258,6 +259,7 @@ outputs:
         - qt-main
         - qt-webengine
         - qtwebkit
+        - dbus-python  # [unix]
         - setuptools
         - wheel
         - pip
@@ -294,7 +296,6 @@ outputs:
     script: build-pyqtcharts.sh  # [not win]
     script: bld-pyqtcharts.bat  # [win]
     build:
-      skip: true  # [win]
       run_exports:
         - {{ pin_subpackage('pyqtchart', max_pin='x.x') }}
       missing_dso_whitelist:

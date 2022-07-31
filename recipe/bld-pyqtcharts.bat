@@ -1,3 +1,5 @@
+echo on
+
 pushd pyqt_charts
 
 set PATH=%cd%\jom;%PATH%
@@ -7,6 +9,7 @@ set "PKG_CONFIG_PATH=%LIBRARY_LIB%\pkgconfig;%LIBRARY_PREFIX%\share\pkgconfig;%B
 
 call sip-build ^
      --verbose ^
+     --target-dir %SP_DIR% ^
      --no-make
 if %ERRORLEVEL% neq 0 exit 1
 

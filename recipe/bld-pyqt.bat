@@ -1,3 +1,5 @@
+echo on
+
 pushd pyqt
 copy LICENSE ..
 
@@ -8,6 +10,8 @@ call sip-build ^
     --verbose ^
     --confirm-license ^
     --disable QtNfc ^
+    --no-dbus-python ^
+    --target-dir %SP_DIR% ^
     --no-make
 if %ERRORLEVEL% neq 0 exit 1
 
