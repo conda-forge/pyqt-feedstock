@@ -131,9 +131,9 @@ outputs:
         - python
         - pyqt-builder
         - pkg-config
-        - qt-webengine
-        - qt-main
-        - qtwebkit
+        - qt-webengine 5.15.*
+        - qt-main 5.15.*
+        - qtwebkit 5.*
         - python
         - dbus-python  # [unix]
         - setuptools
@@ -149,14 +149,15 @@ outputs:
         - toml
         - pyqt-builder
         - packaging
-        - qt-main
-        - qt-webengine
-        - qtwebkit
+        - qt-main 5.15.*
+        - qt-webengine 5.15.*
+        - qtwebkit 5.*
         - {{ cdt('mesa-libgl-devel') }}          # [linux]
         - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
-        - qt-main
-        - qt-webengine
+        - qt-main 5.15*
+        - qt-webengine 5.15.*
+        - qtwebkit 5.*
         - python
         - {{ pin_subpackage('pyqt5-sip', exact=True) }}
     test:
@@ -256,9 +257,9 @@ outputs:
         - pyqt-builder
         - pkg-config
         - pyqt
-        - qt-main
-        - qt-webengine
-        - qtwebkit
+        - qt-main 5.15.*
+        - qt-webengine 5.15.*
+        - qtwebkit 5.*
         - dbus-python  # [unix]
         - setuptools
         - wheel
@@ -273,14 +274,14 @@ outputs:
         - pyqt-builder
         - packaging
         - pyqt
-        - qt-main
-        - qt-webengine
+        - qt-main 5.15.*
+        - qt-webengine  5.15.*
         - {{ cdt('mesa-libgl-devel') }}          # [linux]
         - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
-        - qt-main
-        - qt-webengine
-        - qtwebkit
+        - qt-main 5.15.*
+        - qt-webengine 5.15.*
+        - qtwebkit 5.*
         - python
         - {{ pin_subpackage('pyqt', max_pin='x.x') }}
 {% if enable_testingui %}
@@ -358,9 +359,9 @@ outputs:
         - dbus-python  # [unix]
         - pkg-config
         - pyqt
-        - qt-main
-        - qt-webengine
-        - qtwebkit
+        - qt-main 5.15.*
+        - qt-webengine 5.15.*
+        - qtwebkit 5.*
         - setuptools
         - wheel
         - pip
@@ -373,16 +374,16 @@ outputs:
         - toml
         - pyqt-builder
         - packaging
-        - qt-main
-        - qt-webengine
-        - qtwebkit
+        - qt-main 5.15.*
+        - qt-webengine 5.15.*
+        - qtwebkit 5.*
         - pyqt
         - {{ cdt('mesa-libgl-devel') }}          # [linux]
         - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
-        - qt-main
-        - qtwebkit
-        - qt-webengine
+        - qt-main 5.15.*
+        - qtwebkit 5.*
+        - qt-webengine 5.15.*
         - python
         - {{ pin_subpackage('pyqt', max_pin='x.x') }}
 {% if enable_testingui %}
