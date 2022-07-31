@@ -1,152 +1,420 @@
-{% set version = "5.15.2" %}
-{% set version2 = "5.15" %}
+{% set version = "5.15.7" %}
+{% set sip_version = "12.11.0" %}
+{% set webengine_version = "5.15.4" %}
+{% set charts_version = "5.15.5" %}
+# on our builders there is no X11 installed and therefore import
+# test will fail
+{% if target_platform != "linux-aarch64" and target_platform != "linux-64"%}
+{% set enable_testingui = true %}
+{% else %}
+{% set enable_testingui = false %}
+{% endif %}
 
 package:
-  name: pyqt
+  name: pyqt-split
   version: {{ version }}
 
 source:
-  - url: https://distfiles.macports.org/py-pyqt5/PyQt5-{{ version }}.tar.gz
-    sha256: 372b08dc9321d1201e4690182697c5e7ffb2e0770e6b4a45519025134b12e4fc
-    patches:
-      - 0003-configure.patch
-      # remove build path from .bat
-      - 0004-configure-winbat.patch  # [win]
-      #- py2_segfault.diff
-      # - qt5_dll.diff
-    folder: pyqt5
+  - url: https://pypi.io/packages/source/P/PyQt{{ version[0] }}/PyQt{{ version[0] }}-{{ version }}.tar.gz
+    sha256: 755121a52b3a08cb07275c10ebb96576d36e320e572591db16cfdbc558101594
+    folder: pyqt
 
-  - url: https://www.riverbankcomputing.com/static/Downloads/sip/4.19.25/sip-4.19.25.tar.gz
-    sha256: b39d93e937647807bac23579edbff25fe46d16213f708370072574ab1f1b4211
-    patches:
-      - 0001-Do-not-override-CC-CXX-LINK-in-sipgen-Makefile.patch
-      # AttributeError: module 'distutils.sysconfig' has no attribute 'get_config_h_filename'
-      - sip-get_config_h_filename.patch
-    folder: sip
+  - url: https://pypi.io/packages/source/P/PyQt5-sip/PyQt5_sip-{{ sip_version }}.tar.gz
+    sha256: b4710fd85b57edef716cc55fae45bfd5bfac6fc7ba91036f1dcc3f331ca0eb39
+    folder: pyqt_sip
 
-  - url: https://distfiles.macports.org/py-pyqt5/PyQtWebEngine-{{ version }}.tar.gz
-    sha256: 4d72fea774071ce6f76e341a3d2c5d595886c9906a9b9493239c841cce54a634
-    folder: pyqtwebengine
-    
-  - url: https://distfiles.macports.org/py-pyqt5/PyQtChart-{{ version }}.tar.gz
-    sha256: 93a6212fb4944d8266ec1f1c10c6e857a06ae6ffb55377ebef58c817b629cbf0
-    folder: pyqtcharts
+  - url: https://pypi.io/packages/source/P/PyQtWebEngine/PyQtWebEngine-{{ webengine_version }}.tar.gz
+    sha256: cedc28f54165f4b8067652145aec7f732a17eadf6736835852868cf76119cc19
+    folder: pyqt_webengine
+
+  - url: https://pypi.io/packages/source/P/PyQtChart/PyQtChart-{{ charts_version }}.tar.gz
+    sha256: e2cd55a8a72cef99bc0126f3b1daa914eb5f21e20a70127b6985299f1dc50107
+    folder: pyqt_charts
 
 build:
   number: 0
-  skip: true  # [win and py27]
-  skip: true  # [ppc64le]
-  run_exports:
-    {{ pin_subpackage('pyqt', max_pin='x.x') }}
+  skip: true  # [ppc64le or s390x]
 
-requirements:
-  run_constrained:                                            # [osx]
-    - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
-  build:
-    # We may want to find and add a Python dbus library?
-    # pkg-config --cflags-only-I --libs dbus-1
-    # The Python dbus module doesn't seem to be installed.
-    - {{ compiler('cxx') }}
-    - {{ compiler('c') }}
-    - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-    - {{ cdt('libx11-devel') }}          # [linux]
-    - {{ cdt('libxcb') }}                # [linux]
-    - {{ cdt('libxext-devel') }}         # [linux]
-    - {{ cdt('libxrender-devel') }}      # [linux]
-    - {{ cdt('mesa-libgl-devel') }}      # [linux]
-    - {{ cdt('mesa-libegl-devel') }}     # [linux]
-    - {{ cdt('mesa-dri-drivers') }}      # [linux]
-    - {{ cdt('libxau-devel') }}          # [linux]
-    - {{ cdt('alsa-lib-devel') }}        # [linux]
-    - {{ cdt('gtk2-devel') }}            # [linux]
-    - {{ cdt('gtkmm24-devel') }}         # [linux]
-    - {{ cdt('libdrm-devel') }}          # [linux]
-    - {{ cdt('libxcomposite-devel') }}   # [linux]
-    - {{ cdt('libxcursor-devel') }}      # [linux]
-    - {{ cdt('libxi-devel') }}           # [linux]
-    - {{ cdt('libxrandr-devel') }}       # [linux]
-    - {{ cdt('pciutils-devel') }}        # [linux]
-    - {{ cdt('libxscrnsaver-devel') }}   # [linux]
-    - {{ cdt('libxtst-devel') }}         # [linux]
-    - {{ cdt('libselinux-devel') }}      # [linux]
-    - {{ cdt('libxdamage') }}            # [linux]
-    - {{ cdt('libxfixes') }}             # [linux]
-    - {{ cdt('libxxf86vm') }}            # [linux]
-    - {{ cdt('mesa-libgbm') }}           # [linux]
-    - make                               # [linux and aarch64]
-    - binutils                           # [linux and aarch64]
-    - jom  # [win]
-    - pkg-config  # [not win]
-    - patch  # [not win]
-    - m2-patch  # [win]
-    - m2-gcc-libs  # [win]
-  host:
-    - {{ cdt('mesa-libgl-devel') }}      # [linux]
-    - python
-    - dbus  # [not (win or aarch64)]
-    - qt 5.15.*
-    - enum34  # [py27]
-  run:
-    - python
-    - {{ pin_compatible("qt", max_pin="x.x") }}
-    - enum34  # [py27]
+outputs:
+  - name: pyqt5-sip
+    version: {{ sip_version }}
+    script: build-pyqt-sip.sh  # [not win]
+    script: bld-pyqt-sip.bat  # [win]
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - python
+        - setuptools
+        - wheel
+        - pip
+      host:
+        - python
+        - setuptools
+        - wheel
+        - pip
+        - wheel
+      run:
+        - python
+        - sip
+        - packaging
+        - toml
+    test:
+      imports:
+        - PyQt5.sip
 
-test:
-  # NOTE: Import tests are done in the run_test.sh because linux-aarch64 requires
-  # additional shared objects to be present in the env when the imports are run.
-  requires:
-    - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-    - {{ cdt('libx11-devel') }}          # [linux]
-    - {{ cdt('libxcb') }}                # [linux]
-    - {{ cdt('libxext-devel') }}         # [linux]
-    - {{ cdt('libxrender-devel') }}      # [linux]
-    - {{ cdt('mesa-libgl-devel') }}      # [linux]
-    - {{ cdt('mesa-libegl-devel') }}     # [linux]
-    - {{ cdt('mesa-dri-drivers') }}      # [linux]
-    - {{ cdt('libxau-devel') }}          # [linux]
-    - {{ cdt('alsa-lib-devel') }}        # [linux]
-    - {{ cdt('gtk2-devel') }}            # [linux]
-    - {{ cdt('gtkmm24-devel') }}         # [linux]
-    - {{ cdt('libdrm-devel') }}          # [linux]
-    - {{ cdt('libxcomposite-devel') }}   # [linux]
-    - {{ cdt('libxcursor-devel') }}      # [linux]
-    - {{ cdt('libxi-devel') }}           # [linux]
-    - {{ cdt('libxrandr-devel') }}       # [linux]
-    - {{ cdt('pciutils-devel') }}        # [linux]
-    - {{ cdt('libxscrnsaver-devel') }}   # [linux]
-    - {{ cdt('libxtst-devel') }}         # [linux]
-    - {{ cdt('libselinux-devel') }}      # [linux]
-    - {{ cdt('libxdamage') }}            # [linux]
-    - {{ cdt('libxfixes') }}             # [linux]
-    - {{ cdt('libxxf86vm') }}            # [linux]
-    - {{ cdt('mesa-libgbm') }}           # [linux]
-  files:
-    - pyqt_test.py
-    - run_test.sh
-  commands:
-    - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and not aarch64]
-    - pyuic5 --version  # [not win]
+  - name: pyqt
+    version: {{ version }}
+    script: build-pyqt.sh  # [not win]
+    script: bld-pyqt.bat  # [win]
+    build:
+      entry_points:
+        - pyuic5 = PyQt5.uic.pyuic:main
+      run_exports:
+        - {{ pin_subpackage('pyqt', max_pin='x.x') }}
+      missing_dso_whitelist:
+        - $RPATH/libm.so.6
+        - $RPATH/libpthread.so.0
+        - $RPATH/libc.so.6
+    requirements:
+      run_constrained:   # [osx and x86_64]
+        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
+        - {{ cdt('libx11-devel') }}          # [linux]
+        - {{ cdt('libxext') }}               # [linux]
+        - {{ cdt('libxext-devel') }}         # [linux]
+        - {{ cdt('libxrender-devel') }}      # [linux]
+        - {{ cdt('mesa-libgl-devel') }}      # [linux]
+        - {{ cdt('mesa-libgbm') }}           # [linux]
+        - {{ cdt('mesa-libegl') }}           # [linux]
+        - {{ cdt('mesa-libegl-devel') }}     # [linux]
+        - {{ cdt('mesa-dri-drivers') }}      # [linux]
+        - {{ cdt('libxau-devel') }}          # [linux]
+        - {{ cdt('alsa-lib-devel') }}        # [linux]
+        - {{ cdt('gtk2-devel') }}            # [linux]
+        - {{ cdt('gtkmm24-devel') }}         # [linux]
+        - {{ cdt('libdrm-devel') }}          # [linux]
+        - {{ cdt('libxcomposite-devel') }}   # [linux]
+        - {{ cdt('libxcursor-devel') }}      # [linux]
+        - {{ cdt('libxi-devel') }}           # [linux]
+        - {{ cdt('libxrandr-devel') }}       # [linux]
+        - {{ cdt('pciutils-devel') }}        # [linux]
+        - {{ cdt('libxscrnsaver-devel') }}   # [linux]
+        - {{ cdt('libxtst-devel') }}         # [linux]
+        - {{ cdt('libselinux') }}            # [linux]
+        - {{ cdt('libselinux-devel') }}      # [linux]
+        - {{ cdt('libxdamage') }}            # [linux]
+        - {{ cdt('libxdamage-devel') }}      # [linux]
+        - {{ cdt('libxfixes') }}             # [linux]
+        - {{ cdt('libxfixes-devel') }}       # [linux]
+        - {{ cdt('libxxf86vm') }}            # [linux]
+        - {{ cdt('libxxf86vm-devel') }}      # [linux]
+        - {{ cdt('libsm-devel') }}           # [linux]
+        - {{ cdt('libice-devel') }}          # [linux]
+        - {{ cdt('libxcb') }}                # [linux]
+        - {{ cdt('libxcb-devel') }}          # [linux and not (aarch64 or x86_64)]
+        - {{ cdt('expat-devel') }}           # [linux and not aarch64]
+        - {{ cdt('pcre') }}                  # [linux and not x86_64]
+        - {{ cdt('libglvnd-glx') }}          # [linux and not x86_64]
+        - {{ cdt('libglvnd-egl') }}          # [linux and not x86_64]
+        - {{ cdt('libxkbcommon-devel') }}    # [linux and not (aarch64 or x86_64)]
+        - {{ cdt('xcb-util-devel') }}        # [linux and not (aarch64 or x86_64)]
+        - {{ cdt('xcb-util-image-devel') }}  # [linux and not (aarch64 or x86_64)]
+        - {{ cdt('xcb-util-keysyms-devel') }}     # [linux and not (aarch64 or x86_64)]
+        - {{ cdt('xcb-util-renderutil-devel') }}  # [linux and not (aarch64 or x86_64)]
+        - {{ cdt('xcb-util-wm-devel') }}          # [linux and not (aarch64 or x86_64)]
+        - jom                                # [win]
+        - make  # [not win]
+        - python
+        - pyqt-builder
+        - pkg-config
+        - qt-webengine 5.15.*
+        - qt-main 5.15.*
+        - qtwebkit 5.*
+        - python
+        - dbus-python  # [unix]
+        - setuptools
+        - wheel
+        - pip
+      host:
+        - pyqt-builder
+        - python
+        - pip
+        - setuptools
+        - wheel
+        - sip
+        - toml
+        - pyqt-builder
+        - packaging
+        - qt-main 5.15.*
+        - qt-webengine 5.15.*
+        - qtwebkit 5.*
+        - {{ cdt('mesa-libgl-devel') }}          # [linux]
+        - {{ cdt('mesa-libegl-devel') }}         # [linux]
+      run:
+        - qt-main 5.15*
+        - qt-webengine 5.15.*
+        - qtwebkit 5.*
+        - python
+        - {{ pin_subpackage('pyqt5-sip', exact=True) }}
+    test:
+      files:
+        - pyqt_test.py
+      # we don't have 
+{% if enable_testingui %}
+      imports:
+        - PyQt5
+        - PyQt5.sip
+        - PyQt5.QtCore
+        - PyQt5.QtGui
+        - PyQt5.QtHelp
+        - PyQt5.QtMultimedia
+        - PyQt5.QtMultimediaWidgets
+        - PyQt5.QtNetwork
+        - PyQt5.QtOpenGL
+        - PyQt5.QtPrintSupport
+        - PyQt5.QtQml
+        - PyQt5.QtQuick
+        - PyQt5.QtSvg
+        - PyQt5.QtTest
+        - PyQt5.QtWebChannel
+        - PyQt5.QtWebSockets
+        - PyQt5.QtWidgets
+        - PyQt5.QtXml
+        - PyQt5.QtXmlPatterns
+{% endif %}
+      commands:
+        # we don't have xvfb on our builders ... so we might ignore it ..
+        - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py' || true # [linux]
+        - pyuic5 --version  # [not win]
+
+  - name: pyqtwebengine
+    version: {{ version }}
+    script: build-pyqtwebengine.sh  # [not win]
+    script: bld-pyqtwebengine.bat  # [win]
+    build:
+      run_exports:
+        - {{ pin_subpackage('pyqtwebengine', max_pin='x.x') }}
+      missing_dso_whitelist:
+        - $RPATH/libm.so.6
+        - $RPATH/libpthread.so.0
+        - $RPATH/libc.so.6
+    requirements:
+      run_constrained:   # [osx and x86_64]
+        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
+        - {{ cdt('libx11-devel') }}          # [linux]
+        - {{ cdt('libxext') }}               # [linux]
+        - {{ cdt('libxext-devel') }}         # [linux]
+        - {{ cdt('libxrender-devel') }}      # [linux]
+        - {{ cdt('mesa-libgl-devel') }}      # [linux]
+        - {{ cdt('mesa-libegl') }}           # [linux]
+        - {{ cdt('mesa-libegl-devel') }}     # [linux]
+        - {{ cdt('mesa-dri-drivers') }}      # [linux]
+        - {{ cdt('libxau-devel') }}          # [linux]
+        - {{ cdt('alsa-lib-devel') }}        # [linux]
+        - {{ cdt('gtk2-devel') }}            # [linux]
+        - {{ cdt('gtkmm24-devel') }}         # [linux]
+        - {{ cdt('libdrm-devel') }}          # [linux]
+        - {{ cdt('libxcomposite-devel') }}   # [linux]
+        - {{ cdt('libxcursor-devel') }}      # [linux]
+        - {{ cdt('libxi-devel') }}           # [linux]
+        - {{ cdt('libxrandr-devel') }}       # [linux]
+        - {{ cdt('pciutils-devel') }}        # [linux]
+        - {{ cdt('libxscrnsaver-devel') }}   # [linux]
+        - {{ cdt('libxtst-devel') }}         # [linux]
+        - {{ cdt('libselinux') }}            # [linux]
+        - {{ cdt('libselinux-devel') }}      # [linux]
+        - {{ cdt('libxdamage') }}            # [linux]
+        - {{ cdt('libxdamage-devel') }}      # [linux]
+        - {{ cdt('libxfixes') }}             # [linux]
+        - {{ cdt('libxfixes-devel') }}       # [linux]
+        - {{ cdt('libxxf86vm') }}            # [linux]
+        - {{ cdt('libxxf86vm-devel') }}      # [linux]
+        - {{ cdt('libsm-devel') }}           # [linux]
+        - {{ cdt('libice-devel') }}          # [linux]
+        - {{ cdt('libxcb') }}                # [linux]
+        - {{ cdt('libxcb-devel') }}          # [linux and not (aarch64 or x86_64)]
+        - {{ cdt('expat-devel') }}           # [linux and not aarch64]
+        - {{ cdt('pcre') }}                  # [linux and not x86_64]
+        - {{ cdt('libglvnd-glx') }}          # [linux and not x86_64]
+        - {{ cdt('libglvnd-egl') }}          # [linux and not x86_64]
+        - {{ cdt('libxkbcommon-devel') }}    # [linux and not (aarch64 or x86_64)]
+        - {{ cdt('xcb-util-devel') }}        # [linux and not (aarch64 or x86_64)]
+        - {{ cdt('xcb-util-image-devel') }}  # [linux and not (aarch64 or x86_64)]
+        - {{ cdt('xcb-util-keysyms-devel') }}     # [linux and not (aarch64 or x86_64)]
+        - {{ cdt('xcb-util-renderutil-devel') }}  # [linux and not (aarch64 or x86_64)]
+        - {{ cdt('xcb-util-wm-devel') }}          # [linux and not (aarch64 or x86_64)]
+        - jom                                    # [win]
+        - make  # [not win]
+        - python
+        - pyqt-builder
+        - pkg-config
+        - pyqt
+        - qt-main 5.15.*
+        - qt-webengine 5.15.*
+        - qtwebkit 5.*
+        - dbus-python  # [unix]
+        - setuptools
+        - wheel
+        - pip
+      host:
+        - python
+        - pip
+        - setuptools
+        - wheel
+        - sip
+        - toml
+        - pyqt-builder
+        - packaging
+        - pyqt
+        - qt-main 5.15.*
+        - qt-webengine  5.15.*
+        - {{ cdt('mesa-libgl-devel') }}          # [linux]
+        - {{ cdt('mesa-libegl-devel') }}         # [linux]
+      run:
+        - qt-main 5.15.*
+        - qt-webengine 5.15.*
+        - qtwebkit 5.*
+        - python
+        - {{ pin_subpackage('pyqt', max_pin='x.x') }}
+{% if enable_testingui %}
+    test:
+      imports:
+        - PyQt5.QtWebEngine
+        - PyQt5.QtWebEngineCore
+        - PyQt5.QtWebEngineWidgets
+{% endif %}
+
+  - name: pyqtchart
+    version: {{ version }}
+    script: build-pyqtcharts.sh  # [not win]
+    script: bld-pyqtcharts.bat  # [win]
+    build:
+      run_exports:
+        - {{ pin_subpackage('pyqtchart', max_pin='x.x') }}
+      missing_dso_whitelist:
+        - $RPATH/libm.so.6
+        - $RPATH/libpthread.so.0
+        - $RPATH/libc.so.6
+    requirements:
+      run_constrained:   # [osx and x86_64]
+        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
+        - {{ cdt('libx11-devel') }}          # [linux]
+        - {{ cdt('libxext') }}               # [linux]
+        - {{ cdt('libxext-devel') }}         # [linux]
+        - {{ cdt('libxrender-devel') }}      # [linux]
+        - {{ cdt('mesa-libgl-devel') }}      # [linux]
+        - {{ cdt('mesa-libegl') }}           # [linux]
+        - {{ cdt('mesa-libegl-devel') }}     # [linux]
+        - {{ cdt('mesa-dri-drivers') }}      # [linux]
+        - {{ cdt('libxau-devel') }}          # [linux]
+        - {{ cdt('alsa-lib-devel') }}        # [linux]
+        - {{ cdt('gtk2-devel') }}            # [linux]
+        - {{ cdt('gtkmm24-devel') }}         # [linux]
+        - {{ cdt('libdrm-devel') }}          # [linux]
+        - {{ cdt('libxcomposite-devel') }}   # [linux]
+        - {{ cdt('libxcursor-devel') }}      # [linux]
+        - {{ cdt('libxi-devel') }}           # [linux]
+        - {{ cdt('libxrandr-devel') }}       # [linux]
+        - {{ cdt('pciutils-devel') }}        # [linux]
+        - {{ cdt('libxscrnsaver-devel') }}   # [linux]
+        - {{ cdt('libxtst-devel') }}         # [linux]
+        - {{ cdt('libselinux') }}            # [linux]
+        - {{ cdt('libselinux-devel') }}      # [linux]
+        - {{ cdt('libxdamage') }}            # [linux]
+        - {{ cdt('libxdamage-devel') }}      # [linux]
+        - {{ cdt('libxfixes') }}             # [linux]
+        - {{ cdt('libxfixes-devel') }}       # [linux]
+        - {{ cdt('libxxf86vm') }}            # [linux]
+        - {{ cdt('libxxf86vm-devel') }}      # [linux]
+        - {{ cdt('libsm-devel') }}           # [linux]
+        - {{ cdt('libice-devel') }}          # [linux]
+        - {{ cdt('libxcb') }}                # [linux]
+        - {{ cdt('libxcb-devel') }}          # [linux and not (aarch64 or x86_64)]
+        - {{ cdt('expat-devel') }}           # [linux and not aarch64]
+        - {{ cdt('pcre') }}                  # [linux and not x86_64]
+        - {{ cdt('libglvnd-glx') }}          # [linux and not x86_64]
+        - {{ cdt('libglvnd-egl') }}          # [linux and not x86_64]
+        - {{ cdt('libxkbcommon-devel') }}    # [linux and not (aarch64 or x86_64)]
+        - {{ cdt('xcb-util-devel') }}        # [linux and not (aarch64 or x86_64)]
+        - {{ cdt('xcb-util-image-devel') }}  # [linux and not (aarch64 or x86_64)]
+        - {{ cdt('xcb-util-keysyms-devel') }}     # [linux and not (aarch64 or x86_64)]
+        - {{ cdt('xcb-util-renderutil-devel') }}  # [linux and not (aarch64 or x86_64)]
+        - {{ cdt('xcb-util-wm-devel') }}          # [linux and not (aarch64 or x86_64)]
+        - jom                                    # [win]
+        - make  # [not win]
+        - python
+        - pyqt-builder
+        - dbus-python  # [unix]
+        - pkg-config
+        - pyqt
+        - qt-main 5.15.*
+        - qt-webengine 5.15.*
+        - qtwebkit 5.*
+        - setuptools
+        - wheel
+        - pip
+      host:
+        - python
+        - pip
+        - setuptools
+        - wheel
+        - sip
+        - toml
+        - pyqt-builder
+        - packaging
+        - qt-main 5.15.*
+        - qt-webengine 5.15.*
+        - qtwebkit 5.*
+        - pyqt
+        - {{ cdt('mesa-libgl-devel') }}          # [linux]
+        - {{ cdt('mesa-libegl-devel') }}         # [linux]
+      run:
+        - qt-main 5.15.*
+        - qtwebkit 5.*
+        - qt-webengine 5.15.*
+        - python
+        - {{ pin_subpackage('pyqt', max_pin='x.x') }}
+{% if enable_testingui %}
+    test:
+      imports:
+        - PyQt5.QtChart
+{% endif %}
 
 about:
-  home: http://www.riverbankcomputing.co.uk/software/pyqt
-  license: Commercial, GPL-2.0, GPL-3.0
+  home: https://www.riverbankcomputing.com/software/pyqt/
+  license: GPL-3.0-only
   license_family: GPL
-  license_file: pyqt5/LICENSE
-  summary: 'Python binding of the cross-platform GUI toolkit Qt.'
+  license_file: pyqt/LICENSE
+  summary: Python bindings for the Qt cross platform application toolkit
+  # The remaining entries in this section are optional, but recommended.
   description: |
-    "PyQt is a set of Python v2 and v3 bindings for The Qt Company's Qt
-    application framework and runs on all platforms supported by Qt including
-    Windows, MacOS/X and Linux. PyQt5 supports Qt v5. PyQt4 supports Qt v4 and
-    will build against Qt v5. The bindings are implemented as a set of Python
-    modules and contain over 1,000 classes."
-  doc_url: https://www.riverbankcomputing.com/software/pyqt/
-  dev_url: https://github.com/pyqt
+    PyQt5 is a comprehensive set of Python bindings for Qt v5.
+    It is implemented as more than 35 extension modules and enables Python
+    to be used as an alternative application development language to C++ on
+    all supported platforms including iOS and Android.
+  doc_url: https://www.riverbankcomputing.com/static/Docs/PyQt5/
+  dev_url: https://www.riverbankcomputing.com/mailman/listinfo/pyqt/
 
 extra:
   recipe-maintainers:
+    - andfoy
     - ccordoba12
+    - katietz
     - mingwandroid
     - gillins
     - msarahan
     - ocefpaf
     - jschueller
+  feedstock-name: pyqt
