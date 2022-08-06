@@ -12,4 +12,4 @@ provider:
   win: azure
 test: native
 azure:
-  store_build_artifacts: false
+  store_build_artifacts: true
