@@ -11,3 +11,5 @@ provider:
   linux_aarch64: azure
   win: azure
 test: native
+azure:
+  store_build_artifacts: false
