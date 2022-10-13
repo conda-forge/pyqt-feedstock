@@ -43,6 +43,8 @@ $SIP_COMMAND \
 --verbose \
 --confirm-license \
 --no-make \
+--qt-shared \
+--api-dir ${PREFIX}/qsci/api/python \
 $EXTRA_FLAGS
 
 pushd build
