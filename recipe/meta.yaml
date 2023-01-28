@@ -1,4 +1,4 @@
-{% set version = "5.15.7" %}
+{% set version = "5.15.8" %}
 {% set sip_version = "12.11.0" %}
 {% set webengine_version = "5.15.4" %}
 {% set charts_version = "5.15.5" %}
@@ -10,7 +10,7 @@ package:
 
 source:
   - url: https://pypi.io/packages/source/P/PyQt{{ version[0] }}/PyQt{{ version[0] }}-{{ version }}.tar.gz
-    sha256: 755121a52b3a08cb07275c10ebb96576d36e320e572591db16cfdbc558101594
+    sha256: bc85e3efb9135c56c8b88157c8825005fb7cd0f14babd93976778aae82eda360
     folder: pyqt
 
   - url: https://pypi.io/packages/source/P/PyQt5-sip/PyQt5_sip-{{ sip_version }}.tar.gz
@@ -26,7 +26,7 @@ source:
     folder: pyqt_charts
 
 build:
-  number: 3
+  number: 0
 
 outputs:
   - name: pyqt5-sip
@@ -152,7 +152,7 @@ outputs:
         - PyQt5.QtXml
         - PyQt5.QtXmlPatterns
       commands:
-        - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
+        - DISPLAY=localhost: 1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
         - pyuic5 --version  # [not win]
 
   - name: pyqtwebengine
@@ -160,7 +160,7 @@ outputs:
     script: build-pyqtwebengine.sh  # [not win]
     script: bld-pyqtwebengine.bat  # [win]
     build:
-      skip: True  # [ppc64le]
+      skip: true  # [ppc64le]
       run_exports:
         - {{ pin_subpackage('pyqtwebengine', max_pin='x.x') }}
     requirements:
