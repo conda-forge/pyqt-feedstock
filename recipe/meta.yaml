@@ -152,7 +152,7 @@ outputs:
         - PyQt5.QtXml
         - PyQt5.QtXmlPatterns
       commands:
-        - DISPLAY=localhost: 1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
+        - "DISPLAY=localhost: 1.0 xvfb-run -a bash -c 'python pyqt_test.py'"  # [linux and build_platform == target_platform]
         - pyuic5 --version  # [not win]
 
   - name: pyqtwebengine
