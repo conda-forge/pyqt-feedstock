@@ -27,6 +27,9 @@ source:
 
 build:
   number: 0
+  skip: true  # [aarch64]
+  skip: true  # [ppc64le]
+  skip: true  # [osx and arm64]
   skip: true  # [py!=310]
 
 outputs:
