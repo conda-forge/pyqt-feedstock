@@ -1,7 +1,7 @@
 {% set version = "5.15.8" %}
 {% set sip_version = "12.11.0" %}
-{% set webengine_version = "5.15.8" %}
-{% set charts_version = "5.15.8" %}
+{% set webengine_version = "5.15.6" %}
+{% set charts_version = "5.15.6" %}
 
 
 package:
