@@ -1,5 +1,5 @@
 {% set version = "5.15.8" %}
-{% set sip_version = "12.11.0" %}
+{% set sip_version = "12.12.1" %}
 {% set webengine_version = "5.15.6" %}
 {% set charts_version = "5.15.6" %}
 
@@ -14,15 +14,15 @@ source:
     folder: pyqt
 
   - url: https://pypi.io/packages/source/P/PyQt5-sip/PyQt5_sip-{{ sip_version }}.tar.gz
-    sha256: b4710fd85b57edef716cc55fae45bfd5bfac6fc7ba91036f1dcc3f331ca0eb39
+    sha256: 8fdc6e0148abd12d977a1d3828e7b79aae958e83c6cb5adae614916d888a6b10
     folder: pyqt_sip
 
   - url: https://pypi.io/packages/source/P/PyQtWebEngine/PyQtWebEngine-{{ webengine_version }}.tar.gz
-    sha256: cedc28f54165f4b8067652145aec7f732a17eadf6736835852868cf76119cc19
+    sha256: ae241ef2a61c782939c58b52c2aea53ad99b30f3934c8358d5e0a6ebb3fd0721
     folder: pyqt_webengine
 
   - url: https://pypi.io/packages/source/P/PyQtChart/PyQtChart-{{ charts_version }}.tar.gz
-    sha256: e2cd55a8a72cef99bc0126f3b1daa914eb5f21e20a70127b6985299f1dc50107
+    sha256: 2691796fe92a294a617592a5c5c35e785dc91f7759def9eb22da79df63762339
     folder: pyqt_charts
 
 build:
