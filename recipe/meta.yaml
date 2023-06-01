@@ -50,7 +50,7 @@ outputs:
         - setuptools
         - wheel
         - pip
-        - dbus-python
+        - dbus-python  # [unix]
       run:
         - python
         - sip
@@ -126,7 +126,7 @@ outputs:
       host:
         - python
         - pip
-        - dbus-python
+        - dbus-python  # [unix]
         - sip                                    # [build_platform == target_platform]
         - toml
         - pyqt-builder                           # [build_platform == target_platform]
@@ -231,7 +231,7 @@ outputs:
       host:
         - python
         - pip
-        - dbus-python
+        - dbus-python  # [unix]
         - sip                                    # [build_platform == target_platform]
         - toml
         - pyqt-builder                           # [build_platform == target_platform]
@@ -316,7 +316,7 @@ outputs:
       host:
         - python
         - pip
-        - dbus-python
+        - dbus-python  # [unix]
         - sip                                    # [build_platform == target_platform]
         - toml
         - pyqt-builder                           # [build_platform == target_platform]
