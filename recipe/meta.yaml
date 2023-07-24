@@ -14,7 +14,7 @@ source:
     folder: pyqt
 
   - url: https://pypi.io/packages/source/P/PyQt5-sip/PyQt5_sip-{{ sip_version }}.tar.gz
-    sha256: b4710fd85b57edef716cc55fae45bfd5bfac6fc7ba91036f1dcc3f331ca0eb39
+    sha256: 10d9bfa9f59f0fd1cad81be187479316ffc95684f573efea94512cb4257d2b17
     folder: pyqt_sip
 
   - url: https://pypi.io/packages/source/P/PyQtWebEngine/PyQtWebEngine-{{ webengine_version }}.tar.gz
