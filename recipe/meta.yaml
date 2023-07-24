@@ -1,5 +1,5 @@
 {% set version = "5.15.7" %}
-{% set sip_version = "12.11.0" %}
+{% set sip_version = "12.12.2" %}
 {% set webengine_version = "5.15.4" %}
 {% set charts_version = "5.15.5" %}
 
@@ -26,7 +26,7 @@ source:
     folder: pyqt_charts
 
 build:
-  number: 3
+  number: 4
 
 outputs:
   - name: pyqt5-sip
