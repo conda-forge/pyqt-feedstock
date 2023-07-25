@@ -1,11 +1,11 @@
-About pyqt
-==========
+About pyqt-feedstock
+====================
+
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/pyqt-feedstock/blob/main/LICENSE.txt)
 
 Home: https://www.riverbankcomputing.com/software/pyqt/
 
 Package license: GPL-3.0-only
-
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/pyqt-feedstock/blob/main/LICENSE.txt)
 
 Summary: Python bindings for the Qt cross platform application toolkit
 
