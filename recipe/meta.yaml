@@ -1,4 +1,4 @@
-{% set version = "5.15.7" %}
+{% set version = "5.15.9" %}
 {% set sip_version = "12.12.2" %}
 {% set webengine_version = "5.15.4" %}
 {% set charts_version = "5.15.5" %}
@@ -10,7 +10,7 @@ package:
 
 source:
   - url: https://pypi.io/packages/source/P/PyQt{{ version[0] }}/PyQt{{ version[0] }}-{{ version }}.tar.gz
-    sha256: 755121a52b3a08cb07275c10ebb96576d36e320e572591db16cfdbc558101594
+    sha256: dc41e8401a90dc3e2b692b411bd5492ab559ae27a27424eed4bd3915564ec4c0
     folder: pyqt
 
   - url: https://pypi.io/packages/source/P/PyQt5-sip/PyQt5_sip-{{ sip_version }}.tar.gz
