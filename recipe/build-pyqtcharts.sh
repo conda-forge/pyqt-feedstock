@@ -31,8 +31,7 @@ fi
 
 sip-build \
 --verbose \
---no-make \
-$EXTRA_FLAGS
+--no-make
 
 pushd build
 

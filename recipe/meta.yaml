@@ -129,7 +129,6 @@ outputs:
         - pyqt-builder >=1.14.1,<2
         - sip >=6.6.2,<7
         - qt-main 5.15.*
-        - dbus-python  # [unix]
         - {{ cdt('mesa-libgl-devel') }}          # [linux]
         - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
