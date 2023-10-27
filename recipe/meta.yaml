@@ -40,8 +40,6 @@ outputs:
     version: {{ sip_version }}
     script: build-pyqt-sip.sh  # [not win]
     script: bld-pyqt-sip.bat  # [win]
-    build:
-      skip: true  # [py<311]
     requirements:
       build:
         - {{ compiler('c') }}
@@ -65,7 +63,6 @@ outputs:
     script: build-pyqt.sh  # [not win]
     script: bld-pyqt.bat  # [win]
     build:
-      skip: true  # [py<311]
       entry_points:
         - pyuic5 = PyQt5.uic.pyuic:main
       run_exports:
@@ -178,7 +175,6 @@ outputs:
     script: build-pyqtwebengine.sh  # [not win]
     script: bld-pyqtwebengine.bat  # [win]
     build:
-      skip: true  # [py<311]
       run_exports:
         - {{ pin_subpackage('pyqtwebengine', max_pin='x.x') }}
       missing_dso_whitelist:
@@ -268,7 +264,6 @@ outputs:
     script: build-pyqtcharts.sh  # [not win]
     script: bld-pyqtcharts.bat  # [win]
     build:
-      skip: true  # [py<311]
       run_exports:
         - {{ pin_subpackage('pyqtchart', max_pin='x.x') }}
       missing_dso_whitelist:
