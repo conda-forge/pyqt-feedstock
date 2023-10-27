@@ -35,5 +35,10 @@ sip-build \
 
 pushd build
 
+# For some reason SIP does not add the QtPrintSupport headers
+cat QtWebEngineWidgets/Makefile | sed -r 's|INCPATH       =(.*)|INCPATH       =\1 -I'$PREFIX/include/qt/QtPrintSupport'|' > QtWebEngineWidgets/Makefile.temp
+rm QtWebEngineWidgets/Makefile
+mv QtWebEngineWidgets/Makefile.temp QtWebEngineWidgets/Makefile
+
 CPATH=$PREFIX/include make -j$CPU_COUNT
 make install
