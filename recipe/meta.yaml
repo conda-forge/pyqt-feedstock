@@ -1,7 +1,7 @@
-{% set version = "5.15.7" %}
-{% set sip_version = "12.11.0" %}
-{% set webengine_version = "5.15.4" %}
-{% set charts_version = "5.15.5" %}
+{% set version = "5.15.10" %}
+{% set sip_version = "12.13.0" %}
+{% set webengine_version = "5.15.6" %}
+{% set charts_version = "5.15.6" %}
 # on our builders there is no X11 installed and therefore import
 # test will fail
 {% if target_platform != "linux-aarch64" and target_platform != "linux-64"%}
@@ -16,19 +16,19 @@ package:
 
 source:
   - url: https://pypi.io/packages/source/P/PyQt{{ version[0] }}/PyQt{{ version[0] }}-{{ version }}.tar.gz
-    sha256: 755121a52b3a08cb07275c10ebb96576d36e320e572591db16cfdbc558101594
+    sha256: d46b7804b1b10a4ff91753f8113e5b5580d2b4462f3226288e2d84497334898a
     folder: pyqt
 
   - url: https://pypi.io/packages/source/P/PyQt5-sip/PyQt5_sip-{{ sip_version }}.tar.gz
-    sha256: b4710fd85b57edef716cc55fae45bfd5bfac6fc7ba91036f1dcc3f331ca0eb39
+    sha256: 7f321daf84b9c9dbca61b80e1ef37bdaffc0e93312edae2cd7da25b953971d91
     folder: pyqt_sip
 
   - url: https://pypi.io/packages/source/P/PyQtWebEngine/PyQtWebEngine-{{ webengine_version }}.tar.gz
-    sha256: cedc28f54165f4b8067652145aec7f732a17eadf6736835852868cf76119cc19
+    sha256: ae241ef2a61c782939c58b52c2aea53ad99b30f3934c8358d5e0a6ebb3fd0721
     folder: pyqt_webengine
 
   - url: https://pypi.io/packages/source/P/PyQtChart/PyQtChart-{{ charts_version }}.tar.gz
-    sha256: e2cd55a8a72cef99bc0126f3b1daa914eb5f21e20a70127b6985299f1dc50107
+    sha256: 2691796fe92a294a617592a5c5c35e785dc91f7759def9eb22da79df63762339
     folder: pyqt_charts
 
 build:
@@ -43,25 +43,20 @@ outputs:
     requirements:
       build:
         - {{ compiler('c') }}
-        - {{ compiler('cxx') }}
-        - python
-        - setuptools
-        - wheel
-        - pip
       host:
         - python
         - setuptools
         - wheel
         - pip
-        - wheel
       run:
         - python
-        - sip
-        - packaging
-        - toml
     test:
       imports:
         - PyQt5.sip
+      requires:
+        - pip
+      commands:
+        - pip check
 
   - name: pyqt
     version: {{ version }}
@@ -128,36 +123,16 @@ outputs:
         - {{ cdt('xcb-util-wm-devel') }}          # [linux and not (aarch64 or x86_64)]
         - jom                                # [win]
         - make  # [not win]
-        - python
-        - pyqt-builder
         - pkg-config
-        - qt-webengine 5.15.*
-        - qt-main 5.15.*
-        - qtwebkit 5.*
-        - python
-        - dbus-python  # [unix]
-        - setuptools
-        - wheel
-        - pip
       host:
-        - pyqt-builder
         - python
-        - pip
-        - setuptools
-        - wheel
-        - sip
-        - toml
-        - pyqt-builder
-        - packaging
+        - pyqt-builder >=1.14.1,<2
+        - sip >=6.6.2,<7
         - qt-main 5.15.*
-        - qt-webengine 5.15.*
-        - qtwebkit 5.*
         - {{ cdt('mesa-libgl-devel') }}          # [linux]
         - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
         - qt-main 5.15*
-        - qt-webengine 5.15.*
-        - qtwebkit 5.*
         - python
         - {{ pin_subpackage('pyqt5-sip', exact=True) }}
     test:
@@ -186,10 +161,13 @@ outputs:
         - PyQt5.QtXml
         - PyQt5.QtXmlPatterns
 {% endif %}
+      requires:
+        - pip
       commands:
         # we don't have xvfb on our builders ... so we might ignore it ..
         - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py' || true # [linux]
         - pyuic5 --version  # [not win]
+        - pip check
 
   - name: pyqtwebengine
     version: {{ version }}
@@ -253,27 +231,12 @@ outputs:
         - {{ cdt('xcb-util-wm-devel') }}          # [linux and not (aarch64 or x86_64)]
         - jom                                    # [win]
         - make  # [not win]
-        - python
-        - pyqt-builder
         - pkg-config
-        - pyqt
-        - qt-main 5.15.*
-        - qt-webengine 5.15.*
-        - qtwebkit 5.*
-        - dbus-python  # [unix]
-        - setuptools
-        - wheel
-        - pip
       host:
         - python
-        - pip
-        - setuptools
-        - wheel
-        - sip
-        - toml
-        - pyqt-builder
-        - packaging
-        - pyqt
+        - pyqt-builder >=1.9,<2
+        - sip >=5.3,<7
+        - {{ pin_subpackage('pyqt', exact=True) }}
         - qt-main 5.15.*
         - qt-webengine  5.15.*
         - {{ cdt('mesa-libgl-devel') }}          # [linux]
@@ -281,16 +244,19 @@ outputs:
       run:
         - qt-main 5.15.*
         - qt-webengine 5.15.*
-        - qtwebkit 5.*
         - python
         - {{ pin_subpackage('pyqt', max_pin='x.x') }}
-{% if enable_testingui %}
     test:
+{% if enable_testingui %}
       imports:
         - PyQt5.QtWebEngine
         - PyQt5.QtWebEngineCore
         - PyQt5.QtWebEngineWidgets
 {% endif %}
+      requires:
+        - pip
+      commands:
+        - pip check
 
   - name: pyqtchart
     version: {{ version }}
@@ -354,43 +320,28 @@ outputs:
         - {{ cdt('xcb-util-wm-devel') }}          # [linux and not (aarch64 or x86_64)]
         - jom                                    # [win]
         - make  # [not win]
-        - python
-        - pyqt-builder
-        - dbus-python  # [unix]
         - pkg-config
-        - pyqt
-        - qt-main 5.15.*
-        - qt-webengine 5.15.*
-        - qtwebkit 5.*
-        - setuptools
-        - wheel
-        - pip
       host:
         - python
-        - pip
-        - setuptools
-        - wheel
-        - sip
-        - toml
-        - pyqt-builder
-        - packaging
+        - pyqt-builder >=1.9,<2
+        - sip >=5.3,<7
         - qt-main 5.15.*
-        - qt-webengine 5.15.*
-        - qtwebkit 5.*
-        - pyqt
+        - {{ pin_subpackage('pyqt', exact=True) }}
         - {{ cdt('mesa-libgl-devel') }}          # [linux]
         - {{ cdt('mesa-libegl-devel') }}         # [linux]
       run:
         - qt-main 5.15.*
-        - qtwebkit 5.*
-        - qt-webengine 5.15.*
         - python
         - {{ pin_subpackage('pyqt', max_pin='x.x') }}
-{% if enable_testingui %}
     test:
+{% if enable_testingui %}
       imports:
         - PyQt5.QtChart
 {% endif %}
+      requires:
+        - pip
+      commands:
+        - pip check
 
 about:
   home: https://www.riverbankcomputing.com/software/pyqt/
@@ -398,7 +349,6 @@ about:
   license_family: GPL
   license_file: pyqt/LICENSE
   summary: Python bindings for the Qt cross platform application toolkit
-  # The remaining entries in this section are optional, but recommended.
   description: |
     PyQt5 is a comprehensive set of Python bindings for Qt v5.
     It is implemented as more than 35 extension modules and enables Python

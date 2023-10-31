@@ -2,9 +2,6 @@ set -exou
 
 pushd pyqt_webengine
 
-SIP_COMMAND="sip-build"
-EXTRA_FLAGS=""
-
 if [[ $(uname) == "Linux" ]]; then
     USED_BUILD_PREFIX=${BUILD_PREFIX:-${PREFIX}}
     echo USED_BUILD_PREFIX=${BUILD_PREFIX}
@@ -20,6 +17,11 @@ if [[ $(uname) == "Linux" ]]; then
 
     chmod +x g++ gcc gcc-ar
     export PATH=${PWD}:${PATH}
+
+    SYSROOT_FLAGS="-L ${BUILD_PREFIX}/${HOST}/sysroot/usr/lib64 -L ${BUILD_PREFIX}/${HOST}/sysroot/usr/lib"
+    export CFLAGS="$SYSROOT_FLAGS $CFLAGS"
+    export CXXFLAGS="$SYSROOT_FLAGS $CXXFLAGS"
+    export LDFLAGS="$SYSROOT_FLAGS $LDFLAGS"
 fi
 
 if [[ $(uname) == "Darwin" ]]; then
@@ -27,25 +29,11 @@ if [[ $(uname) == "Darwin" ]]; then
     export PATH=$PREFIX/bin/xc-avoidance:$PATH
 fi
 
-SIP_COMMAND="$BUILD_PREFIX/bin/python -m sipbuild.tools.build"
-SITE_PKGS_PATH=$($PREFIX/bin/python -c 'import site;print(site.getsitepackages()[0])')
-EXTRA_FLAGS="--target-dir $SITE_PKGS_PATH"
-
-PYQT5_LOCATION=$($PREFIX/bin/python -c 'import PyQt5;import os;print(os.path.join(os.path.dirname(PyQt5.__file__), "bindings"))')
-awk 'NR==25{$0="sip-include-dirs = [\"'$PYQT5_LOCATION'\"]\n"}1' pyproject.toml >  pyproject.toml.tmp
-rm pyproject.toml
-mv pyproject.toml.tmp pyproject.toml
-
-$SIP_COMMAND \
+sip-build \
 --verbose \
---no-make \
-$EXTRA_FLAGS
+--no-make
 
 pushd build
-# Make sure BUILD_PREFIX sip-distinfo is called instead of the HOST one
-cat Makefile | sed -r 's|\t(.*)sip-distinfo(.*)|\t'$PREFIX/bin/python' -m sipbuild.distinfo.main \2|' > Makefile.temp
-rm Makefile
-mv Makefile.temp Makefile
 
 # For some reason SIP does not add the QtPrintSupport headers
 cat QtWebEngineWidgets/Makefile | sed -r 's|INCPATH       =(.*)|INCPATH       =\1 -I'$PREFIX/include/qt/QtPrintSupport'|' > QtWebEngineWidgets/Makefile.temp

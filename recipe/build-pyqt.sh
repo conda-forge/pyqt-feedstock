@@ -3,9 +3,6 @@ set -exou
 pushd pyqt
 cp LICENSE ..
 
-SIP_COMMAND="sip-build"
-EXTRA_FLAGS=""
-
 if [[ $(uname) == "Linux" ]]; then
     USED_BUILD_PREFIX=${BUILD_PREFIX:-${PREFIX}}
     echo USED_BUILD_PREFIX=${BUILD_PREFIX}
@@ -33,22 +30,12 @@ if [[ $(uname) == "Darwin" ]]; then
     export PATH=$PREFIX/bin/xc-avoidance:$PATH
 fi
 
-SIP_COMMAND="$BUILD_PREFIX/bin/python -m sipbuild.tools.build"
-SITE_PKGS_PATH=$($PREFIX/bin/python -c 'import site;print(site.getsitepackages()[0])')
-EXTRA_FLAGS="--target-dir $SITE_PKGS_PATH"
-
-$SIP_COMMAND \
+sip-build \
 --verbose \
 --confirm-license \
---no-make \
-$EXTRA_FLAGS
+--no-make
 
 pushd build
-
-# Make sure BUILD_PREFIX sip-distinfo is called instead of the HOST one
-cat Makefile | sed -r 's|\t(.*)sip-distinfo(.*)|\t'$BUILD_PREFIX/bin/python' -m sipbuild.distinfo.main \2|' > Makefile.temp
-rm Makefile
-mv Makefile.temp Makefile
 
 CPATH=$PREFIX/include make -j$CPU_COUNT
 make install
