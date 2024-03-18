@@ -6,6 +6,8 @@ cp LICENSE ..
 SIP_COMMAND="sip-build"
 EXTRA_FLAGS=""
 
+ln -s ${PREFIX}/bin/qmake6 ${PREFIX}/bin/qmake
+
 if [[ $(uname) == "Linux" ]]; then
     USED_BUILD_PREFIX=${BUILD_PREFIX:-${PREFIX}}
     echo USED_BUILD_PREFIX=${BUILD_PREFIX}
