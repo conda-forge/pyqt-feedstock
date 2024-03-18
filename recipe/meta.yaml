@@ -151,7 +151,6 @@ outputs:
         - PyQt6.QtWebSockets
         - PyQt6.QtWidgets
         - PyQt6.QtXml
-        - PyQt6.QtXmlPatterns
       commands:
         - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
         - pyuic5 --version  # [not win]
