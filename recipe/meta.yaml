@@ -60,6 +60,7 @@ outputs:
     build:
       run_exports:
         - {{ pin_subpackage('pyqt', max_pin='x.x') }}
+      skip: True  # [ppc64le]
     requirements:
       run_constrained:   # [osx and x86_64]
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
