@@ -41,6 +41,10 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
 fi
 ln -s ${PREFIX}/bin/qmake6 ${PREFIX}/bin/qmake
 
+if test "${CONDA_BUILD_CROSS_COMPILATION:-}" = "1"; then
+  echo "" > sip/QtOpenGL/qopenglfunctions_es2.sip
+fi
+
 $SIP_COMMAND \
 --verbose \
 --confirm-license \
