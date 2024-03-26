@@ -1,8 +1,8 @@
 # From http://zetcode.com/gui/pyqt4/firstprograms/
 
 import sys
-from PyQt5 import QtWidgets
-from PyQt5.QtCore import QTimer
+from PyQt6 import QtWidgets
+from PyQt6.QtCore import QTimer
 
 
 def main():
