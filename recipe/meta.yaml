@@ -80,6 +80,7 @@ outputs:
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
         - pyqt-builder                           # [build_platform != target_platform]
         - sip                                    # [build_platform != target_platform]
+        - qt6-main {{ version }}                 # [build_platform != target_platform]
         - make
       host:
         - python

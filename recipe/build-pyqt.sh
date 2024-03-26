@@ -6,8 +6,6 @@ cp LICENSE ..
 SIP_COMMAND="sip-build"
 EXTRA_FLAGS=""
 
-ln -s ${PREFIX}/bin/qmake6 ${PREFIX}/bin/qmake
-
 if [[ $(uname) == "Linux" ]]; then
     USED_BUILD_PREFIX=${BUILD_PREFIX:-${PREFIX}}
     echo USED_BUILD_PREFIX=${BUILD_PREFIX}
@@ -39,7 +37,9 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
   SIP_COMMAND="$BUILD_PREFIX/bin/python -m sipbuild.tools.build"
   SITE_PKGS_PATH=$($PREFIX/bin/python -c 'import site;print(site.getsitepackages()[0])')
   EXTRA_FLAGS="--target-dir $SITE_PKGS_PATH"
+  ln -s ${BUILD_PREFIX}/bin/qmake6 ${BUILD_PREFIX}/bin/qmake
 fi
+ln -s ${PREFIX}/bin/qmake6 ${PREFIX}/bin/qmake
 
 $SIP_COMMAND \
 --verbose \
