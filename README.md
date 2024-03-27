@@ -11,9 +11,9 @@ Summary: Python bindings for the Qt cross platform application toolkit
 
 Development: https://www.riverbankcomputing.com/mailman/listinfo/pyqt/
 
-Documentation: https://www.riverbankcomputing.com/static/Docs/PyQt5/
+Documentation: https://www.riverbankcomputing.com/static/Docs/PyQt6/
 
-PyQt5 is a comprehensive set of Python bindings for Qt v5.
+PyQt6 is a comprehensive set of Python bindings for Qt v5.
 It is implemented as more than 35 extension modules and enables Python
 to be used as an alternative application development language to C++ on
 all supported platforms including iOS and Android.
@@ -260,9 +260,7 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt-green.svg)](https://anaconda.org/conda-forge/pyqt) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt.svg)](https://anaconda.org/conda-forge/pyqt) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt.svg)](https://anaconda.org/conda-forge/pyqt) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt.svg)](https://anaconda.org/conda-forge/pyqt) |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt5--sip-green.svg)](https://anaconda.org/conda-forge/pyqt5-sip) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt5-sip.svg)](https://anaconda.org/conda-forge/pyqt5-sip) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt5-sip.svg)](https://anaconda.org/conda-forge/pyqt5-sip) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt5-sip.svg)](https://anaconda.org/conda-forge/pyqt5-sip) |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqtchart-green.svg)](https://anaconda.org/conda-forge/pyqtchart) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqtchart.svg)](https://anaconda.org/conda-forge/pyqtchart) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqtchart.svg)](https://anaconda.org/conda-forge/pyqtchart) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqtchart.svg)](https://anaconda.org/conda-forge/pyqtchart) |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqtwebengine-green.svg)](https://anaconda.org/conda-forge/pyqtwebengine) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqtwebengine.svg)](https://anaconda.org/conda-forge/pyqtwebengine) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqtwebengine.svg)](https://anaconda.org/conda-forge/pyqtwebengine) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqtwebengine.svg)](https://anaconda.org/conda-forge/pyqtwebengine) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt6--sip-green.svg)](https://anaconda.org/conda-forge/pyqt6-sip) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt6-sip.svg)](https://anaconda.org/conda-forge/pyqt6-sip) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt6-sip.svg)](https://anaconda.org/conda-forge/pyqt6-sip) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt6-sip.svg)](https://anaconda.org/conda-forge/pyqt6-sip) |
 
 Installing pyqt
 ===============
@@ -274,16 +272,16 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `pyqt, pyqt5-sip, pyqtchart, pyqtwebengine` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `pyqt, pyqt6-sip` can be installed with `conda`:
 
 ```
-conda install pyqt pyqt5-sip pyqtchart pyqtwebengine
+conda install pyqt pyqt6-sip
 ```
 
 or with `mamba`:
 
 ```
-mamba install pyqt pyqt5-sip pyqtchart pyqtwebengine
+mamba install pyqt pyqt6-sip
 ```
 
 It is possible to list all of the versions of `pyqt` available on your platform with `conda`:
@@ -330,7 +328,7 @@ available continuous integration services. Thanks to the awesome service provide
 [CircleCI](https://circleci.com/), [AppVeyor](https://www.appveyor.com/),
 [Drone](https://cloud.drone.io/welcome), and [TravisCI](https://travis-ci.com/)
 it is possible to build and upload installable packages to the
-[conda-forge](https://anaconda.org/conda-forge) [Anaconda-Cloud](https://anaconda.org/)
+[conda-forge](https://anaconda.org/conda-forge) [anaconda.org](https://anaconda.org/)
 channel for Linux, Windows and OSX respectively.
 
 To manage the continuous integration and simplify feedstock maintenance
