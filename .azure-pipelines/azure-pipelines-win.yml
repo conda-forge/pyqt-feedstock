@@ -20,6 +20,9 @@ jobs:
       win_64_python3.8.____cpython:
         CONFIG: win_64_python3.8.____cpython
         UPLOAD_PACKAGES: 'True'
+      win_64_python3.9.____73_pypy:
+        CONFIG: win_64_python3.9.____73_pypy
+        UPLOAD_PACKAGES: 'True'
       win_64_python3.9.____cpython:
         CONFIG: win_64_python3.9.____cpython
         UPLOAD_PACKAGES: 'True'
@@ -54,6 +57,9 @@ jobs:
         PYTHONUNBUFFERED: 1
         CONFIG: $(CONFIG)
         CI: azure
+        flow_run_id: azure_$(Build.BuildNumber).$(System.JobAttempt)
+        remote_url: $(Build.Repository.Uri)
+        sha: $(Build.SourceVersion)
         UPLOAD_PACKAGES: $(UPLOAD_PACKAGES)
         UPLOAD_TEMP: $(UPLOAD_TEMP)
         BINSTAR_TOKEN: $(BINSTAR_TOKEN)
