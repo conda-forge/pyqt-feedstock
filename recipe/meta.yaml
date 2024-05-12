@@ -1,4 +1,4 @@
-{% set version = "5.15.9" %}
+{% set version = "5.15.10" %}
 {% set sip_version = "12.12.2" %}
 {% set webengine_version = "5.15.4" %}
 {% set charts_version = "5.15.5" %}
@@ -10,7 +10,7 @@ package:
 
 source:
   - url: https://pypi.io/packages/source/P/PyQt{{ version[0] }}/PyQt{{ version[0] }}-{{ version }}.tar.gz
-    sha256: dc41e8401a90dc3e2b692b411bd5492ab559ae27a27424eed4bd3915564ec4c0
+    sha256: d46b7804b1b10a4ff91753f8113e5b5580d2b4462f3226288e2d84497334898a
     folder: pyqt
 
   - url: https://pypi.io/packages/source/P/PyQt5-sip/PyQt5_sip-{{ sip_version }}.tar.gz
@@ -26,7 +26,7 @@ source:
     folder: pyqt_charts
 
 build:
-  number: 5
+  number: 0
 
 outputs:
   - name: pyqt5-sip
@@ -160,7 +160,7 @@ outputs:
     script: build-pyqtwebengine.sh  # [not win]
     script: bld-pyqtwebengine.bat  # [win]
     build:
-      skip: True  # [ppc64le]
+      skip: true  # [ppc64le]
       run_exports:
         - {{ pin_subpackage('pyqtwebengine', max_pin='x.x') }}
     requirements:
