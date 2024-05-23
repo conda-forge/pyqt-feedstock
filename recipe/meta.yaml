@@ -36,6 +36,7 @@ outputs:
     requirements:
       build:
         - {{ compiler('c') }}
+        - {{ stdlib('c') }}
         - {{ compiler('cxx') }}
         - python                                 # [build_platform != target_platform]
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
@@ -65,6 +66,7 @@ outputs:
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
       build:
         - {{ compiler('c') }}
+        - {{ stdlib('c') }}
         - {{ compiler('cxx') }}
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
         - {{ cdt('libx11-devel') }}          # [linux]
@@ -168,6 +170,7 @@ outputs:
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
       build:
         - {{ compiler('c') }}
+        - {{ stdlib('c') }}
         - {{ compiler('cxx') }}
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
         - {{ cdt('libx11-devel') }}          # [linux]
@@ -251,6 +254,7 @@ outputs:
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
       build:
         - {{ compiler('c') }}
+        - {{ stdlib('c') }}
         - {{ compiler('cxx') }}
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
         - {{ cdt('libx11-devel') }}          # [linux]
