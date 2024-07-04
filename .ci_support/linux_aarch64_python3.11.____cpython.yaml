@@ -4,6 +4,10 @@ c_compiler:
 - gcc
 c_compiler_version:
 - '12'
+c_stdlib:
+- sysroot
+c_stdlib_version:
+- '2.17'
 cdt_arch:
 - aarch64
 cdt_name:
@@ -22,16 +26,14 @@ pin_run_as_build:
   python:
     min_pin: x.x
     max_pin: x.x
-pyqt:
-- '5.15'
 python:
 - 3.11.* *_cpython
-qt_main:
-- '5.15'
+qt6_main:
+- '6.7'
 target_platform:
 - linux-aarch64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
-- - python
-  - channel_sources
+- - c_stdlib_version
+  - cdt_name
