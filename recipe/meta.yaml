@@ -30,7 +30,7 @@ source:
     folder: pyqt_charts
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - name: pyqt5-sip
