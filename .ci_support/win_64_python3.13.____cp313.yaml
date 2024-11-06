@@ -1,7 +1,9 @@
 c_compiler:
 - vs2019
+c_stdlib:
+- vs
 channel_sources:
-- conda-forge
+- conda-forge/label/python_rc,conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
@@ -13,7 +15,7 @@ pin_run_as_build:
 pyqt:
 - '5.15'
 python:
-- 3.8.* *_cpython
+- 3.13.* *_cp313
 qt_main:
 - '5.15'
 target_platform:
