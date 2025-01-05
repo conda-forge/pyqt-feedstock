@@ -9,24 +9,24 @@ package:
   version: {{ version }}
 
 source:
-  - url: https://pypi.io/packages/source/P/PyQt{{ version[0] }}/PyQt{{ version[0] }}-{{ version }}.tar.gz
+  - url: https://pypi.org/packages/source/P/PyQt{{ version[0] }}/PyQt{{ version[0] }}-{{ version }}.tar.gz
     sha256: dc41e8401a90dc3e2b692b411bd5492ab559ae27a27424eed4bd3915564ec4c0
     folder: pyqt
 
-  - url: https://pypi.io/packages/source/P/PyQt5-sip/PyQt5_sip-{{ sip_version }}.tar.gz
+  - url: https://pypi.org/packages/source/P/PyQt5-sip/PyQt5_sip-{{ sip_version }}.tar.gz
     sha256: 10d9bfa9f59f0fd1cad81be187479316ffc95684f573efea94512cb4257d2b17
     folder: pyqt_sip
 
-  - url: https://pypi.io/packages/source/P/PyQtWebEngine/PyQtWebEngine-{{ webengine_version }}.tar.gz
+  - url: https://pypi.org/packages/source/P/PyQtWebEngine/PyQtWebEngine-{{ webengine_version }}.tar.gz
     sha256: cedc28f54165f4b8067652145aec7f732a17eadf6736835852868cf76119cc19
     folder: pyqt_webengine
 
-  - url: https://pypi.io/packages/source/P/PyQtChart/PyQtChart-{{ charts_version }}.tar.gz
+  - url: https://pypi.org/packages/source/P/PyQtChart/PyQtChart-{{ charts_version }}.tar.gz
     sha256: e2cd55a8a72cef99bc0126f3b1daa914eb5f21e20a70127b6985299f1dc50107
     folder: pyqt_charts
 
 build:
-  number: 5
+  number: 6
 
 outputs:
   - name: pyqt5-sip
@@ -37,6 +37,7 @@ outputs:
       build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
+        - {{ stdlib("c") }}
         - python                                 # [build_platform != target_platform]
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
       host:
@@ -44,6 +45,7 @@ outputs:
         - setuptools
         - wheel
         - pip
+        - setuptools
       run:
         - python
         - sip
@@ -61,11 +63,10 @@ outputs:
       run_exports:
         - {{ pin_subpackage('pyqt', max_pin='x.x') }}
     requirements:
-      run_constrained:   # [osx and x86_64]
-        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
       build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
+        - {{ stdlib("c") }}
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
         - {{ cdt('libx11-devel') }}          # [linux]
         - {{ cdt('libxext') }}               # [linux]
@@ -118,6 +119,7 @@ outputs:
       host:
         - python
         - pip
+        - setuptools
         - sip                                    # [build_platform == target_platform]
         - toml
         - pyqt-builder                           # [build_platform == target_platform]
@@ -164,11 +166,10 @@ outputs:
       run_exports:
         - {{ pin_subpackage('pyqtwebengine', max_pin='x.x') }}
     requirements:
-      run_constrained:   # [osx and x86_64]
-        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
       build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
+        - {{ stdlib("c") }}
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
         - {{ cdt('libx11-devel') }}          # [linux]
         - {{ cdt('libxext') }}               # [linux]
@@ -221,6 +222,7 @@ outputs:
       host:
         - python
         - pip
+        - setuptools
         - sip                                    # [build_platform == target_platform]
         - toml
         - pyqt-builder                           # [build_platform == target_platform]
@@ -247,11 +249,10 @@ outputs:
       run_exports:
         - {{ pin_subpackage('pyqtchart', max_pin='x.x') }}
     requirements:
-      run_constrained:   # [osx and x86_64]
-        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
       build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
+        - {{ stdlib("c") }}
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
         - {{ cdt('libx11-devel') }}          # [linux]
         - {{ cdt('libxext') }}               # [linux]
@@ -304,6 +305,7 @@ outputs:
       host:
         - python
         - pip
+        - setuptools
         - sip                                    # [build_platform == target_platform]
         - toml
         - pyqt-builder                           # [build_platform == target_platform]
