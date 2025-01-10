@@ -32,7 +32,7 @@ source:
     folder: pyqt_charts
 
 build:
-  number: 0
+  number: 1
   skip: true  # [ppc64le or s390x]
 
 outputs:
