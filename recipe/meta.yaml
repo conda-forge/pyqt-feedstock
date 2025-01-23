@@ -47,7 +47,6 @@ outputs:
         - setuptools
         - wheel
         - pip
-        - setuptools
       run:
         - python
         - sip
@@ -122,7 +121,7 @@ outputs:
         - python
         - pip
         - setuptools
-        - sip                                    # [build_platform == target_platform]
+        - sip
         - toml
         - pyqt-builder                           # [build_platform == target_platform]
         - packaging
@@ -225,7 +224,7 @@ outputs:
         - python
         - pip
         - setuptools
-        - sip                                    # [build_platform == target_platform]
+        - sip
         - toml
         - pyqt-builder                           # [build_platform == target_platform]
         - packaging
@@ -308,7 +307,7 @@ outputs:
         - python
         - pip
         - setuptools
-        - sip                                    # [build_platform == target_platform]
+        - sip
         - toml
         - pyqt-builder                           # [build_platform == target_platform]
         - packaging
