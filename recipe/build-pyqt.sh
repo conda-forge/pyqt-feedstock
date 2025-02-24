@@ -23,12 +23,13 @@ if [[ $(uname) == "Linux" ]]; then
     export CFLAGS="$SYSROOT_FLAGS $CFLAGS"
     export CXXFLAGS="$SYSROOT_FLAGS $CXXFLAGS"
     export LDFLAGS="$SYSROOT_FLAGS $LDFLAGS"
-fi
-
-if [[ $(uname) == "Darwin" ]]; then
+elif [[ $(uname) == "Darwin" ]]; then
     # Use xcode-avoidance scripts
     export PATH=$PREFIX/bin/xc-avoidance:$PATH
 fi
+
+# Ensure qmake is found.
+export PATH=${PREFIX}/lib/qt6/bin:${PATH}
 
 sip-build \
 --verbose \

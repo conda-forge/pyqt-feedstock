@@ -1,3 +1,8 @@
+# For some reason, on OSX, the RPATH of sip-build artifacts is set wrong and triggers overlinking errors in CI. To
+# avoid this, we turn off overlinking checks in CI. They should still be done in local builds.
+build_parameters:
+  - "--suppress-variables"
+  - "--skip-existing"
+
 build_env_vars:
   ANACONDA_ROCKET_ENABLE_PY313 : yes
-
