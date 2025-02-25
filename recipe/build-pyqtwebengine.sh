@@ -29,6 +29,9 @@ if [[ $(uname) == "Darwin" ]]; then
     export PATH=$PREFIX/bin/xc-avoidance:$PATH
 fi
 
+# Ensure qmake is found.
+export PATH=${PREFIX}/lib/qt6/bin:${PATH}
+
 sip-build \
 --verbose \
 --no-make
