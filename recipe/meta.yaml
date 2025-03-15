@@ -1,7 +1,7 @@
-{% set version = "6.6.1" %}
-{% set sip_version = "13.6.0" %}
-{% set webengine_version = "5.15.4" %}
-{% set charts_version = "5.15.5" %}
+{% set version = "6.8.1" %}
+{% set sip_version = "13.10.0" %}
+{% set webengine_version = "6.8.2" %}
+{% set charts_version = "6.8.0" %}
 
 
 package:
@@ -9,12 +9,12 @@ package:
   version: {{ version }}
 
 source:
-  - url: https://pypi.io/packages/source/P/PyQt{{ version[0] }}/PyQt{{ version[0] }}-{{ version }}.tar.gz
-    sha256: 9f158aa29d205142c56f0f35d07784b8df0be28378d20a97bcda8bd64ffd0379
+  - url: https://pypi.org/packages/source/P/PyQt6/pyqt6-{{ version }}.tar.gz
+    sha256: 91d937d6166274fafd70f4dee11a8da6dbfdb0da53de05f5d62361ddf775e256
     folder: pyqt
 
-  - url: https://pypi.io/packages/source/P/PyQt6-sip/PyQt6_sip-{{ sip_version }}.tar.gz
-    sha256: 2486e1588071943d4f6657ba09096dc9fffd2322ad2c30041e78ea3f037b5778
+  - url: https://pypi.org/packages/source/P/PyQt6-sip/pyqt6_sip-{{ sip_version }}.tar.gz
+    sha256: d6daa95a0bd315d9ec523b549e0ce97455f61ded65d5eafecd83ed2aa4ae5350
     folder: pyqt_sip
 
   # - url: https://pypi.io/packages/source/P/PyQtWebEngine/PyQtWebEngine-{{ webengine_version }}.tar.gz
@@ -65,15 +65,8 @@ outputs:
     requirements:
       build:
         - {{ compiler('c') }}
-        - {{ stdlib("c") }}
+        - {{ stdlib('c') }}
         - {{ compiler('cxx') }}
-        - {{ cdt('mesa-libgl-devel') }}      # [linux]
-        - {{ cdt('mesa-libegl-devel') }}     # [linux]
-        - {{ cdt('mesa-dri-drivers') }}      # [linux]
-        - {{ cdt('libdrm-devel') }}          # [linux]
-        - {{ cdt('libglvnd-glx') }}          # [linux]
-        - {{ cdt('libglvnd-egl') }}          # [linux]
-        - {{ cdt('libglvnd-devel') }}        # [linux]
         - jom                                # [win]
         - python                                 # [build_platform != target_platform]
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
@@ -89,8 +82,10 @@ outputs:
         - pyqt-builder                           # [build_platform == target_platform]
         - packaging
         - qt6-main
-        - {{ cdt('mesa-libgl-devel') }}          # [linux]
-        - {{ cdt('mesa-libegl-devel') }}         # [linux]
+        - libgl-devel                            # [linux]
+        - libegl-devel                           # [linux]
+        - libopengl-devel                        # [linux]
+        - libdrm                                 # [linux]
       run:
         - python
         - {{ pin_subpackage('pyqt6-sip', exact=True) }}
