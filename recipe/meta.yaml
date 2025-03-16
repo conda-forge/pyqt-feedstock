@@ -1,5 +1,9 @@
+{% set pyqt_name = "PyQt6" %}
+{% set pyqt_builder_name = "PyQt-builder" %}
+{% set pyqt_sip_name = "PyQt6-sip" %}
 {% set version = "6.8.1" %}
 {% set sip_version = "13.10.0" %}
+{% set pyqt_builder_version = "1.15.4" %}
 {% set webengine_version = "6.8.2" %}
 {% set charts_version = "6.8.0" %}
 
@@ -9,11 +13,20 @@ package:
   version: {{ version }}
 
 source:
-  - url: https://pypi.org/packages/source/P/PyQt6/pyqt6-{{ version }}.tar.gz
+  - url: https://pypi.org/packages/source/{{ pyqt_builder_name[0] }}/{{ pyqt_builder_name }}/{{ pyqt_builder_name }}-{{ pyqt_builder_version }}.tar.gz
+    sha256: 39f8c75db17d9ce17cb6bbf3df1650b5cebc1ea4e5bd73843d21cc96612b2ae1
+    folder: pyqt-builder
+    patches:
+      #- patches/0001-Use-conda-sysroot-when-building-recipes.patch
+      - patches/0002-disable-test-execution-cross.patch
+      - patches/0003-find-sip-distinfo.patch
+      - patches/0004-Use-conda-sysroot-when-building-recipes.patch
+
+  - url: https://pypi.org/packages/source/{{ pyqt_name[0] }}/{{ pyqt_name }}/{{ pyqt_name.replace('-', '_').lower() }}-{{ version }}.tar.gz
     sha256: 91d937d6166274fafd70f4dee11a8da6dbfdb0da53de05f5d62361ddf775e256
     folder: pyqt
 
-  - url: https://pypi.org/packages/source/P/PyQt6-sip/pyqt6_sip-{{ sip_version }}.tar.gz
+  - url: https://pypi.org/packages/source/{{ pyqt_sip_name[0] }}/{{ pyqt_sip_name }}/{{ pyqt_sip_name.replace('-', '_').lower() }}-{{ sip_version }}.tar.gz
     sha256: d6daa95a0bd315d9ec523b549e0ce97455f61ded65d5eafecd83ed2aa4ae5350
     folder: pyqt_sip
 
@@ -29,6 +42,29 @@ build:
   number: 0
 
 outputs:
+  # Not actually exporting this package, just experimenting to see if
+  # this needs to be patched.
+  - name: my-pyqt-builder
+    version: {{ pyqt_builder_version }}
+    build:
+      noarch: python
+      script: cd pyqt-builder && python -m pip install . -vv
+      entry_points:
+        - pyqt-bundle = pyqtbuild.bundle.bundle_main:main
+        - pyqt-qt-wheel = pyqtbuild.bundle.qt_wheel_main:main
+
+    requirements:
+      host:
+        - python=3.10
+        - setuptools
+        - wheel
+        - pip
+      run:
+        - python=3.10
+        - sip
+        - packaging
+        - toml
+
   - name: pyqt6-sip
     version: {{ sip_version }}
     script: build-pyqt-sip.sh  # [not win]
@@ -70,7 +106,8 @@ outputs:
         - jom                                # [win]
         - python                                 # [build_platform != target_platform]
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-        - pyqt-builder                           # [build_platform != target_platform]
+        #- pyqt-builder                           # [build_platform != target_platform]
+        - my-pyqt-builder                        # [build_platform != target_platform]
         - sip                                    # [build_platform != target_platform]
         - qt6-main {{ version }}                 # [build_platform != target_platform]
         - make
@@ -79,7 +116,8 @@ outputs:
         - pip
         - sip                                    # [build_platform == target_platform]
         - toml
-        - pyqt-builder                           # [build_platform == target_platform]
+        #- pyqt-builder                           # [build_platform == target_platform]
+        - my-pyqt-builder                        # [build_platform == target_platform]
         - packaging
         - qt6-main
         - libgl-devel                            # [linux]
@@ -98,21 +136,25 @@ outputs:
         - PyQt6.QtCore
         - PyQt6.QtGui
         - PyQt6.QtHelp
-        - PyQt6.QtMultimedia
-        - PyQt6.QtMultimediaWidgets
+        # - PyQt6.QtMultimedia # Made add-on in Qt6?
+        # - PyQt6.QtMultimediaWidgets # Made add-on in Qt6?
         - PyQt6.QtNetwork
         - PyQt6.QtOpenGL
+        - PyQt6.QtOpenGLWidgets # New in Qt6?
         - PyQt6.QtPrintSupport
         - PyQt6.QtQml
         - PyQt6.QtQuick
+        - PyQt6.QtQuickWidgets # New in Qt6?
         - PyQt6.QtSvg
+        - PyQt6.QtSvgWidgets # New in Qt6?
         - PyQt6.QtTest
         - PyQt6.QtWebChannel
         - PyQt6.QtWebSockets
         - PyQt6.QtWidgets
         - PyQt6.QtXml
       commands:
-        - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
+        # xvfb-run not found.
+        # - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
         - pyuic6 --version  # [not win]
 
   # - name: pyqtwebengine

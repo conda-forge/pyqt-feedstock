@@ -1,0 +1,41 @@
+--- pyqtbuild/bindings.py	2021-10-28 04:53:13.000000000 -0500
++++ pyqtbuild/bindings.py	2022-02-17 11:09:20.141023450 -0500
+@@ -62,6 +62,19 @@ class PyQtBindings(Bindings):
+             if headers or sources:
+                 self.include_dirs.append(qpy_dir)
+ 
++        # Apply the same modifications to the main build process
++        prefix_dir = os.environ.get('PREFIX', None)
++        if prefix_dir is not None and sys.platform == 'linux':
++            self.extra_compile_args.extend([f"-I{prefix_dir}/include -L{prefix_dir}/lib -Wl,-rpath,{prefix_dir}/lib -Wl,-rpath-link,{prefix_dir}/lib -Wl,-L{prefix_dir}/lib"])
++            self.library_dirs.extend([f"{prefix_dir}/lib"])
++            self.extra_link_args.extend([f"-L{prefix_dir}/lib -Wl,-rpath,{prefix_dir}/lib -Wl,-rpath-link,{prefix_dir}/lib -Wl,-L{prefix_dir}/lib"])
++
++        sysroot = os.environ.get('CONDA_BUILD_SYSROOT', None)
++        if sysroot is not None and sys.platform == 'linux':
++            sysroot = os.path.join(sysroot, 'usr', 'lib64')
++            self.extra_compile_args.extend([f"-L{sysroot} -Wl,-rpath,{sysroot}"])
++            self.extra_link_args.extend([f"-L{sysroot} -Wl,-rpath,{sysroot}"])
++
+     def apply_user_defaults(self, tool):
+         """ Set default values for user options that haven't been set yet. """
+ 
+@@ -147,6 +160,18 @@ class PyQtBindings(Bindings):
+         buildable.libraries.extend(self.libraries)
+         buildable.library_dirs.extend(self.library_dirs)
+ 
++        prefix_dir = os.environ.get('PREFIX', None)
++        if prefix_dir is not None and sys.platform == 'linux':
++            buildable.extra_compile_args.extend([f"-I{prefix_dir}/include -L{prefix_dir}/lib -Wl,-rpath,{prefix_dir}/lib -Wl,-rpath-link,{prefix_dir}/lib -Wl,-L{prefix_dir}/lib"])
++            buildable.library_dirs.extend([f"{prefix_dir}/lib"])
++            buildable.extra_link_args.extend([f"-L{prefix_dir}/lib -Wl,-rpath,{prefix_dir}/lib -Wl,-rpath-link,{prefix_dir}/lib -Wl,-L{prefix_dir}/lib"])
++
++        sysroot = os.environ.get('CONDA_BUILD_SYSROOT', None)
++        if sysroot is not None and sys.platform == 'linux':
++            sysroot = os.path.join(sysroot, 'usr', 'lib64')
++            buildable.extra_compile_args.extend([f"-L{sysroot} -Wl,-rpath,{sysroot}"])
++            buildable.extra_link_args.extend([f"-L{sysroot} -Wl,-rpath,{sysroot}"])
++
+         if test_source_path is None:
+             # Save the internal test to a file.
+             includes = ['#include <{}>'.format(h) for h in self.test_headers]
