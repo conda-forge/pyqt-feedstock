@@ -55,12 +55,12 @@ outputs:
 
     requirements:
       host:
-        - python=3.10
+        - python
         - setuptools
         - wheel
         - pip
       run:
-        - python=3.10
+        - python
         - sip
         - packaging
         - toml
