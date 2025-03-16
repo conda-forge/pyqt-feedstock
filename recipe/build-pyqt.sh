@@ -35,7 +35,7 @@ if [[ $(uname) == "Darwin" ]]; then
     export PATH=$PREFIX/bin/xc-avoidance:$PATH
 fi
 
-if [[ "$build_platform" != "$target_platform" ]]; then
+if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
   SIP_COMMAND="$BUILD_PREFIX/bin/python -m sipbuild.tools.build"
   SITE_PKGS_PATH=$($PREFIX/bin/python -c 'import site;print(site.getsitepackages()[0])')
   EXTRA_FLAGS="--target-dir $SITE_PKGS_PATH"
@@ -43,7 +43,7 @@ if [[ "$build_platform" != "$target_platform" ]]; then
 fi
 ln -s ${PREFIX}/bin/qmake6 ${PREFIX}/bin/qmake
 
-if [[ "$build_platform" != "$target_platform" ]]; then
+if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
   echo "" > sip/QtOpenGL/qopenglfunctions_es2.sip
 fi
 
