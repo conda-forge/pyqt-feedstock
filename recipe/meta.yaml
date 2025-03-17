@@ -4,7 +4,9 @@
 {% set version = "6.8.1" %}
 {% set sip_version = "13.10.0" %}
 {% set pyqt_builder_version = "1.15.4" %}
-{% set webengine_version = "6.8.2" %}
+{% set webengine_name = "PyQtWebEngine" %}
+{% set webengine_version = "6.8.1" %}
+{% set charts_name = "PyQt6-Charts" %}
 {% set charts_version = "6.8.0" %}
 
 
@@ -30,13 +32,13 @@ source:
     sha256: d6daa95a0bd315d9ec523b549e0ce97455f61ded65d5eafecd83ed2aa4ae5350
     folder: pyqt_sip
 
-  # - url: https://pypi.io/packages/source/P/PyQtWebEngine/PyQtWebEngine-{{ webengine_version }}.tar.gz
+  # - url: https://pypi.org/packages/source/{{ webengine_name[0] }}/{{ webengine_name }}/{{ webengine_name }}-{{ webengine_version }}.tar.gz
   #   sha256: cedc28f54165f4b8067652145aec7f732a17eadf6736835852868cf76119cc19
   #   folder: pyqt_webengine
-  # 
-  # - url: https://pypi.io/packages/source/P/PyQtChart/PyQtChart-{{ charts_version }}.tar.gz
-  #   sha256: e2cd55a8a72cef99bc0126f3b1daa914eb5f21e20a70127b6985299f1dc50107
-  #   folder: pyqt_charts
+
+  - url: https://pypi.org/packages/source/{{ charts_name[0] }}/{{ charts_name }}/{{ charts_name.replace('-', '_') }}-{{ charts_version }}.tar.gz
+    sha256: f86705b8740e3041667ce211aeaa205b750eb6baf4c908f4e3f6dc8c720d10f1
+    folder: pyqt_charts
 
 build:
   number: 0
@@ -119,7 +121,7 @@ outputs:
         #- pyqt-builder                           # [build_platform == target_platform]
         - my-pyqt-builder                        # [build_platform == target_platform]
         - packaging
-        - qt6-main
+        - qt6-main {{ version }}
         - libgl-devel                            # [linux]
         - libegl-devel                           # [linux]
         - libopengl-devel                        # [linux]
@@ -241,85 +243,47 @@ outputs:
   #       - PyQt6.QtWebEngineCore
   #       - PyQt6.QtWebEngineWidgets
 
-  # - name: pyqtchart
-  #   version: {{ version }}
-  #   script: build-pyqtcharts.sh  # [not win]
-  #   script: bld-pyqtcharts.bat  # [win]
-  #   build:
-  #     run_exports:
-  #       - {{ pin_subpackage('pyqtchart', max_pin='x.x') }}
-  #   requirements:
-  #     run_constrained:   # [osx and x86_64]
-  #       - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
-  #     build:
-  #       - {{ compiler('c') }}
-  #       - {{ compiler('cxx') }}
-  #       - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-  #       - {{ cdt('libx11-devel') }}          # [linux]
-  #       - {{ cdt('libxext') }}               # [linux]
-  #       - {{ cdt('libxext-devel') }}         # [linux]
-  #       - {{ cdt('libxrender-devel') }}      # [linux]
-  #       - {{ cdt('mesa-libgl-devel') }}      # [linux]
-  #       - {{ cdt('mesa-libegl') }}           # [linux]
-  #       - {{ cdt('mesa-libegl-devel') }}     # [linux]
-  #       - {{ cdt('mesa-dri-drivers') }}      # [linux]
-  #       - {{ cdt('libxau-devel') }}          # [linux]
-  #       - {{ cdt('alsa-lib-devel') }}        # [linux]
-  #       - {{ cdt('gtk2-devel') }}            # [linux]
-  #       - {{ cdt('gtkmm24-devel') }}         # [linux]
-  #       - {{ cdt('libdrm-devel') }}          # [linux]
-  #       - {{ cdt('libxcomposite-devel') }}   # [linux]
-  #       - {{ cdt('libxcursor-devel') }}      # [linux]
-  #       - {{ cdt('libxi-devel') }}           # [linux]
-  #       - {{ cdt('libxrandr-devel') }}       # [linux]
-  #       - {{ cdt('pciutils-devel') }}        # [linux]
-  #       - {{ cdt('libxscrnsaver-devel') }}   # [linux]
-  #       - {{ cdt('libxtst-devel') }}         # [linux]
-  #       - {{ cdt('libselinux') }}            # [linux]
-  #       - {{ cdt('libselinux-devel') }}      # [linux]
-  #       - {{ cdt('libxdamage') }}            # [linux]
-  #       - {{ cdt('libxdamage-devel') }}      # [linux]
-  #       - {{ cdt('libxfixes') }}             # [linux]
-  #       - {{ cdt('libxfixes-devel') }}       # [linux]
-  #       - {{ cdt('libxxf86vm') }}            # [linux]
-  #       - {{ cdt('libxxf86vm-devel') }}      # [linux]
-  #       - {{ cdt('libsm-devel') }}           # [linux]
-  #       - {{ cdt('libice-devel') }}          # [linux]
-  #       - {{ cdt('libxcb') }}                # [linux]
-  #       - {{ cdt('libxcb-devel') }}          # [linux]
-  #       - {{ cdt('expat-devel') }}           # [linux]
-  #       - {{ cdt('pcre') }}                  # [linux]
-  #       - {{ cdt('libglvnd-glx') }}          # [linux]
-  #       - {{ cdt('libglvnd-egl') }}          # [linux]
-  #       - {{ cdt('libxkbcommon-devel') }}    # [linux]
-  #       - {{ cdt('xcb-util-devel') }}        # [linux]
-  #       - {{ cdt('xcb-util-image-devel') }}  # [linux]
-  #       - {{ cdt('xcb-util-keysyms-devel') }}     # [linux]
-  #       - {{ cdt('xcb-util-renderutil-devel') }}  # [linux]
-  #       - {{ cdt('xcb-util-wm-devel') }}          # [linux]
-  #       - jom                                    # [win]
-  #       - python                                 # [build_platform != target_platform]
-  #       - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-  #       - pyqt-builder                           # [build_platform != target_platform]
-  #       - sip                                    # [build_platform != target_platform]
-  #       - make
-  #     host:
-  #       - python
-  #       - pip
-  #       - sip                                    # [build_platform == target_platform]
-  #       - toml
-  #       - pyqt-builder                           # [build_platform == target_platform]
-  #       - packaging
-  #       - qt6-main
-  #       - pyqt
-  #       - {{ cdt('mesa-libgl-devel') }}          # [linux]
-  #       - {{ cdt('mesa-libegl-devel') }}         # [linux]
-  #     run:
-  #       - python
-  #       - {{ pin_subpackage('pyqt', max_pin='x.x') }}
-  #   test:
-  #     imports:
-  #       - PyQt6.QtChart
+  # Should this be renamed to pyqtcharts? (PyQt5.Chart -> PyQt6.QtCharts)
+  - name: pyqtchart
+    version: {{ version }}
+    script: build-pyqtcharts.sh  # [not win]
+    script: bld-pyqtcharts.bat  # [win]
+    build:
+      run_exports:
+        - {{ pin_subpackage('pyqtchart', max_pin='x.x') }}
+    requirements:
+      run_constrained:   # [osx and x86_64]
+        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - jom                                    # [win]
+        - python                                 # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+        #- pyqt-builder                           # [build_platform != target_platform]
+        - my-pyqt-builder                        # [build_platform != target_platform]
+        - sip                                    # [build_platform != target_platform]
+        - make
+      host:
+        - python
+        - pip
+        - sip                                    # [build_platform == target_platform]
+        - toml
+        #- pyqt-builder                           # [build_platform == target_platform]
+        - my-pyqt-builder                        # [build_platform == target_platform]
+        - packaging
+        - qt6-main {{ version }}
+        - qt6-charts {{ version }}
+        - pyqt {{ version }}
+        - libgl-devel                        # [linux]
+        - libegl-devel                       # [linux]
+        - libopengl-devel                    # [linux]
+      run:
+        - python
+        - {{ pin_subpackage('pyqt', max_pin='x.x') }}
+    test:
+      imports:
+        - PyQt6.QtCharts
 
 about:
   home: https://www.riverbankcomputing.com/software/pyqt/

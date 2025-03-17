@@ -55,7 +55,7 @@ $EXTRA_FLAGS
 
 pushd build
 
-if [[ "$build_platform" != "$target_platform" ]]; then
+if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
   # Make sure BUILD_PREFIX sip-distinfo is called instead of the HOST one
   cat Makefile | sed -r 's|\t(.*)sip-distinfo(.*)|\t'$BUILD_PREFIX/bin/python' -m sipbuild.distinfo.main \2|' > Makefile.temp
   rm Makefile
