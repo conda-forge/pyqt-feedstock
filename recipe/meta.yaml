@@ -11,7 +11,7 @@
 
 
 package:
-  name: pyqt-split
+  name: pyqt6-split
   version: {{ version }}
 
 source:
@@ -46,7 +46,7 @@ build:
 outputs:
   # Not actually exporting this package, just experimenting to see if
   # this needs to be patched.
-  - name: my-pyqt-builder
+  - name: my-pyqt6-builder
     version: {{ pyqt_builder_version }}
     build:
       noarch: python
@@ -92,13 +92,13 @@ outputs:
       imports:
         - PyQt6.sip
 
-  - name: pyqt
+  - name: pyqt6
     version: {{ version }}
     script: build-pyqt.sh  # [not win]
     script: bld-pyqt.bat  # [win]
     build:
       run_exports:
-        - {{ pin_subpackage('pyqt', max_pin='x.x') }}
+        - {{ pin_subpackage('pyqt6', max_pin='x.x') }}
       skip: True  # [ppc64le]
     requirements:
       build:
@@ -108,8 +108,8 @@ outputs:
         - jom                                # [win]
         - python                                 # [build_platform != target_platform]
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-        #- pyqt-builder                           # [build_platform != target_platform]
-        - my-pyqt-builder                        # [build_platform != target_platform]
+        #- pyqt-builder                          # [build_platform != target_platform]
+        - my-pyqt6-builder                       # [build_platform != target_platform]
         - sip                                    # [build_platform != target_platform]
         - qt6-main {{ version }}                 # [build_platform != target_platform]
         - make
@@ -118,8 +118,8 @@ outputs:
         - pip
         - sip                                    # [build_platform == target_platform]
         - toml
-        #- pyqt-builder                           # [build_platform == target_platform]
-        - my-pyqt-builder                        # [build_platform == target_platform]
+        #- pyqt-builder                          # [build_platform == target_platform]
+        - my-pyqt6-builder                       # [build_platform == target_platform]
         - packaging
         - qt6-main {{ version }}
         - libgl-devel                            # [linux]
@@ -159,14 +159,14 @@ outputs:
         # - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
         - pyuic6 --version  # [not win]
 
-  # - name: pyqtwebengine
+  # - name: pyqt6webengine
   #   version: {{ version }}
   #   script: build-pyqtwebengine.sh  # [not win]
   #   script: bld-pyqtwebengine.bat  # [win]
   #   build:
   #     skip: True  # [ppc64le]
   #     run_exports:
-  #       - {{ pin_subpackage('pyqtwebengine', max_pin='x.x') }}
+  #       - {{ pin_subpackage('pyqt6webengine', max_pin='x.x') }}
   #   requirements:
   #     run_constrained:   # [osx and x86_64]
   #       - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
@@ -227,30 +227,29 @@ outputs:
   #       - pip
   #       - sip                                    # [build_platform == target_platform]
   #       - toml
-  #       - pyqt-builder                           # [build_platform == target_platform]
+  #       - my-pyqt6-pyqt-builder                           # [build_platform == target_platform]
   #       - packaging
-  #       - pyqt
+  #       - pyqt6
   #       - qt6-main
   #       # - qt-webengine
   #       - {{ cdt('mesa-libgl-devel') }}          # [linux]
   #       - {{ cdt('mesa-libegl-devel') }}         # [linux]
   #     run:
   #       - python
-  #       - {{ pin_subpackage('pyqt', max_pin='x.x') }}
+  #       - {{ pin_subpackage('pyqt6', max_pin='x.x') }}
   #   test:
   #     imports:
   #       - PyQt6.QtWebEngine
   #       - PyQt6.QtWebEngineCore
   #       - PyQt6.QtWebEngineWidgets
 
-  # Should this be renamed to pyqtcharts? (PyQt5.Chart -> PyQt6.QtCharts)
-  - name: pyqtchart
+  - name: pyqt6charts
     version: {{ version }}
     script: build-pyqtcharts.sh  # [not win]
     script: bld-pyqtcharts.bat  # [win]
     build:
       run_exports:
-        - {{ pin_subpackage('pyqtchart', max_pin='x.x') }}
+        - {{ pin_subpackage('pyqt6charts', max_pin='x.x') }}
     requirements:
       run_constrained:   # [osx and x86_64]
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
@@ -260,8 +259,8 @@ outputs:
         - jom                                    # [win]
         - python                                 # [build_platform != target_platform]
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-        #- pyqt-builder                           # [build_platform != target_platform]
-        - my-pyqt-builder                        # [build_platform != target_platform]
+        #- pyqt-builder                          # [build_platform != target_platform]
+        - my-pyqt6-builder                       # [build_platform != target_platform]
         - sip                                    # [build_platform != target_platform]
         - make
       host:
@@ -269,18 +268,18 @@ outputs:
         - pip
         - sip                                    # [build_platform == target_platform]
         - toml
-        #- pyqt-builder                           # [build_platform == target_platform]
+        #- pyqt-builder                          # [build_platform == target_platform]
         - my-pyqt-builder                        # [build_platform == target_platform]
         - packaging
         - qt6-main {{ version }}
         - qt6-charts {{ version }}
-        - pyqt {{ version }}
+        - pyqt6 {{ version }}
         - libgl-devel                        # [linux]
         - libegl-devel                       # [linux]
         - libopengl-devel                    # [linux]
       run:
         - python
-        - {{ pin_subpackage('pyqt', max_pin='x.x') }}
+        - {{ pin_subpackage('pyqt6', max_pin='x.x') }}
     test:
       imports:
         - PyQt6.QtCharts
