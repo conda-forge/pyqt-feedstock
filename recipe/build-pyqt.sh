@@ -35,6 +35,7 @@ if [[ $(uname) == "Darwin" ]]; then
     export PATH=$PREFIX/bin/xc-avoidance:$PATH
     if [[ ${HOST} =~ arm64.* ]]; then
         EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_Vulkan"
+        EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_OpenGL_ES2"
     fi
 fi
 
