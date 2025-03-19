@@ -33,7 +33,7 @@ fi
 if [[ $(uname) == "Darwin" ]]; then
     # Use xcode-avoidance scripts
     export PATH=$PREFIX/bin/xc-avoidance:$PATH
-    if [[ "$(uname -m)" == "arm64" ]]; then
+    if [[ $HOST =~ "arm64.*" ]]; then
         EXTRAFLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_Vulkan"
     fi
 fi
