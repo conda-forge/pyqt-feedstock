@@ -8,6 +8,8 @@
 {% set webengine_version = "6.8.1" %}
 {% set charts_name = "PyQt6-Charts" %}
 {% set charts_version = "6.8.0" %}
+{% set PYTHON = PYTHON | default("$PYTHON") %}
+{% set python_min = python_min | default("3.6") %}
 
 
 package:
@@ -50,12 +52,15 @@ outputs:
     version: {{ pyqt_builder_version }}
     build:
       noarch: python
-      script: cd pyqt-builder && python -m pip install . -vv
+      script: cd pyqt-builder && {{ PYTHON }} -m pip install . -vv
       entry_points:
         - pyqt-bundle = pyqtbuild.bundle.bundle_main:main
         - pyqt-qt-wheel = pyqtbuild.bundle.qt_wheel_main:main
 
     requirements:
+      build:
+        - python                                 # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
       host:
         - python
         - setuptools

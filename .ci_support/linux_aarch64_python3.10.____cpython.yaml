@@ -31,3 +31,9 @@ target_platform:
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
+build_platform:
+- linux-64
+CMAKE_CROSSCOMPILING_EMULATOR: 
+- /usr/bin/qemu-aarch64-static
+CROSSCOMPILING_EMULATOR: 
+- /usr/bin/qemu-aarch64-static
