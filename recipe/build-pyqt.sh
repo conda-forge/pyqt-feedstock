@@ -33,7 +33,7 @@ fi
 if [[ $(uname) == "Darwin" ]]; then
     # Use xcode-avoidance scripts
     export PATH=$PREFIX/bin/xc-avoidance:$PATH
-    if [[ ${HOST} =~ arm64.* ]]; then
+    if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
         EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_Vulkan"
         EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_OpenGL_ES2"
     fi
@@ -61,7 +61,7 @@ pushd build
 
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
   # Make sure BUILD_PREFIX sip-distinfo is called instead of the HOST one
-  cat Makefile | sed -r 's|\t(.*)sip-distinfo(.*)|\t'$BUILD_PREFIX/bin/python' -m sipbuild.distinfo.main \2|' > Makefile.temp
+  cat Makefile | sed -r 's|\t(.*)sip-distinfo(.*)|\t'$BUILD_PREFIX/bin/python' -m sipbuild.tools.distinfo.main \2|' > Makefile.temp
   rm Makefile
   mv Makefile.temp Makefile
 fi

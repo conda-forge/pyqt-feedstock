@@ -246,13 +246,13 @@ outputs:
   #       - PyQt6.QtWebEngineCore
   #       - PyQt6.QtWebEngineWidgets
 
-  - name: pyqt6charts
+  - name: pyqt6-charts
     version: {{ version }}
     script: build-pyqtcharts.sh  # [not win]
     script: bld-pyqtcharts.bat  # [win]
     build:
       run_exports:
-        - {{ pin_subpackage('pyqt6charts', max_pin='x.x') }}
+        - {{ pin_subpackage('pyqt6-charts', max_pin='x.x') }}
     requirements:
       build:
         - {{ compiler('c') }}
