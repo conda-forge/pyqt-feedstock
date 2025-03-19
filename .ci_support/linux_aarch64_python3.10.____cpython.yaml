@@ -22,12 +22,8 @@ pin_run_as_build:
   python:
     min_pin: x.x
     max_pin: x.x
-pyqt:
-- '5.15'
 python:
 - 3.10.* *_cpython
-qt6_main:
-- '6.8'
 target_platform:
 - linux-aarch64
 zip_keys:
