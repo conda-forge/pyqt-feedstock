@@ -104,7 +104,6 @@ outputs:
     build:
       run_exports:
         - {{ pin_subpackage('pyqt6', max_pin='x.x') }}
-      skip: True  # [ppc64le]
     requirements:
       build:
         - {{ compiler('c') }}
@@ -169,7 +168,6 @@ outputs:
   #   script: build-pyqtwebengine.sh  # [not win]
   #   script: bld-pyqtwebengine.bat  # [win]
   #   build:
-  #     skip: True  # [ppc64le]
   #     run_exports:
   #       - {{ pin_subpackage('pyqt6webengine', max_pin='x.x') }}
   #   requirements:
