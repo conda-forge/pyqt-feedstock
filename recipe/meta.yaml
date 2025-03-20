@@ -266,6 +266,7 @@ outputs:
         - my-pyqt6-builder                       # [build_platform != target_platform]
         - sip                                    # [build_platform != target_platform]
         - qt6-main {{ version }}                 # [build_platform != target_platform]
+        - qt6-charts {{ version }}               # [build_platform != target_platform]
         - make
       host:
         - python
