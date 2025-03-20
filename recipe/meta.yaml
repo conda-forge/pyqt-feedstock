@@ -120,6 +120,7 @@ outputs:
       host:
         - python
         - pip
+        - setuptools
         - sip                                    # [build_platform == target_platform]
         - toml
         #- pyqt-builder                          # [build_platform == target_platform]
