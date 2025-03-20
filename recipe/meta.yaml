@@ -264,10 +264,12 @@ outputs:
         #- pyqt-builder                          # [build_platform != target_platform]
         - my-pyqt6-builder                       # [build_platform != target_platform]
         - sip                                    # [build_platform != target_platform]
+        - qt6-main {{ version }}                 # [build_platform != target_platform]
         - make
       host:
         - python
         - pip
+        - setuptools
         - sip                                    # [build_platform == target_platform]
         - toml
         #- pyqt-builder                          # [build_platform == target_platform]
