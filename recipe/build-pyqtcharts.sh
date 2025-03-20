@@ -30,6 +30,8 @@ fi
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
   SIP_COMMAND="$BUILD_PREFIX/bin/python -m sipbuild.tools.build"
   SITE_PKGS_PATH=$($PREFIX/bin/python -c 'import site;print(site.getsitepackages()[0])')
+  ln -s ${BUILD_PREFIX}/bin/qmake6 ${BUILD_PREFIX}/bin/qmake
+
   EXTRA_FLAGS="--target-dir $SITE_PKGS_PATH"
 
   PYQT6_LOCATION=$($BUILD_PREFIX/bin/python -c 'import PyQt6;import os;print(os.path.join(os.path.dirname(PyQt6.__file__), "bindings"))')
