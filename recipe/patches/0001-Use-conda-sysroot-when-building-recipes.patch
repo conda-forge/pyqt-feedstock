@@ -1,0 +1,21 @@
+--- pyqtbuild/bindings.py	2021-10-28 04:53:13.000000000 -0500
++++ pyqtbuild/bindings.py	2022-02-17 11:09:20.141023450 -0500
+@@ -146,6 +146,18 @@
+         buildable.include_dirs.extend(self.include_dirs)
+         buildable.libraries.extend(self.libraries)
+         buildable.library_dirs.extend(self.library_dirs)
++
++        prefix_dir = os.environ.get('PREFIX', None)
++        if prefix_dir is not None and sys.platform == 'linux':
++            buildable.extra_compile_args.extend([f"-I{prefix_dir}/include -L{prefix_dir}/lib -Wl,-rpath,{prefix_dir}/lib -Wl,-rpath-link,{prefix_dir}/lib -Wl,-L{prefix_dir}/lib"])
++            buildable.library_dirs.extend([f"{prefix_dir}/lib"])
++            buildable.extra_link_args.extend([f"-L{prefix_dir}/lib -Wl,-rpath,{prefix_dir}/lib -Wl,-rpath-link,{prefix_dir}/lib -Wl,-L{prefix_dir}/lib"])
++        
++        sysroot = os.environ.get('CONDA_BUILD_SYSROOT', None) 
++        if sysroot is not None and sys.platform == 'linux':
++            sysroot = os.path.join(sysroot, 'usr', 'lib64')
++            buildable.extra_compile_args.extend([f"-L{sysroot} -Wl,-rpath,{sysroot}"])
++            buildable.extra_link_args.extend([f"-L{sysroot} -Wl,-rpath,{sysroot}"])
+ 
+         if test_source_path is None:
+             # Save the internal test to a file.

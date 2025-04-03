@@ -1,0 +1,14 @@
+diff --git a/pyqtbuild/builder.py b/pyqtbuild/builder.py
+index 3f35a7f..7133972 100644
+--- a/pyqtbuild/builder.py
++++ b/pyqtbuild/builder.py
+@@ -60,6 +60,9 @@ class QmakeBuilder(Builder):
+                         os.path.abspath(os.path.dirname(sys.argv[0])),
+                         self._sip_distinfo)
+ 
++                if not os.path.exists(self._sip_distinfo):
++                    self._sip_distinfo = self._find_exe('sip-distinfo')
++
+             # Check we have a qmake.
+             if self.qmake is None:
+                 self.qmake = self._find_exe('qmake')
