@@ -1,0 +1,23 @@
+diff --git a/sip/QtCore/qnamespace.sip b/sip/QtCore/qnamespace.sip
+index f41f773..f5ac793 100644
+--- a/sip/QtCore/qnamespace.sip
++++ b/sip/QtCore/qnamespace.sip
+@@ -947,18 +947,6 @@ namespace Qt
+ %End
+ %If (Qt_5_11_0 -)
+         Key_Dead_Greek,
+-%End
+-%If (Qt_5_11_0 -)
+-        Key_Dead_Lowline,
+-%End
+-%If (Qt_5_11_0 -)
+-        Key_Dead_Aboveverticalline,
+-%End
+-%If (Qt_5_11_0 -)
+-        Key_Dead_Belowverticalline,
+-%End
+-%If (Qt_5_11_0 -)
+-        Key_Dead_Longsolidusoverlay,
+ %End
+     };
+ 

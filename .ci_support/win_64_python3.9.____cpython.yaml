@@ -1,5 +1,7 @@
 c_compiler:
 - vs2019
+c_stdlib:
+- vs
 channel_sources:
 - conda-forge
 channel_targets:
@@ -12,12 +14,13 @@ pin_run_as_build:
     max_pin: x.x
 pyqt:
 - '5.15'
+pyqtchart:
+- '5.15'
+pyqtwebengine:
+- '5.15'
 python:
 - 3.9.* *_cpython
 qt_main:
 - '5.15'
 target_platform:
 - win-64
-zip_keys:
-- - python
-  - channel_sources
