@@ -1,5 +1,7 @@
-{% set version = "5.15.11" %}
-{% set sip_version = "12.16.1" %}
+{% set version = "5.15.10" %}
+# Sip versions greater thah 6.8.3 lack the sipbuild.distinfo.main module, which makes cross compilation fail
+{% set sip_version = "6.8.3" %}
+{% set pyqt5_sip_version = "12.13.0" %}
 {% set webengine_version = "5.15.7" %}
 {% set charts_version = "5.15.7" %}
 
@@ -10,13 +12,13 @@ package:
 
 source:
   - url: https://pypi.org/packages/source/P/PyQt{{ version[0] }}/PyQt{{ version[0] }}-{{ version }}.tar.gz
-    sha256: fda45743ebb4a27b4b1a51c6d8ef455c4c1b5d610c90d2934c7802b5c1557c52
+    sha256: d46b7804b1b10a4ff91753f8113e5b5580d2b4462f3226288e2d84497334898a
     folder: pyqt
     patches:
       - remove-deleted-xkb-keys.patch
 
-  - url: https://pypi.org/packages/source/P/PyQt5-sip/pyqt5_sip-{{ sip_version }}.tar.gz
-    sha256: 8c831f8b619811a32369d72339faa50ae53a963f5fdfa4d71f845c63e9673125
+  - url: https://pypi.org/packages/source/P/PyQt5-sip/PyQt5_sip-{{ pyqt5_sip_version }}.tar.gz
+    sha256: 7f321daf84b9c9dbca61b80e1ef37bdaffc0e93312edae2cd7da25b953971d91
     folder: pyqt_sip
 
   - url: https://pypi.org/packages/source/P/PyQtWebEngine/PyQtWebEngine-{{ webengine_version }}.tar.gz
@@ -32,7 +34,7 @@ build:
 
 outputs:
   - name: pyqt5-sip
-    version: {{ sip_version }}
+    version: {{ pyqt5_sip_version }}
     script: build-pyqt-sip.sh  # [not win]
     script: bld-pyqt-sip.bat  # [win]
     requirements:
@@ -116,13 +118,13 @@ outputs:
         - python                                 # [build_platform != target_platform]
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
         - pyqt-builder                           # [build_platform != target_platform]
-        - sip                                    # [build_platform != target_platform]
+        - sip {{ sip_version }}                  # [build_platform != target_platform]
         - make
       host:
         - python
         - pip
         - setuptools
-        - sip                                    # [build_platform == target_platform]
+        - sip {{ sip_version }}                  # [build_platform == target_platform]
         - toml
         - pyqt-builder                           # [build_platform == target_platform]
         - packaging
@@ -219,13 +221,13 @@ outputs:
         - python                                 # [build_platform != target_platform]
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
         - pyqt-builder                           # [build_platform != target_platform]
-        - sip                                    # [build_platform != target_platform]
+        - sip {{ sip_version }}                  # [build_platform != target_platform]
         - make
       host:
         - python
         - pip
         - setuptools
-        - sip                                    # [build_platform == target_platform]
+        - sip {{ sip_version }}                  # [build_platform == target_platform]
         - toml
         - pyqt-builder                           # [build_platform == target_platform]
         - packaging
@@ -302,13 +304,13 @@ outputs:
         - python                                 # [build_platform != target_platform]
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
         - pyqt-builder                           # [build_platform != target_platform]
-        - sip                                    # [build_platform != target_platform]
+        - sip {{ sip_version }}                  # [build_platform != target_platform]
         - make
       host:
         - python
         - pip
         - setuptools
-        - sip                                    # [build_platform == target_platform]
+        - sip {{ sip_version }}                  # [build_platform == target_platform]
         - toml
         - pyqt-builder                           # [build_platform == target_platform]
         - packaging
