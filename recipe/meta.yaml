@@ -305,6 +305,7 @@ outputs:
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
         - pyqt-builder                           # [build_platform != target_platform]
         - sip {{ sip_version }}                  # [build_platform != target_platform]
+        - libintl-devel                          # [build_platform != target_platform]
         - make
       host:
         - python
@@ -313,6 +314,7 @@ outputs:
         - sip {{ sip_version }}                  # [build_platform == target_platform]
         - toml
         - pyqt-builder                           # [build_platform == target_platform]
+        - libintl-devel                          # [build_platform != target_platform]
         - packaging
         - qt-main
         - pyqt
