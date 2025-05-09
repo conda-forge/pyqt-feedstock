@@ -1,6 +1,5 @@
 {% set version = "5.15.10" %}
-# Sip versions greater thah 6.8.3 lack the sipbuild.distinfo.main module, which makes cross compilation fail
-{% set sip_version = "6.8.3" %}
+{% set sip_version = "6.10.0" %}
 {% set pyqt5_sip_version = "12.13.0" %}
 {% set webengine_version = "5.15.7" %}
 {% set charts_version = "5.15.7" %}
