@@ -16,7 +16,7 @@ source:
     patches:
       - remove-deleted-xkb-keys.patch
 
-  - url: https://pypi.org/packages/source/P/PyQt5-sip/PyQt5_sip-{{ pyqt5_sip_version }}.tar.gz
+  - url: https://pypi.org/packages/source/P/PyQt5-sip/pyqt5_sip-{{ pyqt5_sip_version }}.tar.gz
     sha256: 682dadcdbd2239af9fdc0c0628e2776b820e128bec88b49b8d692fe682f90b4f
     folder: pyqt_sip
 
