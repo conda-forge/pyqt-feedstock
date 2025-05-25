@@ -1,4 +1,4 @@
-{% set version = "5.15.11" %}
+{% set version = "6.2.3" %}
 {% set sip_version = "6.10.0" %}
 {% set pyqt5_sip_version = "12.17.0" %}
 {% set webengine_version = "5.15.7" %}
@@ -11,7 +11,7 @@ package:
 
 source:
   - url: https://pypi.org/packages/source/P/PyQt{{ version[0] }}/PyQt{{ version[0] }}-{{ version }}.tar.gz
-    sha256: fda45743ebb4a27b4b1a51c6d8ef455c4c1b5d610c90d2934c7802b5c1557c52
+    sha256: a9bfcac198fe4b703706f809bb686c7cef5f60a7c802fc145c6b57929c7a6a34
     folder: pyqt
     patches:
       - remove-deleted-xkb-keys.patch
@@ -137,7 +137,7 @@ outputs:
     script: build-pyqtwebengine.sh  # [not win]
     script: bld-pyqtwebengine.bat  # [win]
     build:
-      skip: True  # [ppc64le]
+      skip: true  # [ppc64le]
       run_exports:
         - {{ pin_subpackage('pyqtwebengine', max_pin='x.x') }}
     requirements:
