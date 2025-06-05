@@ -2,7 +2,8 @@
 {% set pyqt_builder_name = "PyQt-builder" %}
 {% set pyqt_sip_name = "PyQt6-sip" %}
 {% set version = "6.8.1" %}
-{% set sip_version = "13.10.0" %}
+{% set sip_version = "6.10.0" %}
+{% set pyqt_sip_version = "13.10.0" %}
 {% set pyqt_builder_version = "1.15.4" %}
 {% set webengine_name = "PyQtWebEngine" %}
 {% set webengine_version = "6.8.1" %}
@@ -32,7 +33,7 @@ source:
     patches:
       - remove-deleted-xkb-keys.patch
 
-  - url: https://pypi.org/packages/source/{{ pyqt_sip_name[0] }}/{{ pyqt_sip_name }}/{{ pyqt_sip_name.replace('-', '_').lower() }}-{{ sip_version }}.tar.gz
+  - url: https://pypi.org/packages/source/{{ pyqt_sip_name[0] }}/{{ pyqt_sip_name }}/{{ pyqt_sip_name.replace('-', '_').lower() }}-{{ pyqt_sip_version }}.tar.gz
     sha256: d6daa95a0bd315d9ec523b549e0ce97455f61ded65d5eafecd83ed2aa4ae5350
     folder: pyqt_sip
 
@@ -75,7 +76,7 @@ outputs:
         - toml
 
   - name: pyqt6-sip
-    version: {{ sip_version }}
+    version: {{ pyqt_sip_version }}
     script: build-pyqt-sip.sh  # [not win]
     script: bld-pyqt-sip.bat  # [win]
     requirements:
