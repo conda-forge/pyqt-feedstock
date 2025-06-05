@@ -11,9 +11,9 @@ Summary: Python bindings for the Qt cross platform application toolkit
 
 Development: https://www.riverbankcomputing.com/mailman/listinfo/pyqt/
 
-Documentation: https://www.riverbankcomputing.com/static/Docs/PyQt5/
+Documentation: https://www.riverbankcomputing.com/static/Docs/PyQt6/
 
-PyQt5 is a comprehensive set of Python bindings for Qt v5.
+PyQt6 is a comprehensive set of Python bindings for Qt v5.
 It is implemented as more than 35 extension modules and enables Python
 to be used as an alternative application development language to C++ on
 all supported platforms including iOS and Android.
@@ -104,41 +104,6 @@ Current build status
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4133&branchName=main">
                   <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/pyqt-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_python3.9.____cpython" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_ppc64le_python3.10.____cpython</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4133&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/pyqt-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_python3.10.____cpython" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_ppc64le_python3.11.____cpython</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4133&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/pyqt-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_python3.11.____cpython" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_ppc64le_python3.12.____cpython</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4133&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/pyqt-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_python3.12.____cpython" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_ppc64le_python3.13.____cp313</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4133&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/pyqt-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_python3.13.____cp313" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_ppc64le_python3.9.____cpython</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4133&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/pyqt-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_python3.9.____cpython" alt="variant">
                 </a>
               </td>
             </tr><tr>
@@ -259,10 +224,10 @@ Current release info
 
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt-green.svg)](https://anaconda.org/conda-forge/pyqt) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt.svg)](https://anaconda.org/conda-forge/pyqt) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt.svg)](https://anaconda.org/conda-forge/pyqt) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt.svg)](https://anaconda.org/conda-forge/pyqt) |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt5--sip-green.svg)](https://anaconda.org/conda-forge/pyqt5-sip) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt5-sip.svg)](https://anaconda.org/conda-forge/pyqt5-sip) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt5-sip.svg)](https://anaconda.org/conda-forge/pyqt5-sip) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt5-sip.svg)](https://anaconda.org/conda-forge/pyqt5-sip) |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqtchart-green.svg)](https://anaconda.org/conda-forge/pyqtchart) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqtchart.svg)](https://anaconda.org/conda-forge/pyqtchart) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqtchart.svg)](https://anaconda.org/conda-forge/pyqtchart) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqtchart.svg)](https://anaconda.org/conda-forge/pyqtchart) |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqtwebengine-green.svg)](https://anaconda.org/conda-forge/pyqtwebengine) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqtwebengine.svg)](https://anaconda.org/conda-forge/pyqtwebengine) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqtwebengine.svg)](https://anaconda.org/conda-forge/pyqtwebengine) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqtwebengine.svg)](https://anaconda.org/conda-forge/pyqtwebengine) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-my--pyqt6--builder-green.svg)](https://anaconda.org/conda-forge/my-pyqt6-builder) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/my-pyqt6-builder.svg)](https://anaconda.org/conda-forge/my-pyqt6-builder) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/my-pyqt6-builder.svg)](https://anaconda.org/conda-forge/my-pyqt6-builder) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/my-pyqt6-builder.svg)](https://anaconda.org/conda-forge/my-pyqt6-builder) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt6-green.svg)](https://anaconda.org/conda-forge/pyqt6) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt6.svg)](https://anaconda.org/conda-forge/pyqt6) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt6.svg)](https://anaconda.org/conda-forge/pyqt6) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt6.svg)](https://anaconda.org/conda-forge/pyqt6) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt6--charts-green.svg)](https://anaconda.org/conda-forge/pyqt6-charts) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt6-charts.svg)](https://anaconda.org/conda-forge/pyqt6-charts) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt6-charts.svg)](https://anaconda.org/conda-forge/pyqt6-charts) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt6-charts.svg)](https://anaconda.org/conda-forge/pyqt6-charts) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt6--sip-green.svg)](https://anaconda.org/conda-forge/pyqt6-sip) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt6-sip.svg)](https://anaconda.org/conda-forge/pyqt6-sip) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt6-sip.svg)](https://anaconda.org/conda-forge/pyqt6-sip) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt6-sip.svg)](https://anaconda.org/conda-forge/pyqt6-sip) |
 
 Installing pyqt
 ===============
@@ -274,41 +239,41 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `pyqt, pyqt5-sip, pyqtchart, pyqtwebengine` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `my-pyqt6-builder, pyqt6, pyqt6-charts, pyqt6-sip` can be installed with `conda`:
 
 ```
-conda install pyqt pyqt5-sip pyqtchart pyqtwebengine
-```
-
-or with `mamba`:
-
-```
-mamba install pyqt pyqt5-sip pyqtchart pyqtwebengine
-```
-
-It is possible to list all of the versions of `pyqt` available on your platform with `conda`:
-
-```
-conda search pyqt --channel conda-forge
+conda install my-pyqt6-builder pyqt6 pyqt6-charts pyqt6-sip
 ```
 
 or with `mamba`:
 
 ```
-mamba search pyqt --channel conda-forge
+mamba install my-pyqt6-builder pyqt6 pyqt6-charts pyqt6-sip
+```
+
+It is possible to list all of the versions of `my-pyqt6-builder` available on your platform with `conda`:
+
+```
+conda search my-pyqt6-builder --channel conda-forge
+```
+
+or with `mamba`:
+
+```
+mamba search my-pyqt6-builder --channel conda-forge
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search pyqt --channel conda-forge
+mamba repoquery search my-pyqt6-builder --channel conda-forge
 
-# List packages depending on `pyqt`:
-mamba repoquery whoneeds pyqt --channel conda-forge
+# List packages depending on `my-pyqt6-builder`:
+mamba repoquery whoneeds my-pyqt6-builder --channel conda-forge
 
-# List dependencies of `pyqt`:
-mamba repoquery depends pyqt --channel conda-forge
+# List dependencies of `my-pyqt6-builder`:
+mamba repoquery depends my-pyqt6-builder --channel conda-forge
 ```
 
 
