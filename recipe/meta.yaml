@@ -3,6 +3,7 @@
 {% set pyqt5_sip_version = "12.17.0" %}
 {% set webengine_version = "5.15.7" %}
 {% set charts_version = "5.15.7" %}
+{% set pyqt_builder_version = "<1.16.0" %}
 
 
 package:
@@ -29,7 +30,7 @@ source:
     folder: pyqt_charts
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - name: pyqt5-sip
@@ -70,19 +71,19 @@ outputs:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - {{ stdlib('c') }}
-        - jom                                # [win]
-        - python                                 # [build_platform != target_platform]
-        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-        - pyqt-builder                           # [build_platform != target_platform]
-        - sip {{ sip_version }}                  # [build_platform != target_platform]
+        - jom                                      # [win]
+        - python                                   # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}       # [build_platform != target_platform]
+        - pyqt-builder {{ pyqt_builder_version }}  # [build_platform != target_platform]
+        - sip {{ sip_version }}                    # [build_platform != target_platform]
         - make
       host:
         - python
         - pip
         - setuptools
-        - sip {{ sip_version }}                  # [build_platform == target_platform]
+        - sip {{ sip_version }}                    # [build_platform == target_platform]
         - toml
-        - pyqt-builder                           # [build_platform == target_platform]
+        - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
         - packaging
         - qt-main
         - libgl-devel                            # [linux]
@@ -145,19 +146,19 @@ outputs:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - {{ stdlib('c') }}
-        - jom                                    # [win]
-        - python                                 # [build_platform != target_platform]
-        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-        - pyqt-builder                           # [build_platform != target_platform]
-        - sip {{ sip_version }}                  # [build_platform != target_platform]
+        - jom                                      # [win]
+        - python                                   # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}       # [build_platform != target_platform]
+        - pyqt-builder {{ pyqt_builder_version }}  # [build_platform != target_platform]
+        - sip {{ sip_version }}                    # [build_platform != target_platform]
         - make
       host:
         - python
         - pip
         - setuptools
-        - sip {{ sip_version }}                  # [build_platform == target_platform]
+        - sip {{ sip_version }}                    # [build_platform == target_platform]
         - toml
-        - pyqt-builder                           # [build_platform == target_platform]
+        - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
         - packaging
         - pyqt
         - qt-main
@@ -200,19 +201,19 @@ outputs:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - {{ stdlib('c') }}
-        - jom                                    # [win]
-        - python                                 # [build_platform != target_platform]
-        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-        - pyqt-builder                           # [build_platform != target_platform]
-        - sip {{ sip_version }}                  # [build_platform != target_platform]
+        - jom                                      # [win]
+        - python                                   # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}       # [build_platform != target_platform]
+        - pyqt-builder {{ pyqt_builder_version }}  # [build_platform != target_platform]
+        - sip {{ sip_version }}                    # [build_platform != target_platform]
         - make
       host:
         - python
         - pip
         - setuptools
-        - sip {{ sip_version }}                  # [build_platform == target_platform]
+        - sip {{ sip_version }}                    # [build_platform == target_platform]
         - toml
-        - pyqt-builder                           # [build_platform == target_platform]
+        - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
         - packaging
         - qt-main
         - pyqt
