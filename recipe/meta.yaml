@@ -3,7 +3,7 @@
 {% set pyqt5_sip_version = "12.17.0" %}
 {% set webengine_version = "5.15.7" %}
 {% set charts_version = "5.15.7" %}
-{% set pyqt_builder_version = "<1.16.0" %}
+{% set pyqt_builder_version = "1.15" %}
 
 
 package:
@@ -30,7 +30,7 @@ source:
     folder: pyqt_charts
 
 build:
-  number: 1
+  number: 2
 
 outputs:
   - name: pyqt5-sip
