@@ -4,7 +4,7 @@
 {% set version = "6.8.1" %}
 {% set sip_version = "6.12.0" %}
 {% set pyqt_sip_version = "13.10.0" %}
-{% set pyqt_builder_version = "1.15.4" %}
+{% set pyqt_builder_version = "1.18.2" %}
 {% set webengine_name = "PyQtWebEngine" %}
 {% set webengine_version = "6.8.1" %}
 {% set charts_name = "PyQt6-Charts" %}
@@ -18,8 +18,8 @@ package:
   version: {{ version }}
 
 source:
-  - url: https://pypi.org/packages/source/{{ pyqt_builder_name[0] }}/{{ pyqt_builder_name }}/{{ pyqt_builder_name }}-{{ pyqt_builder_version }}.tar.gz
-    sha256: 39f8c75db17d9ce17cb6bbf3df1650b5cebc1ea4e5bd73843d21cc96612b2ae1
+  - url: https://pypi.org/packages/source/{{ pyqt_builder_name[0] }}/{{ pyqt_builder_name }}/{{ pyqt_builder_name.replace('-', '_').lower() }}-{{ pyqt_builder_version }}.tar.gz
+    sha256: 56dfea461484a87a8f0c8b0229190defc436d7ec5de71102e20b35e5639180bc
     folder: pyqt-builder
     patches:
       #- patches/0001-Use-conda-sysroot-when-building-recipes.patch
