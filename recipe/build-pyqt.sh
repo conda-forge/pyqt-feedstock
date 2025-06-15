@@ -22,6 +22,8 @@ if [[ $(uname) == "Linux" ]]; then
     chmod +x g++ gcc gcc-ar
     export PATH=${PWD}:${PATH}
 
+    # Drop CDTs. Patch 0004 now takes from $PREFIX.
+    # Will we still need this for something else though?
     SYSROOT_FLAGS="-L ${BUILD_PREFIX}/${HOST}/sysroot/usr/lib64 -L ${BUILD_PREFIX}/${HOST}/sysroot/usr/lib"
     export CFLAGS="$SYSROOT_FLAGS $CFLAGS"
     export CXXFLAGS="$SYSROOT_FLAGS $CXXFLAGS"
@@ -31,12 +33,22 @@ fi
 if [[ $(uname) == "Darwin" ]]; then
     # Use xcode-avoidance scripts
     export PATH=$PREFIX/bin/xc-avoidance:$PATH
+    if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
+        EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_Vulkan"
+        EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_OpenGL_ES2"
+    fi
 fi
 
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
   SIP_COMMAND="$BUILD_PREFIX/bin/python -m sipbuild.tools.build"
   SITE_PKGS_PATH=$($PREFIX/bin/python -c 'import site;print(site.getsitepackages()[0])')
-  EXTRA_FLAGS="--target-dir $SITE_PKGS_PATH"
+  EXTRA_FLAGS="${EXTRA_FLAGS} --target-dir $SITE_PKGS_PATH"
+  ln -s ${BUILD_PREFIX}/bin/qmake6 ${BUILD_PREFIX}/bin/qmake
+fi
+ln -s ${PREFIX}/bin/qmake6 ${PREFIX}/bin/qmake
+
+if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
+  echo "" > sip/QtOpenGL/qopenglfunctions_es2.sip
 fi
 
 $SIP_COMMAND \

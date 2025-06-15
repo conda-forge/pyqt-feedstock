@@ -1,0 +1,12 @@
+--- pyqtbuild/bindings.py	2021-10-28 04:53:13.000000000 -0500
++++ pyqtbuild/bindings_patch.py	2022-03-14 20:16:11.188026915 -0500
+@@ -172,6 +172,9 @@
+         if test_exe is None:
+             return False
+ 
++        if bool(int(os.environ.get('CONDA_BUILD_CROSS_COMPILATION', '0'))):
++            run_test = False
++
+         # If the test doesn't need to be run then we are done.
+         if not run_test:
+             return True

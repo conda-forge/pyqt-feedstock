@@ -1,6 +1,8 @@
 pushd pyqt
 copy LICENSE ..
 
+copy %LIBRARY_BIN%\qmake6.exe %LIBRARY_BIN%\qmake.exe
+
 set PATH=%cd%\jom;%PATH%
 set PATH=%LIBRARY_INC%;%PATH%
 

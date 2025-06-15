@@ -12,15 +12,9 @@ pin_run_as_build:
   python:
     min_pin: x.x
     max_pin: x.x
-pyqt:
-- '5.15'
-pyqtchart:
-- '5.15'
-pyqtwebengine:
-- '5.15'
 python:
 - 3.12.* *_cpython
-qt_main:
-- '5.15'
+python_min:
+- '3.9'
 target_platform:
 - win-64
