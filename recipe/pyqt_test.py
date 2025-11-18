@@ -1,8 +1,8 @@
 # From http://zetcode.com/gui/pyqt4/firstprograms/
 
 import sys
-from PyQt5 import QtWidgets
-from PyQt5.QtCore import QTimer
+from PyQt6 import QtWidgets
+from PyQt6.QtCore import QTimer
 
 
 def main():
@@ -24,7 +24,7 @@ def main():
     close_timer.timeout.connect(quit_app)
     close_timer.start()
 
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
 
 
 if __name__ == '__main__':
