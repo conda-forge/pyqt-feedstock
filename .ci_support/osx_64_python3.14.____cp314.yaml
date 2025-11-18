@@ -11,7 +11,7 @@ c_stdlib:
 c_stdlib_version:
 - '10.13'
 channel_sources:
-- conda-forge,conda-forge/label/python_rc
+- conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
@@ -24,20 +24,10 @@ pin_run_as_build:
   python:
     min_pin: x.x
     max_pin: x.x
-pyqt:
-- '5.15'
-pyqtchart:
-- '5.15'
-pyqtwebengine:
-- '5.15'
 python:
 - 3.14.* *_cp314
-qt_main:
-- '5.15'
 target_platform:
 - osx-64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
-- - python
-  - channel_sources
