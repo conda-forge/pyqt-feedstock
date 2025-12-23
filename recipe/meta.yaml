@@ -1,39 +1,41 @@
-{% set version = "5.15.11" %}
+{% set version = "6.8.1" %}
 {% set sip_version = "6.10.0" %}
-{% set pyqt5_sip_version = "12.17.0" %}
-{% set webengine_version = "5.15.7" %}
-{% set charts_version = "5.15.7" %}
+{% set pyqt6_sip_version = "13.10.0" %}
+{% set webengine_version = "6.8.0" %}
+{% set charts_version = "6.8.0" %}
+{% set pyqt_builder_version = "1.18.2" %}
 
 
 package:
-  name: pyqt-split
+  name: pyqt6-split
   version: {{ version }}
 
 source:
-  - url: https://pypi.org/packages/source/P/PyQt{{ version[0] }}/PyQt{{ version[0] }}-{{ version }}.tar.gz
-    sha256: fda45743ebb4a27b4b1a51c6d8ef455c4c1b5d610c90d2934c7802b5c1557c52
+  - url: https://pypi.org/packages/source/P/PyQt{{ version[0] }}/pyqt{{ version[0] }}-{{ version }}.tar.gz
+    sha256: 91d937d6166274fafd70f4dee11a8da6dbfdb0da53de05f5d62361ddf775e256
     folder: pyqt
-    patches:
-      - remove-deleted-xkb-keys.patch
 
-  - url: https://pypi.org/packages/source/P/PyQt5-sip/pyqt5_sip-{{ pyqt5_sip_version }}.tar.gz
-    sha256: 682dadcdbd2239af9fdc0c0628e2776b820e128bec88b49b8d692fe682f90b4f
+  - url: https://pypi.org/packages/source/P/PyQt6-sip/pyqt6_sip-{{ pyqt6_sip_version }}.tar.gz
+    sha256: d6daa95a0bd315d9ec523b549e0ce97455f61ded65d5eafecd83ed2aa4ae5350
     folder: pyqt_sip
 
-  - url: https://pypi.org/packages/source/P/PyQtWebEngine/PyQtWebEngine-{{ webengine_version }}.tar.gz
-    sha256: f121ac6e4a2f96ac289619bcfc37f64e68362f24a346553f5d6c42efa4228a4d
+  - url: https://pypi.org/packages/source/P/PyQt6-WebEngine/PyQt6_WebEngine-{{ webengine_version }}.tar.gz
+    sha256: 64045ea622b6a41882c2b18f55ae9714b8660acff06a54e910eb72822c2f3ff2
     folder: pyqt_webengine
 
-  - url: https://pypi.org/packages/source/P/PyQtChart/PyQtChart-{{ charts_version }}.tar.gz
-    sha256: bc9f1d26c725e820b0fff8db6e906e8b286128a14b3a98c59a0cd0c3d9924095
+  - url: https://pypi.org/packages/source/P/PyQt6-Charts/PyQt6_Charts-{{ charts_version }}.tar.gz
+    sha256: f86705b8740e3041667ce211aeaa205b750eb6baf4c908f4e3f6dc8c720d10f1
     folder: pyqt_charts
 
 build:
   number: 0
+  skip:
+    - true  # [linux and aarch64]
+    - true  # [linux and ppc64le]
 
 outputs:
-  - name: pyqt5-sip
-    version: {{ pyqt5_sip_version }}
+  - name: pyqt6-sip
+    version: {{ pyqt6_sip_version }}
     script: build-pyqt-sip.sh  # [not win]
     script: bld-pyqt-sip.bat  # [win]
     requirements:
@@ -56,35 +58,36 @@ outputs:
         - toml
     test:
       imports:
-        - PyQt5.sip
+        - PyQt6.sip
 
-  - name: pyqt
+  - name: pyqt6
     version: {{ version }}
     script: build-pyqt.sh  # [not win]
     script: bld-pyqt.bat  # [win]
     build:
       run_exports:
-        - {{ pin_subpackage('pyqt', max_pin='x.x') }}
+        - {{ pin_subpackage('pyqt6', max_pin='x.x') }}
     requirements:
       build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - {{ stdlib('c') }}
-        - jom                                # [win]
-        - python                                 # [build_platform != target_platform]
-        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-        - pyqt-builder                           # [build_platform != target_platform]
-        - sip {{ sip_version }}                  # [build_platform != target_platform]
+        - jom                                      # [win]
+        - python                                   # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}       # [build_platform != target_platform]
+        - pyqt-builder {{ pyqt_builder_version }}  # [build_platform != target_platform]
+        - sip {{ sip_version }}                    # [build_platform != target_platform]
+        - qt6-main {{ version }}                   # [build_platform != target_platform]
         - make
       host:
         - python
         - pip
         - setuptools
-        - sip {{ sip_version }}                  # [build_platform == target_platform]
+        - sip {{ sip_version }}                    # [build_platform == target_platform]
         - toml
-        - pyqt-builder                           # [build_platform == target_platform]
+        - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
         - packaging
-        - qt-main
+        - qt6-main {{ version }}
         - libgl-devel                            # [linux]
         - libegl-devel                           # [linux]
         - libopengl-devel                        # [linux]
@@ -104,64 +107,64 @@ outputs:
         - xorg-xf86vidmodeproto                  # [linux]
       run:
         - python
-        - {{ pin_subpackage('pyqt5-sip', exact=True) }}
+        - {{ pin_subpackage('pyqt6-sip', exact=True) }}
     test:
       files:
         - pyqt_test.py
       imports:
-        - PyQt5
-        - PyQt5.sip
-        - PyQt5.QtCore
-        - PyQt5.QtGui
-        - PyQt5.QtHelp
-        - PyQt5.QtMultimedia
-        - PyQt5.QtMultimediaWidgets
-        - PyQt5.QtNetwork
-        - PyQt5.QtOpenGL
-        - PyQt5.QtPrintSupport
-        - PyQt5.QtQml
-        - PyQt5.QtQuick
-        - PyQt5.QtSvg
-        - PyQt5.QtTest
-        - PyQt5.QtWebChannel
-        - PyQt5.QtWebSockets
-        - PyQt5.QtWidgets
-        - PyQt5.QtXml
-        - PyQt5.QtXmlPatterns
+        - PyQt6
+        - PyQt6.sip
+        - PyQt6.QtCore
+        - PyQt6.QtGui
+        - PyQt6.QtHelp
+        - PyQt6.QtNetwork
+        - PyQt6.QtOpenGL
+        - PyQt6.QtPrintSupport
+        - PyQt6.QtQml
+        - PyQt6.QtQuick
+        - PyQt6.QtQuickWidgets
+        - PyQt6.QtSvg
+        - PyQt6.QtSvgWidgets
+        - PyQt6.QtTest
+        - PyQt6.QtWebChannel
+        - PyQt6.QtWebSockets
+        - PyQt6.QtWidgets
+        - PyQt6.QtXml
       commands:
         - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
-        - pyuic5 --version  # [not win]
+        - pyuic6 --version  # [not win]
 
-  - name: pyqtwebengine
+  - name: pyqt6webengine
     version: {{ version }}
     script: build-pyqtwebengine.sh  # [not win]
     script: bld-pyqtwebengine.bat  # [win]
     build:
-      skip: True  # [ppc64le]
+      skip: True # https://github.com/conda-forge/pyqt-feedstock/issues/156
       run_exports:
-        - {{ pin_subpackage('pyqtwebengine', max_pin='x.x') }}
+        - {{ pin_subpackage('pyqt6webengine', max_pin='x.x') }}
     requirements:
       build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - {{ stdlib('c') }}
-        - jom                                    # [win]
-        - python                                 # [build_platform != target_platform]
-        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-        - pyqt-builder                           # [build_platform != target_platform]
-        - sip {{ sip_version }}                  # [build_platform != target_platform]
+        - jom                                      # [win]
+        - python                                   # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}       # [build_platform != target_platform]
+        - pyqt-builder {{ pyqt_builder_version }}  # [build_platform != target_platform]
+        - sip {{ sip_version }}                    # [build_platform != target_platform]
+        - qt6-main {{ version }}                   # [build_platform != target_platform]
         - make
       host:
         - python
         - pip
         - setuptools
-        - sip {{ sip_version }}                  # [build_platform == target_platform]
+        - sip {{ sip_version }}                    # [build_platform == target_platform]
         - toml
-        - pyqt-builder                           # [build_platform == target_platform]
+        - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
         - packaging
-        - pyqt
-        - qt-main
-        - qt-webengine
+        - pyqt6
+        - qt6-main {{ version }}
+        - qt6-webengine {{ version }}            # [build_platform != target_platform]
         - libgl-devel                            # [linux]
         - libegl-devel                           # [linux]
         - libopengl-devel                        # [linux]
@@ -181,41 +184,44 @@ outputs:
         - xorg-xf86vidmodeproto                  # [linux]
       run:
         - python
-        - {{ pin_subpackage('pyqt', max_pin='x.x') }}
+        - {{ pin_subpackage('pyqt6', max_pin='x.x') }}
     test:
       imports:
-        - PyQt5.QtWebEngine
-        - PyQt5.QtWebEngineCore
-        - PyQt5.QtWebEngineWidgets
+        - PyQt6.QtWebEngine
+        - PyQt6.QtWebEngineCore
+        - PyQt6.QtWebEngineWidgets
 
-  - name: pyqtchart
+  - name: pyqt6-charts
     version: {{ version }}
     script: build-pyqtcharts.sh  # [not win]
     script: bld-pyqtcharts.bat  # [win]
     build:
       run_exports:
-        - {{ pin_subpackage('pyqtchart', max_pin='x.x') }}
+        - {{ pin_subpackage('pyqt6-charts', max_pin='x.x') }}
     requirements:
       build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - {{ stdlib('c') }}
-        - jom                                    # [win]
-        - python                                 # [build_platform != target_platform]
-        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-        - pyqt-builder                           # [build_platform != target_platform]
-        - sip {{ sip_version }}                  # [build_platform != target_platform]
+        - jom                                      # [win]
+        - python                                   # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}       # [build_platform != target_platform]
+        - pyqt-builder {{ pyqt_builder_version }}  # [build_platform != target_platform]
+        - sip {{ sip_version }}                    # [build_platform != target_platform]
+        - qt6-main {{ version }}                   # [build_platform != target_platform]
+        - qt6-charts {{ version }}                 # [build_platform != target_platform]
         - make
       host:
         - python
         - pip
         - setuptools
-        - sip {{ sip_version }}                  # [build_platform == target_platform]
+        - sip {{ sip_version }}                    # [build_platform == target_platform]
         - toml
-        - pyqt-builder                           # [build_platform == target_platform]
+        - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
         - packaging
-        - qt-main
-        - pyqt
+        - qt6-main {{ version }}
+        - qt6-charts {{ version }}
+        - pyqt6
         - libgl-devel                            # [linux]
         - libegl-devel                           # [linux]
         - libopengl-devel                        # [linux]
@@ -235,10 +241,10 @@ outputs:
         - xorg-xf86vidmodeproto                  # [linux]
       run:
         - python
-        - {{ pin_subpackage('pyqt', max_pin='x.x') }}
+        - {{ pin_subpackage('pyqt6', max_pin='x.x') }}
     test:
       imports:
-        - PyQt5.QtChart
+        - PyQt6.QtCharts
 
 about:
   home: https://www.riverbankcomputing.com/software/pyqt/
