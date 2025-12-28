@@ -28,7 +28,7 @@ source:
     folder: pyqt_charts
 
 build:
-  number: 0
+  number: 1
   skip:
     - true  # [linux and aarch64]
     - true  # [linux and ppc64le]
