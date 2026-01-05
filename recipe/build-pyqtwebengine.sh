@@ -27,6 +27,9 @@ if [[ $(uname) == "Darwin" ]]; then
     export PATH=$PREFIX/bin/xc-avoidance:$PATH
 fi
 
+# Set up cross-compilation for macOS (creates qmake wrapper and qt.conf)
+source ${RECIPE_DIR}/setup-cross-compile.sh
+
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
   SIP_COMMAND="$BUILD_PREFIX/bin/python -m sipbuild.tools.build"
   SITE_PKGS_PATH=$($PREFIX/bin/python -c 'import site;print(site.getsitepackages()[0])')

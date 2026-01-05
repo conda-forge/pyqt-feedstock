@@ -37,13 +37,16 @@ if [[ $(uname) == "Darwin" ]]; then
     fi
 fi
 
+# Set up cross-compilation for macOS (creates qmake wrapper and qt.conf)
+source ${RECIPE_DIR}/setup-cross-compile.sh
+
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
   SIP_COMMAND="$BUILD_PREFIX/bin/python -m sipbuild.tools.build"
   SITE_PKGS_PATH=$($PREFIX/bin/python -c 'import site;print(site.getsitepackages()[0])')
   EXTRA_FLAGS="${EXTRA_FLAGS} --target-dir $SITE_PKGS_PATH"
-  ln -s ${BUILD_PREFIX}/bin/qmake6 ${BUILD_PREFIX}/bin/qmake
+else
+  ln -s ${PREFIX}/bin/qmake6 ${PREFIX}/bin/qmake
 fi
-ln -s ${PREFIX}/bin/qmake6 ${PREFIX}/bin/qmake
 
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
   echo "" > sip/QtOpenGL/qopenglfunctions_es2.sip
