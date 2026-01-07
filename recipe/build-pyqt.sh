@@ -69,3 +69,16 @@ fi
 
 CPATH=$PREFIX/include make -j$CPU_COUNT
 make install
+
+if [[ $(uname) == "Darwin" && "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
+    # Verify the built libraries are arm64
+    echo "Verifying PyQt6 extension architectures..."
+    for lib in $(find $PREFIX/lib/python*/site-packages/PyQt6 -name "*.so" 2>/dev/null); do
+        if ! file "$lib" | grep -q "arm64"; then
+            echo "ERROR: $lib is not arm64!"
+            file "$lib"
+            exit 1
+        fi
+    done
+    echo "All PyQt6 extensions verified as arm64"
+fi
