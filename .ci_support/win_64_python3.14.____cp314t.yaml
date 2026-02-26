@@ -19,7 +19,7 @@ pyqtchart:
 pyqtwebengine:
 - '5.15'
 python:
-- 3.12.* *_cpython
+- 3.14.* *_cp314t
 qt_main:
 - '5.15'
 target_platform:
