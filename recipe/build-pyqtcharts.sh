@@ -27,13 +27,16 @@ if [[ $(uname) == "Darwin" ]]; then
     export PATH=$PREFIX/bin/xc-avoidance:$PATH
 fi
 
+# Set up cross-compilation for macOS (creates qmake wrapper and qt.conf)
+source ${RECIPE_DIR}/setup-cross-compile.sh
+
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
   SIP_COMMAND="$BUILD_PREFIX/bin/python -m sipbuild.tools.build"
   SITE_PKGS_PATH=$($PREFIX/bin/python -c 'import site;print(site.getsitepackages()[0])')
   EXTRA_FLAGS="--target-dir $SITE_PKGS_PATH"
 
-  PYQT5_LOCATION=$($BUILD_PREFIX/bin/python -c 'import PyQt5;import os;print(os.path.join(os.path.dirname(PyQt5.__file__), "bindings"))')
-  awk 'NR==25{$0="sip-include-dirs = [\"'$PYQT5_LOCATION'\"]\n"}1' pyproject.toml >  pyproject.toml.tmp
+  PYQT6_LOCATION=$($BUILD_PREFIX/bin/python -c 'import PyQt6;import os;print(os.path.join(os.path.dirname(PyQt6.__file__), "bindings"))')
+  awk 'NR==25{$0="sip-include-dirs = [\"'$PYQT6_LOCATION'\"]\n"}1' pyproject.toml >  pyproject.toml.tmp
   rm pyproject.toml
   mv pyproject.toml.tmp pyproject.toml
 fi
@@ -58,3 +61,16 @@ fi
 
 CPATH=$PREFIX/include make -j$CPU_COUNT
 make install
+
+if [[ $(uname) == "Darwin" && "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
+    # Verify the built libraries are arm64
+    echo "Verifying PyQt6-Charts extension architectures..."
+    for lib in $(find $PREFIX/lib/python*/site-packages/PyQt6 -name "*.so" 2>/dev/null); do
+        if ! file "$lib" | grep -q "arm64"; then
+            echo "ERROR: $lib is not arm64!"
+            file "$lib"
+            exit 1
+        fi
+    done
+    echo "All PyQt6-Charts extensions verified as arm64"
+fi

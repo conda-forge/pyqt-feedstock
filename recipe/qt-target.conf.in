@@ -1,0 +1,18 @@
+[Paths]
+Prefix = @PREFIX@
+Documentation = @PREFIX@/share/doc/qt6
+Headers = @PREFIX@/include/qt6
+Libraries = @PREFIX@/lib
+LibraryExecutables = @BUILD_PREFIX@/lib/qt6
+Binaries = @BUILD_PREFIX@/lib/qt6/bin
+Plugins = @PREFIX@/lib/qt6/plugins
+QmlImports = @PREFIX@/lib/qt6/qml
+ArchData = @PREFIX@/lib/qt6
+HostData = @BUILD_PREFIX@/lib/qt6
+Data = @PREFIX@/share/qt6
+Translations = @PREFIX@/share/qt6/translations
+Examples = @PREFIX@/share/doc/qt6/examples
+Tests = @PREFIX@/tests
+HostLibraries = @BUILD_PREFIX@/lib
+HostBinaries = @BUILD_PREFIX@/bin
+HostLibraryExecutables = @BUILD_PREFIX@/lib/qt6
