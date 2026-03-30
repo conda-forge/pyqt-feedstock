@@ -1,4 +1,4 @@
-{% set version = "6.8.1" %}
+{% set version = "6.11.0" %}
 {% set sip_version = "6.10.0" %}
 {% set pyqt6_sip_version = "13.10.0" %}
 {% set webengine_version = "6.8.0" %}
@@ -12,7 +12,7 @@ package:
 
 source:
   - url: https://pypi.org/packages/source/P/PyQt{{ version[0] }}/pyqt{{ version[0] }}-{{ version }}.tar.gz
-    sha256: 91d937d6166274fafd70f4dee11a8da6dbfdb0da53de05f5d62361ddf775e256
+    sha256: 45dd60aa69976de1918b5ced6b4e7b6a25abd2a919ecef5fd5826ecc76718889
     folder: pyqt
 
   - url: https://pypi.org/packages/source/P/PyQt6-sip/pyqt6_sip-{{ pyqt6_sip_version }}.tar.gz
@@ -28,7 +28,7 @@ source:
     folder: pyqt_charts
 
 build:
-  number: 3
+  number: 0
   skip:
     - true  # [linux and aarch64]
     - true  # [linux and ppc64le]
@@ -139,7 +139,7 @@ outputs:
     script: build-pyqtwebengine.sh  # [not win]
     script: bld-pyqtwebengine.bat  # [win]
     build:
-      skip: True # https://github.com/conda-forge/pyqt-feedstock/issues/156
+      skip: true # https://github.com/conda-forge/pyqt-feedstock/issues/156
       run_exports:
         - {{ pin_subpackage('pyqt6webengine', max_pin='x.x') }}
     requirements:
