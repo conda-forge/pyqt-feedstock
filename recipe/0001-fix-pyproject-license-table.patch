@@ -1,9 +1,10 @@
 --- a/pyproject.toml
 +++ b/pyproject.toml
-@@ -9,7 +9,7 @@ dependencies = []
+@@ -11,8 +11,7 @@ urls.homepage = "https://www.riverbankcomputing.com/software/pyqt/"
+ dependencies = []
  requires-python = ">=3.10"
 -license = "GPL-3.0-only"
+-license-files = ["LICENSE"]
 +license = {text = "GPL-3.0-only"}
- license-files = ["LICENSE"]
  
  [[project.authors]]
