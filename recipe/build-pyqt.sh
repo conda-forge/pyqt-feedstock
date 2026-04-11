@@ -31,6 +31,11 @@ fi
 if [[ $(uname) == "Darwin" ]]; then
     # Use xcode-avoidance scripts
     export PATH=$PREFIX/bin/xc-avoidance:$PATH
+
+    # QNativeInterface X11/Wayland bindings are Linux-only and fail to compile on macOS.
+    EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_XCB"
+    EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_Wayland"
+
     if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
       EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_Vulkan"
       EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_OpenGL_ES2"
