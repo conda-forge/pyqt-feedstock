@@ -42,7 +42,7 @@ if [[ $(uname) == "Darwin" ]]; then
     fi
 fi
 
-# Set up cross-compilation for macOS (creates qmake wrapper and qt.conf)
+# Set up cross-compilation (creates qmake wrapper and qt.conf)
 source ${RECIPE_DIR}/setup-cross-compile.sh
 
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
