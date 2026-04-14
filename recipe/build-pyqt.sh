@@ -35,17 +35,18 @@ if [[ $(uname) == "Darwin" ]]; then
     # QNativeInterface X11/Wayland bindings are Linux-only and fail to compile on macOS.
     EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_XCB"
     EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_Wayland"
-
-    if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
-      EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_Vulkan"
-      EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_OpenGL_ES2"
-    fi
 fi
 
 # Set up cross-compilation (creates qmake wrapper and qt.conf)
 source ${RECIPE_DIR}/setup-cross-compile.sh
 
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
+  # Vulkan bindings fail when the cross target QtGui headers do not expose the
+  # QVulkan* API expected by the generated SIP sources.
+  EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_Vulkan"
+  if [[ $(uname) == "Darwin" ]]; then
+    EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_OpenGL_ES2"
+  fi
   SIP_COMMAND="$BUILD_PREFIX/bin/python -m sipbuild.tools.build"
   SITE_PKGS_PATH=$($PREFIX/bin/python -c 'import site;print(site.getsitepackages()[0])')
   EXTRA_FLAGS="${EXTRA_FLAGS} --target-dir $SITE_PKGS_PATH"
