@@ -245,6 +245,45 @@ outputs:
       imports:
         - PyQt6.QtCharts
 
+  - name: pyqt6-designer-plugin
+    version: {{ version }}
+    script: build-pyqt6-designer.sh
+    build:
+      skip: true  # [not linux]
+      rpaths: []
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - {{ stdlib('c') }}
+        - python                                   # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}       # [build_platform != target_platform]
+        - pyqt-builder {{ pyqt_builder_version }}
+        - sip {{ sip_version }}
+        - qt6-main
+        - make
+        - patchelf
+      host:
+        - python
+        - pyqt-builder {{ pyqt_builder_version }}
+        - sip {{ sip_version }}
+        - pyqt6-sip {{ pyqt6_sip_version }}
+        - qt6-main
+        - libgl-devel
+      run:
+        - python
+        - qt6-main
+        - pyqt6
+        - libgl
+    test:
+      requires:
+        - pyqt6
+      files:
+        - test_plugin_load.py
+      commands:
+        - test -f "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so"
+        - python test_plugin_load.py
+
 about:
   home: https://www.riverbankcomputing.com/software/pyqt/
   license: GPL-3.0-only
@@ -269,4 +308,5 @@ extra:
     - msarahan
     - ocefpaf
     - jschueller
+    - ludmilaklenova
   feedstock-name: pyqt
