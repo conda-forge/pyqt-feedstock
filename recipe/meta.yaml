@@ -263,6 +263,7 @@ outputs:
         - qt6-main
         - make
         - patchelf
+        - libgl-devel
       host:
         - python
         - pyqt-builder {{ pyqt_builder_version }}
