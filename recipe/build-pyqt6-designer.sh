@@ -18,7 +18,7 @@ set -exou
 
 trap 'rm -f "${PREFIX}/bin/qmake"' EXIT
 
-pushd pyqt6
+pushd pyqt
 cp LICENSE "${SRC_DIR}/"
 
 
