@@ -23,7 +23,18 @@ cp LICENSE "${SRC_DIR}/"
 
 
 # ---------------------------------------------------------------------------
-# STEP 2 — Configure qmake via environment variables
+# STEP 2 — Compiler setup: qmake looks for g++/gcc by name
+# ---------------------------------------------------------------------------
+# Conda-forge uses prefixed compilers (e.g. x86_64-conda-linux-gnu-c++),
+# but qmake searches for bare "g++".  Create symlinks so qmake finds them.
+ln -sf "${GXX}" g++ 2>/dev/null || true
+ln -sf "${GCC}" gcc 2>/dev/null || true
+chmod +x g++ gcc 2>/dev/null || true
+export PATH="${PWD}:${PATH}"
+
+
+# ---------------------------------------------------------------------------
+# STEP 3 — Configure qmake via environment variables
 # ---------------------------------------------------------------------------
 # QMAKE_LFLAGS_RPATH= : empty value → qmake omits -Wl,-rpath,... entirely
 # LD_RUN_PATH unset    : ld reads LD_RUN_PATH and adds DT_RUNPATH to every
