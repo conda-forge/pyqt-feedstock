@@ -16,6 +16,8 @@ set -exou
 #   2. Targeted sed (3)  → PYTHON_LIB SONAME, -lpython version, -L$PREFIX/lib for -lGL
 # ---------------------------------------------------------------------------
 
+trap 'rm -f "${PREFIX}/bin/qmake"' EXIT
+
 pushd pyqt6
 cp LICENSE "${SRC_DIR}/"
 

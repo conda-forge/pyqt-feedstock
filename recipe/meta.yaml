@@ -273,11 +273,11 @@ outputs:
       run:
         - python
         - qt6-main
-        - pyqt6
+        - {{ pin_subpackage('pyqt6', max_pin='x.x') }}
         - libgl
     test:
       requires:
-        - pyqt6
+        - {{ pin_subpackage('pyqt6', max_pin='x.x') }}
       files:
         - test_plugin_load.py
       commands:
