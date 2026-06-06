@@ -126,6 +126,15 @@ find . -name "Makefile" -exec sed -i.bak \
 
 find . -name "*.bak" -delete
 
+# 8c — Replace BUILD prefix (_build_env) Python include paths with HOST prefix
+#      ($PREFIX).  sip-build generates Makefiles that point to the BUILD
+#      python's include directory, which may not have Python.h installed.
+#      The \(\.\./\)* pattern strips any number of leading ../ components.
+find . -name "Makefile" -exec sed -i.bak \
+    's|\(\.\./\)*_build_env/include/python[0-9.]*[a-z]*|'"${PREFIX}"'/include/python'"${PY_VER}"'|g' {} +
+
+find . -name "*.bak" -delete
+
 # 8d — Add -L$PREFIX/lib for -lGL resolution (Linux only).
 #      On macOS Qt6 uses Metal/OpenGL.framework, not -lGL.
 if [[ $(uname) == "Linux" ]]; then
