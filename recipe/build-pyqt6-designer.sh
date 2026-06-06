@@ -135,12 +135,12 @@ find . -name "Makefile" -exec sed -i.bak \
 
 find . -name "*.bak" -delete
 
-# 8d — Add -L$PREFIX/lib for -lGL resolution (Linux only).
-#      On macOS Qt6 uses Metal/OpenGL.framework, not -lGL.
-if [[ $(uname) == "Linux" ]]; then
-    sed -i '/^LFLAGS/ s|$| -L'"${PREFIX}"'/lib|' designer/Makefile
-    sed -i 's| -L  *\(-[lL]\)| -L'"${PREFIX}"'/lib \1|g' designer/Makefile
-fi
+# 8d — Add -L$PREFIX/lib for -lGL (Linux) and -lpython (macOS) resolution.
+#      On Linux, sip-build may emit -lGL without a -L path for libGL.so.
+#      On macOS, sip-build emits -lpythonX.Y without a -L path for the
+#      conda HOST python library ($PREFIX/lib/libpython*.dylib).
+sed -i '/^LFLAGS/ s|$| -L'"${PREFIX}"'/lib|' designer/Makefile
+sed -i 's| -L  *\(-[lL]\)| -L'"${PREFIX}"'/lib \1|g' designer/Makefile
 
 
 # ---------------------------------------------------------------------------
