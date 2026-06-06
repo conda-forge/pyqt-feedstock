@@ -126,14 +126,19 @@ find . -name "Makefile" -exec sed -i.bak \
 
 find . -name "*.bak" -delete
 
-# 8c — Replace BUILD prefix (_build_env) Python include paths with HOST prefix
-#      ($PREFIX).  sip-build generates Makefiles that point to the BUILD
-#      python's include directory, which may not have Python.h installed.
-#      The \(\.\./\)* pattern strips any number of leading ../ components.
-find . -name "Makefile" -exec sed -i.bak \
-    's|\(\.\./\)*_build_env/include/python[0-9.]*[a-z]*|'"${PREFIX}"'/include/python'"${PY_VER}"'|g' {} +
-
-find . -name "*.bak" -delete
+# 8c — Make Python versioned include directory available at BUILD_PREFIX.
+#      After 8b rewrites pythonX.Y → python${PY_VER}, the Makefiles'
+#      header prerequisites (e.g. .../python3.10/Python.h) reference
+#      a path that may not exist in the BUILD environment.  Create a
+#      symlink so they resolve to the HOST prefix's headers.
+if [[ -n "${PY_VER:-}" && -n "${BUILD_PREFIX:-}" ]]; then
+    _TARGET="${BUILD_PREFIX}/include/python${PY_VER}"
+    if [[ ! -L "$_TARGET" ]]; then
+        rm -rf "$_TARGET" 2>/dev/null || true
+        mkdir -p "${BUILD_PREFIX}/include"
+        ln -sfn "${PREFIX}/include/python${PY_VER}" "$_TARGET"
+    fi
+fi
 
 # 8d — Add -L$PREFIX/lib for -lGL (Linux) and -lpython (macOS) resolution.
 #      On Linux, sip-build may emit -lGL without a -L path for libGL.so.
