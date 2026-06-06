@@ -139,8 +139,12 @@ find . -name "*.bak" -delete
 #      On Linux, sip-build may emit -lGL without a -L path for libGL.so.
 #      On macOS, sip-build emits -lpythonX.Y without a -L path for the
 #      conda HOST python library ($PREFIX/lib/libpython*.dylib).
-sed -i '/^LFLAGS/ s|$| -L'"${PREFIX}"'/lib|' designer/Makefile
-sed -i 's| -L  *\(-[lL]\)| -L'"${PREFIX}"'/lib \1|g' designer/Makefile
+#      NOTE: -i.bak (not -i) for BSD sed compatibility on macOS.
+sed -i.bak \
+    -e '/^LFLAGS/ s|$| -L'"${PREFIX}"'/lib|' \
+    -e 's| -L  *\(-[lL]\)| -L'"${PREFIX}"'/lib \1|g' \
+    designer/Makefile
+rm -f designer/Makefile.bak
 
 
 # ---------------------------------------------------------------------------
