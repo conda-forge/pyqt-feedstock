@@ -249,7 +249,6 @@ outputs:
     version: {{ version }}
     script: build-pyqt6-designer.sh
     build:
-      skip: true  # [not linux]
       rpaths: []
     requirements:
       build:
@@ -262,20 +261,20 @@ outputs:
         - sip {{ sip_version }}
         - qt6-main
         - make
-        - patchelf
-        - libgl-devel
+        - patchelf                                  # [linux]
+        - libgl-devel                               # [linux]
       host:
         - python
         - pyqt-builder {{ pyqt_builder_version }}
         - sip {{ sip_version }}
         - pyqt6-sip {{ pyqt6_sip_version }}
         - qt6-main
-        - libgl-devel
+        - libgl-devel                               # [linux]
       run:
         - python
         - qt6-main
         - {{ pin_subpackage('pyqt6', max_pin='x.x') }}
-        - libgl
+        - libgl                                     # [linux]
     test:
       requires:
         - {{ pin_subpackage('pyqt6', max_pin='x.x') }}
