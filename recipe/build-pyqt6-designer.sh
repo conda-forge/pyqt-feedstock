@@ -115,19 +115,13 @@ find . -name "Makefile" -exec sed -i.bak \
     '-e s|-Wl,-rpath,[^ ]*||g' \
     '-e s|-Wl,-rpath-link,[^ ]*||g' {} +
 
-# 8b — Fix -lpython to use HOST python version, not BUILD.
-#      sip-build runs under BUILD python (e.g. 3.14), generating Makefiles
-#      with -lpython3.14.  The plugin must link against HOST python 3.12.
+# 8b — Replace ALL Python X.Y version references with HOST PY_VER.
+#      This catches -lpython, -DPYTHON_LIB, -I include paths, and library
+#      search paths that sip-build embeds from the BUILD python.
 #      PY_VER is a conda-build variable = "3.12" (major.minor) for HOST.
 find . -name "Makefile" -exec sed -i.bak \
-    's|-lpython[0-9]\.[0-9]*|-lpython'"${PY_VER}"'|g' {} +
+    's|python[0-9]\.[0-9]*|python'"${PY_VER}"'|g' {} +
 
-# 8c — PYTHON_LIB: replace build env's library name with HOST python SONAME.
-#      pyqt-builder (or our project.py patch) writes
-#      -DPYTHON_LIB=\"libpython3.XY.so\" into the Makefile.
-#      Replace with the correct HOST python SONAME.
-find . -name "Makefile" -exec sed -i.bak \
-    's|-DPYTHON_LIB=\\"libpython[0-9.]*\.so[0-9.]*\\"|-DPYTHON_LIB=\\"libpython'"${PY_VER}"'.so\\"|g' {} +
 find . -name "*.bak" -delete
 
 # 8d — Add -L$PREFIX/lib for -lGL resolution (Linux only).
@@ -155,8 +149,15 @@ CPATH="${PREFIX}/include" make -j"${CPU_COUNT}"
 #     INSTALL_ROOT=$PREFIX make install
 # produces $PREFIX/$BUILD_PREFIX/plugins — NOT $PREFIX/lib/qt6/plugins/.
 # Manual cp is the simplest correct approach.
+# On macOS the Makefile target is libpyqt6.dylib; on Linux it is libpyqt6.so.
+# Qt plugins always use .so extension even on macOS.
+if [[ -f libpyqt6.dylib ]]; then
+    PLUGIN_FILE="libpyqt6.dylib"
+else
+    PLUGIN_FILE="libpyqt6.so"
+fi
 mkdir -p "${PREFIX}/lib/qt6/plugins/designer"
-cp libpyqt6.so "${PREFIX}/lib/qt6/plugins/designer/"
+cp "${PLUGIN_FILE}" "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so"
 
 
 # ---------------------------------------------------------------------------
@@ -208,8 +209,9 @@ elif [[ $(uname) == "Darwin" ]]; then
 fi
 
 # 12b — PYTHON_LIB must be a simple SONAME (no absolute path)
+#      On macOS the library may be embedded as .dylib; on Linux it is .so.
 PYLIB=$(strings "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so" \
-    | grep -E '^libpython[0-9]+\.[0-9]+\.so(.[0-9]+)?$' || true)
+    | grep -E '^libpython[0-9]+\.[0-9]+\.(so|dylib)(.[0-9]+)?$' || true)
 if echo "${PYLIB}" | grep -q '/'; then
     echo "ERROR: PYTHON_LIB contains an absolute path: ${PYLIB}"
     exit 1
@@ -227,7 +229,7 @@ if [[ $(uname) == "Darwin" && "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; th
 fi
 
 # 12d — Confirm Qt6Designer in shared library dependencies (native builds only)
-if [[ "${build_platform}" == "${target_platform}" ]]; then
+if [[ "${build_platform:-}" == "${target_platform:-}" ]]; then
     if [[ $(uname) == "Linux" ]]; then
         readelf -d "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so" \
             | grep -q "NEEDED.*Qt6Designer" \
