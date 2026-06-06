@@ -118,9 +118,11 @@ find . -name "Makefile" -exec sed -i.bak \
 # 8b — Replace ALL Python X.Y version references with HOST PY_VER.
 #      This catches -lpython, -DPYTHON_LIB, -I include paths, and library
 #      search paths that sip-build embeds from the BUILD python.
+#      Also strip any ABI suffix (e.g. 't' in python3.10t) that qmake
+#      may pick up from the build environment's python binary.
 #      PY_VER is a conda-build variable = "3.12" (major.minor) for HOST.
 find . -name "Makefile" -exec sed -i.bak \
-    's|python[0-9]\.[0-9]*|python'"${PY_VER}"'|g' {} +
+    's|python[0-9]\.[0-9]*[a-z]*|python'"${PY_VER}"'|g' {} +
 
 find . -name "*.bak" -delete
 
