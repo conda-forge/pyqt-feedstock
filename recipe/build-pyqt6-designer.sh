@@ -34,12 +34,29 @@ if [[ $(uname) == "Darwin" ]]; then
 fi
 
 if [[ $(uname) == "Linux" ]]; then
+    USED_BUILD_PREFIX=${BUILD_PREFIX:-${PREFIX}}
+
     # Conda-forge uses prefixed compilers (e.g. x86_64-conda-linux-gnu-c++),
     # but qmake searches for bare "g++".  Create symlinks so qmake finds them.
     ln -sf "${GXX}" g++ 2>/dev/null || true
     ln -sf "${GCC}" gcc 2>/dev/null || true
-    chmod +x g++ gcc 2>/dev/null || true
+    ln -sf "${USED_BUILD_PREFIX}/bin/${HOST}-gcc-ar" gcc-ar 2>/dev/null || true
+    chmod +x g++ gcc gcc-ar 2>/dev/null || true
     export PATH="${PWD}:${PATH}"
+
+    # Export compilers explicitly so qmake uses the conda-forge toolchain.
+    export LD="${GXX}"
+    export CC="${GCC}"
+    export CXX="${GXX}"
+
+    # Strip path from pkg-config to avoid embedding BUILD_PREFIX in Makefiles.
+    export PKG_CONFIG_EXECUTABLE=$(basename "$(which pkg-config)")
+
+    # Sysroot library paths for cross-compilation (e.g. x86_64 -> aarch64).
+    SYSROOT_FLAGS="-L ${BUILD_PREFIX}/${HOST}/sysroot/usr/lib64 -L ${BUILD_PREFIX}/${HOST}/sysroot/usr/lib"
+    export CFLAGS="${SYSROOT_FLAGS} ${CFLAGS:-}"
+    export CXXFLAGS="${SYSROOT_FLAGS} ${CXXFLAGS:-}"
+    export LDFLAGS="${SYSROOT_FLAGS} ${LDFLAGS:-}"
 fi
 
 
@@ -115,30 +132,25 @@ find . -name "Makefile" -exec sed -i.bak \
     '-e s|-Wl,-rpath,[^ ]*||g' \
     '-e s|-Wl,-rpath-link,[^ ]*||g' {} +
 
-# 8b — Replace ALL Python X.Y version references with HOST PY_VER.
-#      This catches -lpython, -DPYTHON_LIB, -I include paths, and library
-#      search paths that sip-build embeds from the BUILD python.
-#      Also strip any ABI suffix (e.g. 't' in python3.10t) that qmake
-#      may pick up from the build environment's python binary.
-#      PY_VER is a conda-build variable = "3.12" (major.minor) for HOST.
+# 8b — Strip ABI suffix (e.g. 't' in python3.10t) then fix library/define
+#      version for HOST python.
+#      - The first expression removes the ABI suffix from ALL python version
+#        references (needed because qmake may pick up a debug-build suffix
+#        that does not match the actual directory name in _build_env).
+#      - The second and third expressions correct the version number only in
+#        the linker library name and the PYTHON_LIB define — NOT in include
+#        paths, where the BUILD python version is correct and may supply
+#        version-specific headers (e.g. pytypedefs.h, added in 3.11).
+#      PY_VER is a conda-build variable = "3.10" (major.minor) for HOST.
 find . -name "Makefile" -exec sed -i.bak \
-    's|python[0-9]\.[0-9]*[a-z]*|python'"${PY_VER}"'|g' {} +
+    '-e s|\(python[0-9]\.[0-9]*\)[a-z]*|\1|g' \
+    '-e s|-lpython[0-9]\.[0-9]*|-lpython'"${PY_VER}"'|g' \
+    '-e s|-DPYTHON_LIB=python[0-9]\.[0-9]*|-DPYTHON_LIB=python'"${PY_VER}"'|g' \
+    {} +
 
 find . -name "*.bak" -delete
 
-# 8c — Make Python versioned include directory available at BUILD_PREFIX.
-#      After 8b rewrites pythonX.Y → python${PY_VER}, the Makefiles'
-#      header prerequisites (e.g. .../python3.10/Python.h) reference
-#      a path that may not exist in the BUILD environment.  Create a
-#      symlink so they resolve to the HOST prefix's headers.
-if [[ -n "${PY_VER:-}" && -n "${BUILD_PREFIX:-}" ]]; then
-    _TARGET="${BUILD_PREFIX}/include/python${PY_VER}"
-    if [[ ! -L "$_TARGET" ]]; then
-        rm -rf "$_TARGET" 2>/dev/null || true
-        mkdir -p "${BUILD_PREFIX}/include"
-        ln -sfn "${PREFIX}/include/python${PY_VER}" "$_TARGET"
-    fi
-fi
+# 8c — (intentionally unused / placeholder for future cross-comp fixes)
 
 # 8d — Add -L$PREFIX/lib for -lGL (Linux) and -lpython (macOS) resolution.
 #      On Linux, sip-build may emit -lGL without a -L path for libGL.so.
