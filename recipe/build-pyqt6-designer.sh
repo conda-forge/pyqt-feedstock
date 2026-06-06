@@ -111,7 +111,7 @@ cd build
 #      QMAKE_LFLAGS_RPATH= (STEP 3) prevents qmake from adding its own rpath,
 #      but qmake may still inject -Wl,-rpath from .prl dependency files or
 #      mkspecs.
-find . -name "Makefile" -exec sed -i \
+find . -name "Makefile" -exec sed -i.bak \
     '-e s|-Wl,-rpath,[^ ]*||g' \
     '-e s|-Wl,-rpath-link,[^ ]*||g' {} +
 
@@ -119,15 +119,16 @@ find . -name "Makefile" -exec sed -i \
 #      sip-build runs under BUILD python (e.g. 3.14), generating Makefiles
 #      with -lpython3.14.  The plugin must link against HOST python 3.12.
 #      PY_VER is a conda-build variable = "3.12" (major.minor) for HOST.
-find . -name "Makefile" -exec sed -i \
+find . -name "Makefile" -exec sed -i.bak \
     's|-lpython[0-9]\.[0-9]*|-lpython'"${PY_VER}"'|g' {} +
 
 # 8c — PYTHON_LIB: replace build env's library name with HOST python SONAME.
 #      pyqt-builder (or our project.py patch) writes
 #      -DPYTHON_LIB=\"libpython3.XY.so\" into the Makefile.
 #      Replace with the correct HOST python SONAME.
-find . -name "Makefile" -exec sed -i \
+find . -name "Makefile" -exec sed -i.bak \
     's|-DPYTHON_LIB=\\"libpython[0-9.]*\.so[0-9.]*\\"|-DPYTHON_LIB=\\"libpython'"${PY_VER}"'.so\\"|g' {} +
+find . -name "*.bak" -delete
 
 # 8d — Add -L$PREFIX/lib for -lGL resolution (Linux only).
 #      On macOS Qt6 uses Metal/OpenGL.framework, not -lGL.
