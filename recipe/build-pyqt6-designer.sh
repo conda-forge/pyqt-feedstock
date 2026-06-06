@@ -68,7 +68,7 @@ fi
 # STEP 5 — Set up cross-compilation (qmake wrapper + target config)
 # ---------------------------------------------------------------------------
 source "${RECIPE_DIR}/setup-cross-compile.sh"
-export CPATH="${PREFIX}/include:${CPATH}"
+export CPATH="${PREFIX}/include:${CPATH:-}"
 
 
 # ---------------------------------------------------------------------------
@@ -215,7 +215,17 @@ if echo "${PYLIB}" | grep -q '/'; then
 fi
 echo "PYTHON_LIB check: ${PYLIB}"
 
-# 12c — Confirm Qt6Designer in shared library dependencies (native builds only)
+# 12c — Verify architecture on macOS cross-compile (must be arm64)
+if [[ $(uname) == "Darwin" && "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
+    if ! file "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so" | grep -q "arm64"; then
+        echo "ERROR: libpyqt6.so is not arm64!"
+        file "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so"
+        exit 1
+    fi
+    echo "Architecture check (arm64): PASS"
+fi
+
+# 12d — Confirm Qt6Designer in shared library dependencies (native builds only)
 if [[ "${build_platform}" == "${target_platform}" ]]; then
     if [[ $(uname) == "Linux" ]]; then
         readelf -d "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so" \
