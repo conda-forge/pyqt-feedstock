@@ -249,6 +249,7 @@ outputs:
     version: {{ version }}
     script: build-pyqt6-designer.sh
     build:
+      skip: true  # [win]
       rpaths: []
     requirements:
       build:
