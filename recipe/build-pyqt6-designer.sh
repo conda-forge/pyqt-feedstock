@@ -150,7 +150,20 @@ find . -name "Makefile" -exec sed -i.bak \
 
 find . -name "*.bak" -delete
 
-# 8c — (intentionally unused / placeholder for future cross-comp fixes)
+# 8c — Make Python versioned include directory available at BUILD_PREFIX.
+#      The Makefiles' header prerequisites point to _build_env/include/,
+#      but the BUILD environment may not have Python headers installed,
+#      or the version/ABI suffix may differ after 8b.  Create a symlink
+#      so they resolve to the HOST prefix's Python headers.
+if [[ -n "${PY_VER:-}" && -n "${BUILD_PREFIX:-}" ]]; then
+    _TARGET="${BUILD_PREFIX}/include/python${PY_VER}"
+    if [[ ! -L "$_TARGET" ]]; then
+        # Remove any existing real directory so we can install the symlink.
+        rm -rf "$_TARGET" 2>/dev/null || true
+        mkdir -p "${BUILD_PREFIX}/include"
+        ln -sfn "${PREFIX}/include/python${PY_VER}" "$_TARGET"
+    fi
+fi
 
 # 8d — Add -L$PREFIX/lib for -lGL (Linux) and -lpython (macOS) resolution.
 #      On Linux, sip-build may emit -lGL without a -L path for libGL.so.
