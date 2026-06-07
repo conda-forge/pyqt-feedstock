@@ -144,31 +144,34 @@ find . -name "Makefile" -exec sed -i.bak \
 
 find . -name "*.bak" -delete
 
-# 8c — Mirror HOST python headers into BUILD_PREFIX so that after 8b the
-#      Makefiles' header prerequisites (e.g. .../pythonX.Y/Python.h) resolve.
-#      Symlink each individual header; do NOT use a directory symlink because
-#      we must be able to create empty placeholders for version-specific
-#      headers without modifying the HOST prefix.
-_PY_INCDIR="${BUILD_PREFIX}/include/python${PY_VER}"
-mkdir -p "$_PY_INCDIR"
-for hdr in "${PREFIX}/include/python${PY_VER}"/*.h; do
-    if [[ -f "$hdr" ]]; then
-        hdr_name=$(basename "$hdr")
-        if [[ ! -f "$_PY_INCDIR/$hdr_name" ]]; then
-            ln -sf "$hdr" "$_PY_INCDIR/$hdr_name"
-        fi
+# 8c — Mirror HOST python headers (recursive) into BUILD_PREFIX so that
+#      after 8b the Makefiles' header prerequisites resolve.  Symlink each
+#      individual header preserving subdirectories (e.g. cpython/pymem.h);
+#      do NOT use a directory symlink because we must create empty placeholders
+#      for version-specific headers without modifying the HOST prefix.
+_PY_SRC="${PREFIX}/include/python${PY_VER}"
+_PY_DST="${BUILD_PREFIX}/include/python${PY_VER}"
+mkdir -p "$_PY_DST"
+while IFS= read -r -d '' hdr; do
+    rel="${hdr#${_PY_SRC}/}"
+    mkdir -p "$(dirname "${_PY_DST}/${rel}")"
+    if [[ ! -f "${_PY_DST}/${rel}" ]]; then
+        ln -sf "$hdr" "${_PY_DST}/${rel}"
     fi
-done
+done < <(find "$_PY_SRC" -name "*.h" -type f -print0)
 
 # 8e — Create empty placeholder files for header dependencies listed in
 #      Makefiles that exist in the BUILD python but not in the HOST python
-#      (e.g. pytypedefs.h added in 3.11, pystats.h added in 3.12).  The
-#      HOST python's Python.h does not include them, so an empty file
-#      satisfies make's prerequisite check without affecting compilation.
-_PY_INCDIR="${BUILD_PREFIX}/include/python${PY_VER}"
-for hdr_name in $(find . -name "Makefile" -exec grep -oh '[^ ]*/include/python[^/]*/[^ ]*\.h' {} \; | sed 's|.*/||' | sort -u); do
-    if [[ ! -f "${_PY_INCDIR}/${hdr_name}" ]]; then
-        touch "${_PY_INCDIR}/${hdr_name}"
+#      (e.g. pytypedefs.h added in 3.11, pystats.h added in 3.12).  Preserve
+#      subdirectory paths (e.g. cpython/pymem.h) so that all Makefile
+#      prerequisites resolve.
+_PY_DST="${BUILD_PREFIX}/include/python${PY_VER}"
+for dep in $(find . -name "Makefile" -exec grep -oh '[^ ]*_build_env/include/python[^/]*/[^ ]*\.h' {} \; | sort -u); do
+    rel="${dep#*_build_env/include/python${PY_VER}/}"
+    abs="${_PY_DST}/${rel}"
+    if [[ ! -f "$abs" ]]; then
+        mkdir -p "$(dirname "$abs")"
+        touch "$abs"
     fi
 done
 
