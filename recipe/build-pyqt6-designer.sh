@@ -236,6 +236,10 @@ if [[ $(uname) == "Darwin" ]]; then
         install_name_tool -delete_rpath "${rpath}" \
             "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so" 2>/dev/null || true
     done
+    # Fix the internal install name (LC_ID_DYLIB) to match the renamed file,
+    # otherwise conda-build's delocate step looks for libpyqt6.dylib on macOS.
+    install_name_tool -id "@rpath/libpyqt6.so" \
+        "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so"
 fi
 
 
