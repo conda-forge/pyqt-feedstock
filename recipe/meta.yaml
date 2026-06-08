@@ -110,6 +110,7 @@ outputs:
     test:
       files:
         - pyqt_test.py
+        - test_plugin_load.py
       imports:
         - PyQt6
         - PyQt6.sip
@@ -132,6 +133,8 @@ outputs:
       commands:
         - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
         - pyuic6 --version  # [not win]
+        - test -f "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so"  # [not win]
+        - python test_plugin_load.py  # [not win]
 
   - name: pyqt6webengine
     version: {{ version }}
@@ -244,46 +247,6 @@ outputs:
     test:
       imports:
         - PyQt6.QtCharts
-
-  - name: pyqt6-designer-plugin
-    version: {{ version }}
-    script: build-pyqt6-designer.sh
-    build:
-      skip: true  # [win]
-      rpaths: []
-    requirements:
-      build:
-        - {{ compiler('c') }}
-        - {{ compiler('cxx') }}
-        - {{ stdlib('c') }}
-        - python                                   # [build_platform != target_platform]
-        - cross-python_{{ target_platform }}       # [build_platform != target_platform]
-        - pyqt-builder {{ pyqt_builder_version }}
-        - sip {{ sip_version }}
-        - qt6-main {{ version }}
-        - make
-        - patchelf                                  # [linux]
-        - libgl-devel                               # [linux]
-      host:
-        - python
-        - pyqt-builder {{ pyqt_builder_version }}
-        - sip {{ sip_version }}
-        - pyqt6-sip {{ pyqt6_sip_version }}
-        - qt6-main {{ version }}
-        - libgl-devel                               # [linux]
-      run:
-        - python
-        - qt6-main {{ version }}
-        - {{ pin_subpackage('pyqt6', max_pin='x.x') }}
-        - libgl                                     # [linux]
-    test:
-      requires:
-        - {{ pin_subpackage('pyqt6', max_pin='x.x') }}
-      files:
-        - test_plugin_load.py
-      commands:
-        - test -f "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so"
-        - python test_plugin_load.py
 
 about:
   home: https://www.riverbankcomputing.com/software/pyqt/

@@ -73,6 +73,33 @@ fi
 CPATH=$PREFIX/include make -j$CPU_COUNT
 make install
 
+# ---- Build and install the Qt Designer plugin -------------------------
+popd  # pyqt/build/ → pyqt/
+python "${RECIPE_DIR}/patch_py_pylib_shlib.py" project.py
+
+sip-build \
+    --verbose \
+    --qt-shared \
+    --no-make \
+    --confirm-license
+
+cd build/designer
+CPATH="${PREFIX}/include" make -j"${CPU_COUNT}"
+mkdir -p "${PREFIX}/lib/qt6/plugins/designer"
+cp libpyqt6.so "${PREFIX}/lib/qt6/plugins/designer/"
+
+if [[ $(uname) == "Linux" ]]; then
+    patchelf --remove-rpath "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so"
+fi
+if [[ $(uname) == "Darwin" ]]; then
+    for rpath in $(otool -l "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so" \
+        | grep -A2 "LC_RPATH" | grep "path " | awk '{print $2}'); do
+        install_name_tool -delete_rpath "${rpath}" \
+            "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so" 2>/dev/null || true
+    done
+fi
+cd ../..  # pyqt/build/designer/ → pyqt/
+
 if [[ $(uname) == "Darwin" && "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
     # Verify the built libraries are arm64
     echo "Verifying PyQt6 extension architectures..."
