@@ -78,6 +78,7 @@ outputs:
         - sip {{ sip_version }}                    # [build_platform != target_platform]
         - qt6-main {{ version }}                   # [build_platform != target_platform]
         - make
+        - patchelf                                  # [linux]
       host:
         - python
         - pip

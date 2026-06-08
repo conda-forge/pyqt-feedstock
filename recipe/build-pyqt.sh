@@ -84,9 +84,23 @@ sip-build \
     --confirm-license
 
 cd build/designer
-CPATH="${PREFIX}/include" LDFLAGS="-L${PREFIX}/lib" make -j"${CPU_COUNT}"
+# Fix empty -L flags in generated Makefile (qmake sometimes emits
+# -L without a path before -lpython or -lGL)
+sed -i.bak \
+    -e '/^LFLAGS/ s|$| -L'"${PREFIX}"'/lib|' \
+    -e 's| -L  *\(-[lL]\)| -L'"${PREFIX}"'/lib \1|g' \
+    Makefile
+rm -f Makefile.bak
+CPATH="${PREFIX}/include" make -j"${CPU_COUNT}"
+# On macOS the Makefile target is libpyqt6.dylib; on Linux it is libpyqt6.so.
+# Qt plugins always use .so extension even on macOS.
+if [[ -f libpyqt6.dylib ]]; then
+    PLUGIN_FILE="libpyqt6.dylib"
+else
+    PLUGIN_FILE="libpyqt6.so"
+fi
 mkdir -p "${PREFIX}/lib/qt6/plugins/designer"
-cp libpyqt6.so "${PREFIX}/lib/qt6/plugins/designer/"
+cp "${PLUGIN_FILE}" "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so"
 
 if [[ $(uname) == "Linux" ]]; then
     patchelf --remove-rpath "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so"
@@ -97,6 +111,10 @@ if [[ $(uname) == "Darwin" ]]; then
         install_name_tool -delete_rpath "${rpath}" \
             "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so" 2>/dev/null || true
     done
+    # Fix LC_ID_DYLIB to match the renamed file, otherwise conda-build's
+    # delocate step looks for libpyqt6.dylib on macOS.
+    install_name_tool -id "@rpath/libpyqt6.so" \
+        "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so"
 fi
 cd ../..  # pyqt/build/designer/ → pyqt/
 
