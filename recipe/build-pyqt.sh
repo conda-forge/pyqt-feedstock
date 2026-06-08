@@ -84,7 +84,7 @@ sip-build \
     --confirm-license
 
 cd build/designer
-CPATH="${PREFIX}/include" make -j"${CPU_COUNT}"
+CPATH="${PREFIX}/include" LDFLAGS="-L${PREFIX}/lib" make -j"${CPU_COUNT}"
 mkdir -p "${PREFIX}/lib/qt6/plugins/designer"
 cp libpyqt6.so "${PREFIX}/lib/qt6/plugins/designer/"
 
