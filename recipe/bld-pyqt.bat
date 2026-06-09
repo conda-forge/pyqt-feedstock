@@ -32,5 +32,5 @@ jom
 if %ERRORLEVEL% neq 0 exit 1
 
 if not exist "%PREFIX%\Library\plugins\designer" mkdir "%PREFIX%\Library\plugins\designer"
-for /f "delims=" %%f in ('dir /b *.dll 2^>nul') do copy /Y "%%f" "%PREFIX%\Library\plugins\designer\%%f"
+for /f "delims=" %%f in ('dir /b *.dll 2^>nul') do copy /Y "%%f" "%PREFIX%\Library\plugins\designer\libpyqt6.dll"
 if %ERRORLEVEL% neq 0 exit 1
