@@ -94,21 +94,19 @@ rm -f Makefile.bak
 CPATH="${PREFIX}/include" make -j"${CPU_COUNT}"
 SHLIB_EXT=$(grep -m1 '^SHLIB_EXT' Makefile | cut -d'=' -f2 | tr -d ' ')
 mkdir -p "${PREFIX}/lib/qt6/plugins/designer"
-cp "libpyqt6${SHLIB_EXT}" "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so"
+cp "libpyqt6${SHLIB_EXT}" "${PREFIX}/lib/qt6/plugins/designer/libpyqt6${SHLIB_EXT}"
 
 if [[ $(uname) == "Linux" ]]; then
-    patchelf --remove-rpath "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so"
+    patchelf --remove-rpath "${PREFIX}/lib/qt6/plugins/designer/libpyqt6${SHLIB_EXT}"
 fi
 if [[ $(uname) == "Darwin" ]]; then
-    for rpath in $(otool -l "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so" \
+    for rpath in $(otool -l "${PREFIX}/lib/qt6/plugins/designer/libpyqt6${SHLIB_EXT}" \
         | grep -A2 "LC_RPATH" | grep "path " | awk '{print $2}'); do
         install_name_tool -delete_rpath "${rpath}" \
-            "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so" 2>/dev/null || true
+            "${PREFIX}/lib/qt6/plugins/designer/libpyqt6${SHLIB_EXT}" 2>/dev/null || true
     done
-    # Fix LC_ID_DYLIB to match the renamed file, otherwise conda-build's
-    # delocate step looks for libpyqt6.dylib on macOS.
-    install_name_tool -id "@rpath/libpyqt6.so" \
-        "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so"
+    install_name_tool -id "@rpath/libpyqt6${SHLIB_EXT}" \
+        "${PREFIX}/lib/qt6/plugins/designer/libpyqt6${SHLIB_EXT}"
 fi
 cd ../..  # pyqt/build/designer/ → pyqt/
 

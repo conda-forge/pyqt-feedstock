@@ -1,4 +1,4 @@
-"""Verify that libpyqt6.so can be loaded by Qt Designer."""
+"""Verify that the PyQt6 Qt Designer plugin can be loaded."""
 import os
 import sys
 
@@ -8,6 +8,11 @@ if sys.platform == "win32":
     plugin_path = os.path.join(
         os.environ.get("PREFIX", sys.prefix),
         "Library", "plugins", "designer", "libpyqt6.dll"
+    )
+elif sys.platform == "darwin":
+    plugin_path = os.path.join(
+        os.environ.get("PREFIX", sys.prefix),
+        "lib", "qt6", "plugins", "designer", "libpyqt6.dylib"
     )
 else:
     plugin_path = os.path.join(
