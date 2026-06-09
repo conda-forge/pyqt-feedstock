@@ -92,7 +92,17 @@ sed -i.bak \
     Makefile
 rm -f Makefile.bak
 CPATH="${PREFIX}/include" make -j"${CPU_COUNT}"
-SHLIB_EXT=$(grep -m1 '^SHLIB_EXT' Makefile | cut -d'=' -f2 | tr -d ' ')
+SHLIB_EXT=""
+for ext in .dylib .so; do
+    if [[ -f "libpyqt6${ext}" ]]; then
+        SHLIB_EXT="${ext}"
+        break
+    fi
+done
+if [[ -z "${SHLIB_EXT}" ]]; then
+    echo "ERROR: libpyqt6 plugin not found after build (tried .dylib, .so)"
+    exit 1
+fi
 mkdir -p "${PREFIX}/lib/qt6/plugins/designer"
 cp "libpyqt6${SHLIB_EXT}" "${PREFIX}/lib/qt6/plugins/designer/libpyqt6${SHLIB_EXT}"
 

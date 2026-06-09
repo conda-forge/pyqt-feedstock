@@ -134,8 +134,7 @@ outputs:
       commands:
         - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
         - pyuic6 --version  # [not win]
-        - test -f "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so"   # [linux]
-        - test -f "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.dylib"  # [osx]
+        - test -f "${PREFIX}/lib/qt6/plugins/designer/libpyqt6${SHLIB_EXT}"  # [unix]
         - if not exist "%PREFIX%\\Library\\plugins\\designer\\libpyqt6.dll" exit 1  # [win]
         - python test_plugin_load.py
 
