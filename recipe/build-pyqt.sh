@@ -92,15 +92,9 @@ sed -i.bak \
     Makefile
 rm -f Makefile.bak
 CPATH="${PREFIX}/include" make -j"${CPU_COUNT}"
-# On macOS the Makefile target is libpyqt6.dylib; on Linux it is libpyqt6.so.
-# Qt plugins always use .so extension even on macOS.
-if [[ -f libpyqt6.dylib ]]; then
-    PLUGIN_FILE="libpyqt6.dylib"
-else
-    PLUGIN_FILE="libpyqt6.so"
-fi
+SHLIB_EXT=$(grep -m1 '^SHLIB_EXT' Makefile | cut -d'=' -f2 | tr -d ' ')
 mkdir -p "${PREFIX}/lib/qt6/plugins/designer"
-cp "${PLUGIN_FILE}" "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so"
+cp "libpyqt6${SHLIB_EXT}" "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so"
 
 if [[ $(uname) == "Linux" ]]; then
     patchelf --remove-rpath "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so"
