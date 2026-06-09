@@ -24,7 +24,7 @@ REM ---- Build and install the Qt Designer plugin -------------------------
 popd
 REM Windows Python is always shared, so patch_py_pylib_shlib.py is not needed
 
-sip-build --verbose --qt-shared --no-make --confirm-license
+call sip-build --verbose --qt-shared --no-make --confirm-license
 if %ERRORLEVEL% neq 0 exit 1
 
 if not exist build\designer (
@@ -40,14 +40,12 @@ if %ERRORLEVEL% neq 0 exit 1
 REM Debug: list built files
 dir /b
 
-REM Find the plugin DLL (could be .dll, .pyd, etc.)
+REM MSVC qmake places the plugin DLL in a release\ subdirectory
 set "PLUGIN_FILE="
-for /f "delims=" %%f in ('dir /b *.dll *.pyd 2^>nul') do (
-    if not defined PLUGIN_FILE set "PLUGIN_FILE=%%f"
-)
+for /r %%f in (*.dll) do if not defined PLUGIN_FILE set "PLUGIN_FILE=%%f"
 if not defined PLUGIN_FILE (
     echo ERROR: No plugin DLL found in build\designer
-    dir /s /b *.dll *.pyd *.so 2^>nul
+    dir /s /b 2^>nul
     exit 1
 )
 
