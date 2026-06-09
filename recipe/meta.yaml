@@ -135,7 +135,8 @@ outputs:
         - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
         - pyuic6 --version  # [not win]
         - test -f "${PREFIX}/lib/qt6/plugins/designer/libpyqt6.so"  # [not win]
-        - python test_plugin_load.py  # [not win]
+        - if not exist "%PREFIX%\\Library\\plugins\\designer\\libpyqt6.dll" exit 1  # [win]
+        - python test_plugin_load.py
 
   - name: pyqt6webengine
     version: {{ version }}
