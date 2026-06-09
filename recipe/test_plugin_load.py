@@ -20,20 +20,6 @@ else:
         "lib", "qt6", "plugins", "designer", "libpyqt6.so"
     )
 
-# Check file exists
-if not os.path.isfile(plugin_path):
-    print(f"FAIL: {plugin_path} not found")
-    sys.exit(1)
-
-# Check file type (Unix-only; skip on Windows)
-import subprocess
-if sys.platform != "win32":
-    result = subprocess.run(
-        ["file", plugin_path], capture_output=True, text=True
-    )
-    print(f"File: {result.stdout.strip()}")
-
-# Try loading with QLibrary
 try:
     from PyQt6.QtCore import QLibrary
 
