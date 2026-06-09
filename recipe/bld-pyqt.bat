@@ -27,10 +27,30 @@ REM Windows Python is always shared, so patch_py_pylib_shlib.py is not needed
 sip-build --verbose --qt-shared --no-make --confirm-license
 if %ERRORLEVEL% neq 0 exit 1
 
+if not exist build\designer (
+    echo ERROR: build\designer directory not found after sip-build --qt-shared
+    dir /b build 2^>nul
+    exit 1
+)
 cd build\designer
+REM Debug: list generated files
+dir /b
 jom
 if %ERRORLEVEL% neq 0 exit 1
+REM Debug: list built files
+dir /b
+
+REM Find the plugin DLL (could be .dll, .pyd, etc.)
+set "PLUGIN_FILE="
+for /f "delims=" %%f in ('dir /b *.dll *.pyd 2^>nul') do (
+    if not defined PLUGIN_FILE set "PLUGIN_FILE=%%f"
+)
+if not defined PLUGIN_FILE (
+    echo ERROR: No plugin DLL found in build\designer
+    dir /s /b *.dll *.pyd *.so 2^>nul
+    exit 1
+)
 
 if not exist "%PREFIX%\Library\plugins\designer" mkdir "%PREFIX%\Library\plugins\designer"
-for /f "delims=" %%f in ('dir /b *.dll 2^>nul') do copy /Y "%%f" "%PREFIX%\Library\plugins\designer\libpyqt6.dll"
+copy /Y "%PLUGIN_FILE%" "%PREFIX%\Library\plugins\designer\libpyqt6.dll"
 if %ERRORLEVEL% neq 0 exit 1
