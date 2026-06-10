@@ -22,8 +22,6 @@ pin_run_as_build:
     max_pin: x.x
 python:
 - 3.13.* *_cp313
-qt6_main:
-- '6.10'
 target_platform:
 - linux-64
 zip_keys:

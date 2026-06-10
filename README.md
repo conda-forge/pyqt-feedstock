@@ -163,7 +163,6 @@ Current release info
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt6-green.svg)](https://anaconda.org/conda-forge/pyqt6) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt6.svg)](https://anaconda.org/conda-forge/pyqt6) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt6.svg)](https://anaconda.org/conda-forge/pyqt6) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt6.svg)](https://anaconda.org/conda-forge/pyqt6) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt6--charts-green.svg)](https://anaconda.org/conda-forge/pyqt6-charts) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt6-charts.svg)](https://anaconda.org/conda-forge/pyqt6-charts) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt6-charts.svg)](https://anaconda.org/conda-forge/pyqt6-charts) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt6-charts.svg)](https://anaconda.org/conda-forge/pyqt6-charts) |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt6--designer--plugin-green.svg)](https://anaconda.org/conda-forge/pyqt6-designer-plugin) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt6-designer-plugin.svg)](https://anaconda.org/conda-forge/pyqt6-designer-plugin) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt6-designer-plugin.svg)](https://anaconda.org/conda-forge/pyqt6-designer-plugin) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt6-designer-plugin.svg)](https://anaconda.org/conda-forge/pyqt6-designer-plugin) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt6--sip-green.svg)](https://anaconda.org/conda-forge/pyqt6-sip) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt6-sip.svg)](https://anaconda.org/conda-forge/pyqt6-sip) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt6-sip.svg)](https://anaconda.org/conda-forge/pyqt6-sip) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt6-sip.svg)](https://anaconda.org/conda-forge/pyqt6-sip) |
 
 Installing pyqt
@@ -176,16 +175,16 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `pyqt6, pyqt6-charts, pyqt6-designer-plugin, pyqt6-sip` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `pyqt6, pyqt6-charts, pyqt6-sip` can be installed with `conda`:
 
 ```
-conda install pyqt6 pyqt6-charts pyqt6-designer-plugin pyqt6-sip
+conda install pyqt6 pyqt6-charts pyqt6-sip
 ```
 
 or with `mamba`:
 
 ```
-mamba install pyqt6 pyqt6-charts pyqt6-designer-plugin pyqt6-sip
+mamba install pyqt6 pyqt6-charts pyqt6-sip
 ```
 
 It is possible to list all of the versions of `pyqt6` available on your platform with `conda`:
@@ -284,7 +283,6 @@ Feedstock Maintainers
 * [@ccordoba12](https://github.com/ccordoba12/)
 * [@gillins](https://github.com/gillins/)
 * [@jschueller](https://github.com/jschueller/)
-* [@ludmilaklenova](https://github.com/ludmilaklenova/)
 * [@mingwandroid](https://github.com/mingwandroid/)
 * [@msarahan](https://github.com/msarahan/)
 * [@ocefpaf](https://github.com/ocefpaf/)
