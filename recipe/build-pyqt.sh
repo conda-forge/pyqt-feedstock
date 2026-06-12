@@ -73,6 +73,53 @@ fi
 CPATH=$PREFIX/include make -j$CPU_COUNT
 make install
 
+# ---- Build and install the Qt Designer plugin -------------------------
+popd  # pyqt/build/ → pyqt/
+python "${RECIPE_DIR}/patch_py_pylib_shlib.py" project.py
+
+sip-build \
+    --verbose \
+    --qt-shared \
+    --no-make \
+    --confirm-license
+
+cd build/designer
+# Fix empty -L flags in generated Makefile (qmake sometimes emits
+# -L without a path before -lpython or -lGL)
+sed -i.bak \
+    -e '/^LFLAGS/ s|$| -L'"${PREFIX}"'/lib|' \
+    -e 's| -L  *\(-[lL]\)| -L'"${PREFIX}"'/lib \1|g' \
+    Makefile
+rm -f Makefile.bak
+CPATH="${PREFIX}/include" make -j"${CPU_COUNT}"
+SHLIB_EXT=""
+for ext in .dylib .so; do
+    if [[ -f "libpyqt6${ext}" ]]; then
+        SHLIB_EXT="${ext}"
+        break
+    fi
+done
+if [[ -z "${SHLIB_EXT}" ]]; then
+    echo "ERROR: libpyqt6 plugin not found after build (tried .dylib, .so)"
+    exit 1
+fi
+mkdir -p "${PREFIX}/lib/qt6/plugins/designer"
+cp "libpyqt6${SHLIB_EXT}" "${PREFIX}/lib/qt6/plugins/designer/libpyqt6${SHLIB_EXT}"
+
+if [[ $(uname) == "Linux" ]]; then
+    patchelf --remove-rpath "${PREFIX}/lib/qt6/plugins/designer/libpyqt6${SHLIB_EXT}"
+fi
+if [[ $(uname) == "Darwin" ]]; then
+    for rpath in $(otool -l "${PREFIX}/lib/qt6/plugins/designer/libpyqt6${SHLIB_EXT}" \
+        | grep -A2 "LC_RPATH" | grep "path " | awk '{print $2}'); do
+        install_name_tool -delete_rpath "${rpath}" \
+            "${PREFIX}/lib/qt6/plugins/designer/libpyqt6${SHLIB_EXT}" 2>/dev/null || true
+    done
+    install_name_tool -id "@rpath/libpyqt6${SHLIB_EXT}" \
+        "${PREFIX}/lib/qt6/plugins/designer/libpyqt6${SHLIB_EXT}"
+fi
+cd ../..  # pyqt/build/designer/ → pyqt/
+
 if [[ $(uname) == "Darwin" && "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
     # Verify the built libraries are arm64
     echo "Verifying PyQt6 extension architectures..."

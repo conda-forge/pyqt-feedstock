@@ -78,6 +78,7 @@ outputs:
         - sip {{ sip_version }}                    # [build_platform != target_platform]
         - qt6-main {{ version }}                   # [build_platform != target_platform]
         - make
+        - patchelf                                  # [linux]
       host:
         - python
         - pip
@@ -110,6 +111,7 @@ outputs:
     test:
       files:
         - pyqt_test.py
+        - test_plugin_load.py
       imports:
         - PyQt6
         - PyQt6.sip
@@ -132,6 +134,9 @@ outputs:
       commands:
         - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
         - pyuic6 --version  # [not win]
+        - test -f "${PREFIX}/lib/qt6/plugins/designer/libpyqt6${SHLIB_EXT}"  # [unix]
+        - if not exist "%PREFIX%\\Library\\plugins\\designer\\libpyqt6.dll" exit 1  # [win]
+        - python test_plugin_load.py
 
   - name: pyqt6webengine
     version: {{ version }}
@@ -269,4 +274,5 @@ extra:
     - msarahan
     - ocefpaf
     - jschueller
+
   feedstock-name: pyqt
