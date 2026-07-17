@@ -28,7 +28,7 @@ source:
     folder: pyqt_charts
 
 build:
-  number: 1
+  number: 2
   skip:
     - true  # [linux and ppc64le]
 
@@ -77,6 +77,9 @@ outputs:
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform != target_platform]
         - sip {{ sip_version }}                    # [build_platform != target_platform]
         - qt6-main {{ version }}                   # [build_platform != target_platform]
+        - qt6-multimedia {{ version }}             # [build_platform != target_platform]
+        - qt6-serialport {{ version }}             # [build_platform != target_platform]
+        - qt6-positioning {{ version }}            # [build_platform != target_platform]
         - make
         - patchelf                                  # [linux]
       host:
@@ -88,6 +91,9 @@ outputs:
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
         - packaging
         - qt6-main {{ version }}
+        - qt6-multimedia {{ version }}
+        - qt6-serialport {{ version }}
+        - qt6-positioning {{ version }}
         - libgl-devel                            # [linux]
         - libegl-devel                           # [linux]
         - libopengl-devel                        # [linux]
@@ -131,6 +137,9 @@ outputs:
         - PyQt6.QtWebSockets
         - PyQt6.QtWidgets
         - PyQt6.QtXml
+        - PyQt6.QtMultimedia
+        - PyQt6.QtSerialPort
+        - PyQt6.QtPositioning
       commands:
         - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
         - pyuic6 --version  # [not win]
