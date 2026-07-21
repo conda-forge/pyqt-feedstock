@@ -143,7 +143,7 @@ outputs:
         - PyQt6.QtSerialPort
         - PyQt6.QtPositioning
       commands:
-        - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
+        - QT_QPA_PLATFORM=offscreen python pyqt_test.py  # [linux and build_platform == target_platform]
         - pyuic6 --version  # [not win]
         - test -f "${PREFIX}/lib/qt6/plugins/designer/libpyqt6${SHLIB_EXT}"  # [unix]
         - if not exist "%PREFIX%\\Library\\plugins\\designer\\libpyqt6.dll" exit 1  # [win]
@@ -269,11 +269,11 @@ about:
   summary: Python bindings for the Qt cross platform application toolkit
   # The remaining entries in this section are optional, but recommended.
   description: |
-    PyQt5 is a comprehensive set of Python bindings for Qt v5.
+    PyQt6 is a comprehensive set of Python bindings for Qt v6.
     It is implemented as more than 35 extension modules and enables Python
     to be used as an alternative application development language to C++ on
     all supported platforms including iOS and Android.
-  doc_url: https://www.riverbankcomputing.com/static/Docs/PyQt5/
+  doc_url: https://www.riverbankcomputing.com/static/Docs/PyQt6/
   dev_url: https://www.riverbankcomputing.com/mailman/listinfo/pyqt/
 
 extra:

@@ -55,7 +55,7 @@ ulimit -n 1024
 # "recipe/yum_requirements.txt" file. After updating that file,
 # run "conda smithy rerender" and this line will be updated
 # automatically.
-/usr/bin/sudo -n yum install -y mesa-libGL mesa-libGL-devel mesa-libEGL-devel mesa-dri-drivers libX11-devel libglvnd-glx xorg-x11-server-Xvfb
+/usr/bin/sudo -n yum install -y mesa-libGL mesa-libGL-devel mesa-libEGL-devel mesa-dri-drivers libX11-devel libglvnd-glx
 )
 
 # make the build number clobber
