@@ -82,7 +82,7 @@ outputs:
         - qt6-positioning {{ version }}            # [build_platform != target_platform]
         - make
         - patchelf                                  # [linux]
-        - libsystemd0 257.*                         # [linux]
+        - libsystemd                                # [linux]
       host:
         - python
         - pip
@@ -95,7 +95,7 @@ outputs:
         - qt6-multimedia {{ version }}
         - qt6-serialport {{ version }}
         - qt6-positioning {{ version }}
-        - libsystemd0 257.*                      # [linux]
+        - libsystemd                             # [linux]
         - libgl-devel                            # [linux]
         - libegl-devel                           # [linux]
         - libopengl-devel                        # [linux]
