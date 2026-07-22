@@ -11,9 +11,9 @@ Summary: Python bindings for the Qt cross platform application toolkit
 
 Development: https://www.riverbankcomputing.com/mailman/listinfo/pyqt/
 
-Documentation: https://www.riverbankcomputing.com/static/Docs/PyQt5/
+Documentation: https://www.riverbankcomputing.com/static/Docs/PyQt6/
 
-PyQt5 is a comprehensive set of Python bindings for Qt v5.
+PyQt6 is a comprehensive set of Python bindings for Qt v6.
 It is implemented as more than 35 extension modules and enables Python
 to be used as an alternative application development language to C++ on
 all supported platforms including iOS and Android.
