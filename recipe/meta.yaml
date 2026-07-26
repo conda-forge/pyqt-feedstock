@@ -28,7 +28,7 @@ source:
     folder: pyqt_charts
 
 build:
-  number: 1
+  number: 2
   skip:
     - true  # [linux and ppc64le]
 
@@ -77,8 +77,12 @@ outputs:
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform != target_platform]
         - sip {{ sip_version }}                    # [build_platform != target_platform]
         - qt6-main {{ version }}                   # [build_platform != target_platform]
+        - qt6-multimedia {{ version }}             # [build_platform != target_platform]
+        - qt6-serialport {{ version }}             # [build_platform != target_platform]
+        - qt6-positioning {{ version }}            # [build_platform != target_platform]
         - make
         - patchelf                                  # [linux]
+        - libsystemd                                # [linux]
       host:
         - python
         - pip
@@ -88,6 +92,10 @@ outputs:
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
         - packaging
         - qt6-main {{ version }}
+        - qt6-multimedia {{ version }}
+        - qt6-serialport {{ version }}
+        - qt6-positioning {{ version }}
+        - libsystemd                             # [linux]
         - libgl-devel                            # [linux]
         - libegl-devel                           # [linux]
         - libopengl-devel                        # [linux]
@@ -131,8 +139,11 @@ outputs:
         - PyQt6.QtWebSockets
         - PyQt6.QtWidgets
         - PyQt6.QtXml
+        - PyQt6.QtMultimedia
+        - PyQt6.QtSerialPort
+        - PyQt6.QtPositioning
       commands:
-        - DISPLAY=localhost:1.0 xvfb-run -a bash -c 'python pyqt_test.py'  # [linux and build_platform == target_platform]
+        - QT_QPA_PLATFORM=offscreen python pyqt_test.py  # [linux and build_platform == target_platform]
         - pyuic6 --version  # [not win]
         - test -f "${PREFIX}/lib/qt6/plugins/designer/libpyqt6${SHLIB_EXT}"  # [unix]
         - if not exist "%PREFIX%\\Library\\plugins\\designer\\libpyqt6.dll" exit 1  # [win]
@@ -258,11 +269,11 @@ about:
   summary: Python bindings for the Qt cross platform application toolkit
   # The remaining entries in this section are optional, but recommended.
   description: |
-    PyQt5 is a comprehensive set of Python bindings for Qt v5.
+    PyQt6 is a comprehensive set of Python bindings for Qt v6.
     It is implemented as more than 35 extension modules and enables Python
     to be used as an alternative application development language to C++ on
     all supported platforms including iOS and Android.
-  doc_url: https://www.riverbankcomputing.com/static/Docs/PyQt5/
+  doc_url: https://www.riverbankcomputing.com/static/Docs/PyQt6/
   dev_url: https://www.riverbankcomputing.com/mailman/listinfo/pyqt/
 
 extra:
