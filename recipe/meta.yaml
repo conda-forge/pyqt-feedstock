@@ -96,7 +96,7 @@ outputs:
         - qt6-multimedia {{ qt_version }}
         - qt6-serialport {{ qt_version }}
         - qt6-positioning {{ qt_version }}
-        - libvulkan-headers                     # [build_platform == target_platform]
+        - libvulkan-headers
         - libsystemd                             # [linux]
         - libgl-devel                            # [linux]
         - libegl-devel                           # [linux]

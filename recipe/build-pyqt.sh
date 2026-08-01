@@ -41,9 +41,6 @@ fi
 source ${RECIPE_DIR}/setup-cross-compile.sh
 
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
-  # Vulkan bindings fail when the cross target QtGui headers do not expose the
-  # QVulkan* API expected by the generated SIP sources.
-  EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_Vulkan"
   # OpenGL ES2 detection is unreliable when probing the target Qt during cross
   # builds and can leave generated QtOpenGL sources referencing missing ES2
   # types on arm64 targets.
