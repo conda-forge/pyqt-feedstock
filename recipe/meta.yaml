@@ -1,4 +1,5 @@
 {% set version = "6.11.0" %}
+{% set qt_version = "6.11.1" %}
 {% set sip_version = "6.15.3" %}
 {% set pyqt6_sip_version = "13.10.0" %}
 {% set webengine_version = "6.8.0" %}
@@ -76,10 +77,10 @@ outputs:
         - cross-python_{{ target_platform }}       # [build_platform != target_platform]
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform != target_platform]
         - sip {{ sip_version }}                    # [build_platform != target_platform]
-        - qt6-main {{ version }}                   # [build_platform != target_platform]
-        - qt6-multimedia {{ version }}             # [build_platform != target_platform]
-        - qt6-serialport {{ version }}             # [build_platform != target_platform]
-        - qt6-positioning {{ version }}            # [build_platform != target_platform]
+        - qt6-main {{ qt_version }}                # [build_platform != target_platform]
+        - qt6-multimedia {{ qt_version }}          # [build_platform != target_platform]
+        - qt6-serialport {{ qt_version }}          # [build_platform != target_platform]
+        - qt6-positioning {{ qt_version }}         # [build_platform != target_platform]
         - make
         - patchelf                                  # [linux]
         - libsystemd                                # [linux]
@@ -91,11 +92,11 @@ outputs:
         - toml
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
         - packaging
-        - qt6-main {{ version }}
-        - qt6-multimedia {{ version }}
-        - qt6-serialport {{ version }}
-        - qt6-positioning {{ version }}
-        - vulkan-headers                         # [build_platform == target_platform]
+        - qt6-main {{ qt_version }}
+        - qt6-multimedia {{ qt_version }}
+        - qt6-serialport {{ qt_version }}
+        - qt6-positioning {{ qt_version }}
+        - libvulkan-headers                     # [build_platform == target_platform]
         - libsystemd                             # [linux]
         - libgl-devel                            # [linux]
         - libegl-devel                           # [linux]
@@ -169,7 +170,7 @@ outputs:
         - cross-python_{{ target_platform }}       # [build_platform != target_platform]
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform != target_platform]
         - sip {{ sip_version }}                    # [build_platform != target_platform]
-        - qt6-main {{ version }}                   # [build_platform != target_platform]
+        - qt6-main {{ qt_version }}                # [build_platform != target_platform]
         - make
       host:
         - python
@@ -180,8 +181,8 @@ outputs:
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
         - packaging
         - pyqt6
-        - qt6-main {{ version }}
-        - qt6-webengine {{ version }}            # [build_platform != target_platform]
+        - qt6-main {{ qt_version }}
+        - qt6-webengine {{ qt_version }}         # [build_platform != target_platform]
         - libgl-devel                            # [linux]
         - libegl-devel                           # [linux]
         - libopengl-devel                        # [linux]
@@ -225,8 +226,8 @@ outputs:
         - cross-python_{{ target_platform }}       # [build_platform != target_platform]
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform != target_platform]
         - sip {{ sip_version }}                    # [build_platform != target_platform]
-        - qt6-main {{ version }}                   # [build_platform != target_platform]
-        - qt6-charts {{ version }}                 # [build_platform != target_platform]
+        - qt6-main {{ qt_version }}                # [build_platform != target_platform]
+        - qt6-charts {{ qt_version }}              # [build_platform != target_platform]
         - make
       host:
         - python
@@ -236,8 +237,8 @@ outputs:
         - toml
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
         - packaging
-        - qt6-main {{ version }}
-        - qt6-charts {{ version }}
+        - qt6-main {{ qt_version }}
+        - qt6-charts {{ qt_version }}
         - pyqt6
         - libgl-devel                            # [linux]
         - libegl-devel                           # [linux]

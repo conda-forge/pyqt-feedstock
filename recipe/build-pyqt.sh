@@ -55,6 +55,10 @@ else
   ln -s ${PREFIX}/bin/qmake6 ${PREFIX}/bin/qmake
 fi
 
+# Ensure that SIP's qmake-based feature probes can find headers supplied by
+# host dependencies, including vulkan/vulkan.h on macOS.
+export CPATH="${PREFIX}/include${CPATH:+:${CPATH}}"
+
 $SIP_COMMAND \
 --verbose \
 --confirm-license \
@@ -70,7 +74,7 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
   mv Makefile.temp Makefile
 fi
 
-CPATH=$PREFIX/include make -j$CPU_COUNT
+make -j$CPU_COUNT
 make install
 
 # ---- Build and install the Qt Designer plugin -------------------------
