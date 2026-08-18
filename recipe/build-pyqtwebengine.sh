@@ -6,12 +6,9 @@ SIP_COMMAND="sip-build"
 EXTRA_FLAGS=""
 
 if [[ $(uname) == "Linux" ]]; then
-    USED_BUILD_PREFIX=${BUILD_PREFIX:-${PREFIX}}
-    echo USED_BUILD_PREFIX=${BUILD_PREFIX}
-
-    ln -s ${GXX} g++ || true
-    ln -s ${GCC} gcc || true
-    ln -s ${USED_BUILD_PREFIX}/bin/${HOST}-gcc-ar gcc-ar || true
+    ln -sf "$(command -v "${GXX}")" g++
+    ln -sf "$(command -v "${GCC}")" gcc
+    ln -sf "$(command -v "${GCC_AR}")" gcc-ar
 
     export LD=${GXX}
     export CC=${GCC}
