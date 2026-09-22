@@ -1,10 +1,18 @@
 {% set version = "5.15.11" %}
 {% set sip_version = "6.10.0" %}
-{% set pyqt5_sip_version = "12.17.0" %}
+{% set pyqt5_sip_version = "12.19.0" %}
 {% set webengine_version = "5.15.7" %}
 {% set charts_version = "5.15.7" %}
 {% set pyqt_builder_version = "<1.16.0" %}
 
+{% set pyqt5_sip_script = "build-pyqt-sip.sh" %}  # [not win]
+{% set pyqt5_sip_script = "bld-pyqt-sip.bat" %}  # [win]
+{% set pyqt_script = "build-pyqt.sh" %}  # [not win]
+{% set pyqt_script = "bld-pyqt.bat" %}  # [win]
+{% set pyqtwebengine_script = "build-pyqtwebengine.sh" %}  # [not win]
+{% set pyqtwebengine_script = "bld-pyqtwebengine.bat" %}  # [win]
+{% set pyqtchart_script = "build-pyqtcharts.sh" %}  # [not win]
+{% set pyqtchart_script = "bld-pyqtcharts.bat" %}  # [win]
 
 package:
   name: pyqt-split
@@ -18,7 +26,7 @@ source:
       - remove-deleted-xkb-keys.patch
 
   - url: https://pypi.org/packages/source/P/PyQt5-sip/pyqt5_sip-{{ pyqt5_sip_version }}.tar.gz
-    sha256: 682dadcdbd2239af9fdc0c0628e2776b820e128bec88b49b8d692fe682f90b4f
+    sha256: 71cacf1879da2cd3e50cb239e21673cfe02d358af70ab6768817c960428868c3
     folder: pyqt_sip
 
   - url: https://pypi.org/packages/source/P/PyQtWebEngine/PyQtWebEngine-{{ webengine_version }}.tar.gz
@@ -30,13 +38,12 @@ source:
     folder: pyqt_charts
 
 build:
-  number: 2
+  number: 0
 
 outputs:
   - name: pyqt5-sip
     version: {{ pyqt5_sip_version }}
-    script: build-pyqt-sip.sh  # [not win]
-    script: bld-pyqt-sip.bat  # [win]
+    script: {{ pyqt5_sip_script }}
     requirements:
       build:
         - {{ compiler('c') }}
@@ -61,8 +68,7 @@ outputs:
 
   - name: pyqt
     version: {{ version }}
-    script: build-pyqt.sh  # [not win]
-    script: bld-pyqt.bat  # [win]
+    script: {{ pyqt_script }}
     build:
       run_exports:
         - {{ pin_subpackage('pyqt', max_pin='x.x') }}
@@ -81,7 +87,7 @@ outputs:
         - python
         - pip
         - setuptools
-        - sip {{ sip_version }}                    # [build_platform == target_platform]
+        - sip {{ sip_version }}
         - toml
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
         - packaging
@@ -135,8 +141,7 @@ outputs:
 
   - name: pyqtwebengine
     version: {{ version }}
-    script: build-pyqtwebengine.sh  # [not win]
-    script: bld-pyqtwebengine.bat  # [win]
+    script: {{ pyqtwebengine_script }}
     build:
       skip: True  # [ppc64le]
       run_exports:
@@ -156,7 +161,7 @@ outputs:
         - python
         - pip
         - setuptools
-        - sip {{ sip_version }}                    # [build_platform == target_platform]
+        - sip {{ sip_version }}
         - toml
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
         - packaging
@@ -191,8 +196,7 @@ outputs:
 
   - name: pyqtchart
     version: {{ version }}
-    script: build-pyqtcharts.sh  # [not win]
-    script: bld-pyqtcharts.bat  # [win]
+    script: {{ pyqtchart_script }}
     build:
       run_exports:
         - {{ pin_subpackage('pyqtchart', max_pin='x.x') }}
@@ -211,7 +215,7 @@ outputs:
         - python
         - pip
         - setuptools
-        - sip {{ sip_version }}                    # [build_platform == target_platform]
+        - sip {{ sip_version }}
         - toml
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
         - packaging

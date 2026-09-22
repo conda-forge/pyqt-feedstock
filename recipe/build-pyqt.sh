@@ -10,8 +10,8 @@ if [[ $(uname) == "Linux" ]]; then
     USED_BUILD_PREFIX=${BUILD_PREFIX:-${PREFIX}}
     echo USED_BUILD_PREFIX=${BUILD_PREFIX}
 
-    ln -s ${GXX} g++ || true
-    ln -s ${GCC} gcc || true
+    ln -s $(which ${GXX}) g++ || true
+    ln -s $(which ${GCC}) gcc || true
     ln -s ${USED_BUILD_PREFIX}/bin/${HOST}-gcc-ar gcc-ar || true
 
     export LD=${GXX}
@@ -33,7 +33,9 @@ if [[ $(uname) == "Darwin" ]]; then
     export PATH=$PREFIX/bin/xc-avoidance:$PATH
 fi
 
-if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
+export CONDA_BUILD_CROSS_COMPILATION=${CONDA_BUILD_CROSS_COMPILATION:-0}
+
+if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
   SIP_COMMAND="$BUILD_PREFIX/bin/python -m sipbuild.tools.build"
   SITE_PKGS_PATH=$($PREFIX/bin/python -c 'import site;print(site.getsitepackages()[0])')
   EXTRA_FLAGS="--target-dir $SITE_PKGS_PATH"
