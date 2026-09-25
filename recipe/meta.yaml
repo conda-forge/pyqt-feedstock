@@ -19,26 +19,26 @@ package:
   version: {{ version }}
 
 source:
-  - url: https://pypi.org/packages/source/P/PyQt{{ version[0] }}/PyQt{{ version[0] }}-{{ version }}.tar.gz
+  - url: https://files.pythonhosted.org/packages/source/P/PyQt{{ version[0] }}/PyQt{{ version[0] }}-{{ version }}.tar.gz
     sha256: fda45743ebb4a27b4b1a51c6d8ef455c4c1b5d610c90d2934c7802b5c1557c52
     folder: pyqt
     patches:
       - remove-deleted-xkb-keys.patch
 
-  - url: https://pypi.org/packages/source/P/PyQt5-sip/pyqt5_sip-{{ pyqt5_sip_version }}.tar.gz
+  - url: https://files.pythonhosted.org/packages/source/P/PyQt5-sip/pyqt5_sip-{{ pyqt5_sip_version }}.tar.gz
     sha256: 71cacf1879da2cd3e50cb239e21673cfe02d358af70ab6768817c960428868c3
     folder: pyqt_sip
 
-  - url: https://pypi.org/packages/source/P/PyQtWebEngine/PyQtWebEngine-{{ webengine_version }}.tar.gz
+  - url: https://files.pythonhosted.org/packages/source/P/PyQtWebEngine/PyQtWebEngine-{{ webengine_version }}.tar.gz
     sha256: f121ac6e4a2f96ac289619bcfc37f64e68362f24a346553f5d6c42efa4228a4d
     folder: pyqt_webengine
 
-  - url: https://pypi.org/packages/source/P/PyQtChart/PyQtChart-{{ charts_version }}.tar.gz
+  - url: https://files.pythonhosted.org/packages/source/P/PyQtChart/PyQtChart-{{ charts_version }}.tar.gz
     sha256: bc9f1d26c725e820b0fff8db6e906e8b286128a14b3a98c59a0cd0c3d9924095
     folder: pyqt_charts
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - name: pyqt5-sip
