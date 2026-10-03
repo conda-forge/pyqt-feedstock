@@ -285,5 +285,6 @@ extra:
     - msarahan
     - ocefpaf
     - jschueller
+    - pb01ka
 
   feedstock-name: pyqt
