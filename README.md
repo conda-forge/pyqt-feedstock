@@ -281,4 +281,5 @@ Feedstock Maintainers
 * [@mingwandroid](https://github.com/mingwandroid/)
 * [@msarahan](https://github.com/msarahan/)
 * [@ocefpaf](https://github.com/ocefpaf/)
+* [@pb01ka](https://github.com/pb01ka/)
 
