@@ -10,8 +10,8 @@ if [[ $(uname) == "Linux" ]]; then
     USED_BUILD_PREFIX=${BUILD_PREFIX:-${PREFIX}}
     echo USED_BUILD_PREFIX=${BUILD_PREFIX}
 
-    ln -s ${GXX} g++ || true
-    ln -s ${GCC} gcc || true
+    ln -s "$(command -v ${GXX})" g++ || true
+    ln -s "$(command -v ${GCC})" gcc || true
     ln -s ${USED_BUILD_PREFIX}/bin/${HOST}-gcc-ar gcc-ar || true
 
     export LD=${GXX}

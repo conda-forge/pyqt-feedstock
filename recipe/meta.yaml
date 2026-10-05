@@ -1,6 +1,6 @@
 {% set version = "6.11.0" %}
 {% set sip_version = "6.15.3" %}
-{% set pyqt6_sip_version = "13.10.0" %}
+{% set pyqt6_sip_version = "13.12.0" %}
 {% set webengine_version = "6.8.0" %}
 {% set charts_version = "6.8.0" %}
 {% set pyqt_builder_version = "1.18.2" %}
@@ -16,7 +16,7 @@ source:
     folder: pyqt
 
   - url: https://pypi.org/packages/source/P/PyQt6-sip/pyqt6_sip-{{ pyqt6_sip_version }}.tar.gz
-    sha256: d6daa95a0bd315d9ec523b549e0ce97455f61ded65d5eafecd83ed2aa4ae5350
+    sha256: a7ad45c1e3cec3a2473d37ea9870b6c3baeccc560298623c8eb59265714c06e2
     folder: pyqt_sip
 
   - url: https://pypi.org/packages/source/P/PyQt6-WebEngine/PyQt6_WebEngine-{{ webengine_version }}.tar.gz
@@ -28,7 +28,7 @@ source:
     folder: pyqt_charts
 
 build:
-  number: 2
+  number: 3
   skip:
     - true  # [linux and ppc64le]
 
@@ -285,5 +285,6 @@ extra:
     - msarahan
     - ocefpaf
     - jschueller
+    - pb01ka
 
   feedstock-name: pyqt
