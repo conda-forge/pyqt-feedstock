@@ -1,5 +1,5 @@
 {% set version = "6.11.0" %}
-{% set sip_version = "6.15.3" %}
+{% set sip_version = "6.16.0" %}
 {% set pyqt6_sip_version = "13.13.0" %}
 {% set webengine_version = "6.8.0" %}
 {% set charts_version = "6.8.0" %}
