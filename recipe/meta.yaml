@@ -1,7 +1,8 @@
 {% set version = "6.11.0" %}
+# Qt 6.11.1 build 2 is the published Vulkan-enabled macOS build.
 {% set qt_version = "6.11.1" %}
 {% set sip_version = "6.15.3" %}
-{% set pyqt6_sip_version = "13.10.0" %}
+{% set pyqt6_sip_version = "13.13.0" %}
 {% set webengine_version = "6.8.0" %}
 {% set charts_version = "6.8.0" %}
 {% set pyqt_builder_version = "1.18.2" %}
@@ -17,7 +18,7 @@ source:
     folder: pyqt
 
   - url: https://pypi.org/packages/source/P/PyQt6-sip/pyqt6_sip-{{ pyqt6_sip_version }}.tar.gz
-    sha256: d6daa95a0bd315d9ec523b549e0ce97455f61ded65d5eafecd83ed2aa4ae5350
+    sha256: 2cd55f575cde208c398d6cfdecc5a13394ed2afb54226210c50e3a6df7c3a997
     folder: pyqt_sip
 
   - url: https://pypi.org/packages/source/P/PyQt6-WebEngine/PyQt6_WebEngine-{{ webengine_version }}.tar.gz
@@ -29,7 +30,7 @@ source:
     folder: pyqt_charts
 
 build:
-  number: 3
+  number: 5
   skip:
     - true  # [linux and ppc64le]
 
@@ -77,7 +78,7 @@ outputs:
         - cross-python_{{ target_platform }}       # [build_platform != target_platform]
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform != target_platform]
         - sip {{ sip_version }}                    # [build_platform != target_platform]
-        - qt6-main {{ qt_version }}                # [build_platform != target_platform]
+        - qt6-main {{ qt_version }} {{ '*_2' if osx else '' }}  # [build_platform != target_platform]
         - qt6-multimedia {{ qt_version }}          # [build_platform != target_platform]
         - qt6-serialport {{ qt_version }}          # [build_platform != target_platform]
         - qt6-positioning {{ qt_version }}         # [build_platform != target_platform]
@@ -92,7 +93,7 @@ outputs:
         - toml
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
         - packaging
-        - qt6-main {{ qt_version }}
+        - qt6-main {{ qt_version }} {{ '*_2' if osx else '' }}
         - qt6-multimedia {{ qt_version }}
         - qt6-serialport {{ qt_version }}
         - qt6-positioning {{ qt_version }}
@@ -170,7 +171,7 @@ outputs:
         - cross-python_{{ target_platform }}       # [build_platform != target_platform]
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform != target_platform]
         - sip {{ sip_version }}                    # [build_platform != target_platform]
-        - qt6-main {{ qt_version }}                # [build_platform != target_platform]
+        - qt6-main {{ qt_version }} {{ '*_2' if osx else '' }}  # [build_platform != target_platform]
         - make
       host:
         - python
@@ -181,7 +182,7 @@ outputs:
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
         - packaging
         - pyqt6
-        - qt6-main {{ qt_version }}
+        - qt6-main {{ qt_version }} {{ '*_2' if osx else '' }}
         - qt6-webengine {{ qt_version }}         # [build_platform != target_platform]
         - libgl-devel                            # [linux]
         - libegl-devel                           # [linux]
@@ -226,7 +227,7 @@ outputs:
         - cross-python_{{ target_platform }}       # [build_platform != target_platform]
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform != target_platform]
         - sip {{ sip_version }}                    # [build_platform != target_platform]
-        - qt6-main {{ qt_version }}                # [build_platform != target_platform]
+        - qt6-main {{ qt_version }} {{ '*_2' if osx else '' }}  # [build_platform != target_platform]
         - qt6-charts {{ qt_version }}              # [build_platform != target_platform]
         - make
       host:
@@ -237,7 +238,7 @@ outputs:
         - toml
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
         - packaging
-        - qt6-main {{ qt_version }}
+        - qt6-main {{ qt_version }} {{ '*_2' if osx else '' }}
         - qt6-charts {{ qt_version }}
         - pyqt6
         - libgl-devel                            # [linux]
@@ -288,5 +289,6 @@ extra:
     - msarahan
     - ocefpaf
     - jschueller
+    - pb01ka
 
   feedstock-name: pyqt
