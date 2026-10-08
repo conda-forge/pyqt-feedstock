@@ -44,9 +44,9 @@ outputs:
         - ${{ compiler('cxx') }}
         - ${{ stdlib("c") }}
         - if: build_platform != target_platform
-          then: python
-        - if: build_platform != target_platform
-          then: cross-python_${{ target_platform }}
+          then:
+            - python
+            - cross-python_${{ target_platform }}
       host:
         - python
         - setuptools
@@ -76,26 +76,20 @@ outputs:
         - if: win
           then: jom
         - if: build_platform != target_platform
-          then: python
-        - if: build_platform != target_platform
-          then: cross-python_${{ target_platform }}
-        - if: build_platform != target_platform
-          then: pyqt-builder ${{ pyqt_builder_version }}.*
-        - if: build_platform != target_platform
-          then: sip ${{ sip_version }}.*
-        - if: build_platform != target_platform
-          then: qt6-main ${{ version }}.*
-        - if: build_platform != target_platform
-          then: qt6-multimedia ${{ version }}.*
-        - if: build_platform != target_platform
-          then: qt6-serialport ${{ version }}.*
-        - if: build_platform != target_platform
-          then: qt6-positioning ${{ version }}.*
+          then:
+            - python
+            - cross-python_${{ target_platform }}
+            - pyqt-builder ${{ pyqt_builder_version }}.*
+            - sip ${{ sip_version }}.*
+            - qt6-main ${{ version }}.*
+            - qt6-multimedia ${{ version }}.*
+            - qt6-serialport ${{ version }}.*
+            - qt6-positioning ${{ version }}.*
         - make
         - if: linux
-          then: patchelf
-        - if: linux
-          then: libsystemd
+          then:
+            - patchelf
+            - libsystemd
       host:
         - python
         - pip
@@ -111,41 +105,25 @@ outputs:
         - qt6-serialport ${{ version }}.*
         - qt6-positioning ${{ version }}.*
         - if: linux
-          then: libsystemd
-        - if: linux
-          then: libgl-devel
-        - if: linux
-          then: libegl-devel
-        - if: linux
-          then: libopengl-devel
-        - if: linux
-          then: xorg-xorgproto
-        - if: linux
-          then: xcb-util
-        - if: linux
-          then: xcb-util-wm
-        - if: linux
-          then: xcb-util-keysyms
-        - if: linux
-          then: xcb-util-image
-        - if: linux
-          then: xcb-util-renderutil
-        - if: linux
-          then: xorg-libx11
-        - if: linux
-          then: xorg-libxext
-        - if: linux
-          then: xorg-libxdamage
-        - if: linux
-          then: xorg-libsm
-        - if: linux
-          then: xorg-libice
-        - if: linux
-          then: xorg-libxcomposite
-        - if: linux
-          then: xorg-libxxf86vm
-        - if: linux
-          then: xorg-xf86vidmodeproto
+          then:
+            - libsystemd
+            - libgl-devel
+            - libegl-devel
+            - libopengl-devel
+            - xorg-xorgproto
+            - xcb-util
+            - xcb-util-wm
+            - xcb-util-keysyms
+            - xcb-util-image
+            - xcb-util-renderutil
+            - xorg-libx11
+            - xorg-libxext
+            - xorg-libxdamage
+            - xorg-libsm
+            - xorg-libice
+            - xorg-libxcomposite
+            - xorg-libxxf86vm
+            - xorg-xf86vidmodeproto
       run:
         - python
         - ${{ pin_subpackage('pyqt6-sip', exact=True) }}
@@ -206,15 +184,12 @@ outputs:
         - if: win
           then: jom
         - if: build_platform != target_platform
-          then: python
-        - if: build_platform != target_platform
-          then: cross-python_${{ target_platform }}
-        - if: build_platform != target_platform
-          then: pyqt-builder ${{ pyqt_builder_version }}.*
-        - if: build_platform != target_platform
-          then: sip ${{ sip_version }}.*
-        - if: build_platform != target_platform
-          then: qt6-main ${{ version }}.*
+          then:
+            - python
+            - cross-python_${{ target_platform }}
+            - pyqt-builder ${{ pyqt_builder_version }}.*
+            - sip ${{ sip_version }}.*
+            - qt6-main ${{ version }}.*
         - make
       host:
         - python
@@ -230,39 +205,24 @@ outputs:
         - qt6-main ${{ version }}.*
         - qt6-webengine ${{ version }}.*
         - if: linux
-          then: libgl-devel
-        - if: linux
-          then: libegl-devel
-        - if: linux
-          then: libopengl-devel
-        - if: linux
-          then: xorg-xorgproto
-        - if: linux
-          then: xcb-util
-        - if: linux
-          then: xcb-util-wm
-        - if: linux
-          then: xcb-util-keysyms
-        - if: linux
-          then: xcb-util-image
-        - if: linux
-          then: xcb-util-renderutil
-        - if: linux
-          then: xorg-libx11
-        - if: linux
-          then: xorg-libxext
-        - if: linux
-          then: xorg-libxdamage
-        - if: linux
-          then: xorg-libsm
-        - if: linux
-          then: xorg-libice
-        - if: linux
-          then: xorg-libxcomposite
-        - if: linux
-          then: xorg-libxxf86vm
-        - if: linux
-          then: xorg-xf86vidmodeproto
+          then:
+            - libgl-devel
+            - libegl-devel
+            - libopengl-devel
+            - xorg-xorgproto
+            - xcb-util
+            - xcb-util-wm
+            - xcb-util-keysyms
+            - xcb-util-image
+            - xcb-util-renderutil
+            - xorg-libx11
+            - xorg-libxext
+            - xorg-libxdamage
+            - xorg-libsm
+            - xorg-libice
+            - xorg-libxcomposite
+            - xorg-libxxf86vm
+            - xorg-xf86vidmodeproto
       run:
         - python
         - ${{ pin_subpackage('pyqt6', upper_bound='x.x') }}
@@ -289,17 +249,13 @@ outputs:
         - if: win
           then: jom
         - if: build_platform != target_platform
-          then: python
-        - if: build_platform != target_platform
-          then: cross-python_${{ target_platform }}
-        - if: build_platform != target_platform
-          then: pyqt-builder ${{ pyqt_builder_version }}.*
-        - if: build_platform != target_platform
-          then: sip ${{ sip_version }}.*
-        - if: build_platform != target_platform
-          then: qt6-main ${{ version }}.*
-        - if: build_platform != target_platform
-          then: qt6-charts ${{ version }}.*
+          then:
+            - python
+            - cross-python_${{ target_platform }}
+            - pyqt-builder ${{ pyqt_builder_version }}.*
+            - sip ${{ sip_version }}.*
+            - qt6-main ${{ version }}.*
+            - qt6-charts ${{ version }}.*
         - make
       host:
         - python
@@ -315,39 +271,24 @@ outputs:
         - qt6-charts ${{ version }}.*
         - pyqt6
         - if: linux
-          then: libgl-devel
-        - if: linux
-          then: libegl-devel
-        - if: linux
-          then: libopengl-devel
-        - if: linux
-          then: xorg-xorgproto
-        - if: linux
-          then: xcb-util
-        - if: linux
-          then: xcb-util-wm
-        - if: linux
-          then: xcb-util-keysyms
-        - if: linux
-          then: xcb-util-image
-        - if: linux
-          then: xcb-util-renderutil
-        - if: linux
-          then: xorg-libx11
-        - if: linux
-          then: xorg-libxext
-        - if: linux
-          then: xorg-libxdamage
-        - if: linux
-          then: xorg-libsm
-        - if: linux
-          then: xorg-libice
-        - if: linux
-          then: xorg-libxcomposite
-        - if: linux
-          then: xorg-libxxf86vm
-        - if: linux
-          then: xorg-xf86vidmodeproto
+          then:
+            - libgl-devel
+            - libegl-devel
+            - libopengl-devel
+            - xorg-xorgproto
+            - xcb-util
+            - xcb-util-wm
+            - xcb-util-keysyms
+            - xcb-util-image
+            - xcb-util-renderutil
+            - xorg-libx11
+            - xorg-libxext
+            - xorg-libxdamage
+            - xorg-libsm
+            - xorg-libice
+            - xorg-libxcomposite
+            - xorg-libxxf86vm
+            - xorg-xf86vidmodeproto
       run:
         - python
         - ${{ pin_subpackage('pyqt6', upper_bound='x.x') }}
