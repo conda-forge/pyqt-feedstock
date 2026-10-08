@@ -95,10 +95,10 @@ outputs:
         - pip
         - setuptools
         - if: build_platform == target_platform
-          then: sip ${{ sip_version }}.*
+          then:
+            - sip ${{ sip_version }}.*
+            - pyqt-builder ${{ pyqt_builder_version }}.*
         - toml
-        - if: build_platform == target_platform
-          then: pyqt-builder ${{ pyqt_builder_version }}.*
         - packaging
         - qt6-main ${{ version }}.*
         - qt6-multimedia ${{ version }}.*
@@ -196,10 +196,10 @@ outputs:
         - pip
         - setuptools
         - if: build_platform == target_platform
-          then: sip ${{ sip_version }}.*
+          then:
+            - sip ${{ sip_version }}.*
+            - pyqt-builder ${{ pyqt_builder_version }}.*
         - toml
-        - if: build_platform == target_platform
-          then: pyqt-builder ${{ pyqt_builder_version }}.*
         - packaging
         - pyqt6
         - qt6-main ${{ version }}.*
@@ -262,10 +262,10 @@ outputs:
         - pip
         - setuptools
         - if: build_platform == target_platform
-          then: sip ${{ sip_version }}.*
+          then:
+            - sip ${{ sip_version }}.*
+            - pyqt-builder ${{ pyqt_builder_version }}.*
         - toml
-        - if: build_platform == target_platform
-          then: pyqt-builder ${{ pyqt_builder_version }}.*
         - packaging
         - qt6-main ${{ version }}.*
         - qt6-charts ${{ version }}.*
