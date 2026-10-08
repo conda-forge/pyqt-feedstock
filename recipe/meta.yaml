@@ -1,5 +1,5 @@
 {% set version = "6.11.0" %}
-{% set sip_version = "6.15.3" %}
+{% set sip_version = "6.16.0" %}
 {% set pyqt6_sip_version = "13.13.0" %}
 {% set webengine_version = "6.8.0" %}
 {% set charts_version = "6.8.0" %}
@@ -11,24 +11,24 @@ package:
   version: {{ version }}
 
 source:
-  - url: https://pypi.org/packages/source/P/PyQt{{ version[0] }}/pyqt{{ version[0] }}-{{ version }}.tar.gz
+  - url: https://files.pythonhosted.org/packages/source/P/PyQt{{ version[0] }}/pyqt{{ version[0] }}-{{ version }}.tar.gz
     sha256: 45dd60aa69976de1918b5ced6b4e7b6a25abd2a919ecef5fd5826ecc76718889
     folder: pyqt
 
-  - url: https://pypi.org/packages/source/P/PyQt6-sip/pyqt6_sip-{{ pyqt6_sip_version }}.tar.gz
+  - url: https://files.pythonhosted.org/packages/source/P/PyQt6-sip/pyqt6_sip-{{ pyqt6_sip_version }}.tar.gz
     sha256: 2cd55f575cde208c398d6cfdecc5a13394ed2afb54226210c50e3a6df7c3a997
     folder: pyqt_sip
 
-  - url: https://pypi.org/packages/source/P/PyQt6-WebEngine/PyQt6_WebEngine-{{ webengine_version }}.tar.gz
+  - url: https://files.pythonhosted.org/packages/source/P/PyQt6-WebEngine/PyQt6_WebEngine-{{ webengine_version }}.tar.gz
     sha256: 64045ea622b6a41882c2b18f55ae9714b8660acff06a54e910eb72822c2f3ff2
     folder: pyqt_webengine
 
-  - url: https://pypi.org/packages/source/P/PyQt6-Charts/PyQt6_Charts-{{ charts_version }}.tar.gz
+  - url: https://files.pythonhosted.org/packages/source/P/PyQt6-Charts/PyQt6_Charts-{{ charts_version }}.tar.gz
     sha256: f86705b8740e3041667ce211aeaa205b750eb6baf4c908f4e3f6dc8c720d10f1
     folder: pyqt_charts
 
 build:
-  number: 4
+  number: 5
   skip:
     - true  # [linux and ppc64le]
 
