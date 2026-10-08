@@ -18,7 +18,6 @@ It is implemented as more than 35 extension modules and enables Python
 to be used as an alternative application development language to C++ on
 all supported platforms including iOS and Android.
 
-
 Current build status
 ====================
 
@@ -115,6 +114,7 @@ Current release info
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt6-green.svg)](https://anaconda.org/conda-forge/pyqt6) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt6.svg)](https://anaconda.org/conda-forge/pyqt6) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt6.svg)](https://anaconda.org/conda-forge/pyqt6) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt6.svg)](https://anaconda.org/conda-forge/pyqt6) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt6--charts-green.svg)](https://anaconda.org/conda-forge/pyqt6-charts) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt6-charts.svg)](https://anaconda.org/conda-forge/pyqt6-charts) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt6-charts.svg)](https://anaconda.org/conda-forge/pyqt6-charts) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt6-charts.svg)](https://anaconda.org/conda-forge/pyqt6-charts) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt6--sip-green.svg)](https://anaconda.org/conda-forge/pyqt6-sip) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt6-sip.svg)](https://anaconda.org/conda-forge/pyqt6-sip) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt6-sip.svg)](https://anaconda.org/conda-forge/pyqt6-sip) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt6-sip.svg)](https://anaconda.org/conda-forge/pyqt6-sip) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt6webengine-green.svg)](https://anaconda.org/conda-forge/pyqt6webengine) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt6webengine.svg)](https://anaconda.org/conda-forge/pyqt6webengine) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt6webengine.svg)](https://anaconda.org/conda-forge/pyqt6webengine) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt6webengine.svg)](https://anaconda.org/conda-forge/pyqt6webengine) |
 
 Installing pyqt
 ===============
@@ -133,7 +133,7 @@ How to use
 <summary>With conda</summary>
 
 ```
-conda install pyqt6 pyqt6-charts pyqt6-sip
+conda install pyqt6 pyqt6-charts pyqt6-sip pyqt6webengine
 ```
 
 </details>
@@ -142,7 +142,7 @@ conda install pyqt6 pyqt6-charts pyqt6-sip
 <summary>With mamba</summary>
 
 ```
-mamba install pyqt6 pyqt6-charts pyqt6-sip
+mamba install pyqt6 pyqt6-charts pyqt6-sip pyqt6webengine
 ```
 
 </details>
@@ -152,9 +152,9 @@ mamba install pyqt6 pyqt6-charts pyqt6-sip
 
 ```
 # for adding to your local project
-pixi add pyqt6 pyqt6-charts pyqt6-sip
+pixi add pyqt6 pyqt6-charts pyqt6-sip pyqt6webengine
 # for installing globally
-pixi global install pyqt6 pyqt6-charts pyqt6-sip
+pixi global install pyqt6 pyqt6-charts pyqt6-sip pyqt6webengine
 ```
 
 </details>
