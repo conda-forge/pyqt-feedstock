@@ -147,7 +147,7 @@ jobs:
             UPLOAD_PACKAGES: True
             build_platform: win-64
             build_workspace_dir: D:\\bld\\
-            docker_run_args: 
+            docker_run_args:
             free_disk_space: skip
             os: windows
             pagefile_size: 0
@@ -159,7 +159,7 @@ jobs:
             UPLOAD_PACKAGES: True
             build_platform: win-64
             build_workspace_dir: D:\\bld\\
-            docker_run_args: 
+            docker_run_args:
             free_disk_space: skip
             os: windows
             pagefile_size: 0
