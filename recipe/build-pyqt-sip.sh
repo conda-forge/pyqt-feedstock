@@ -3,9 +3,13 @@ set -exou
 pushd pyqt_sip
 
 if [[ $(uname) == "Linux" ]]; then
-    ln -sf "$(command -v "${GXX}")" g++
-    ln -sf "$(command -v "${GCC}")" gcc
-    ln -sf "$(command -v "${GCC_AR}")" gcc-ar
+    # Resolve the activated toolchain before replacing any compiler shims.
+    GXX_PATH=$(command -v "${GXX}")
+    GCC_PATH=$(command -v "${GCC}")
+    GCC_AR_PATH=$(command -v "${GCC_AR}")
+    ln -sf "${GXX_PATH}" g++
+    ln -sf "${GCC_PATH}" gcc
+    ln -sf "${GCC_AR_PATH}" gcc-ar
 
     export LD=${GXX}
     export CC=${GCC}
