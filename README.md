@@ -115,7 +115,7 @@ Current release info
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt6-green.svg)](https://anaconda.org/conda-forge/pyqt6) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt6.svg)](https://anaconda.org/conda-forge/pyqt6) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt6.svg)](https://anaconda.org/conda-forge/pyqt6) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt6.svg)](https://anaconda.org/conda-forge/pyqt6) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt6--charts-green.svg)](https://anaconda.org/conda-forge/pyqt6-charts) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt6-charts.svg)](https://anaconda.org/conda-forge/pyqt6-charts) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt6-charts.svg)](https://anaconda.org/conda-forge/pyqt6-charts) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt6-charts.svg)](https://anaconda.org/conda-forge/pyqt6-charts) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt6--sip-green.svg)](https://anaconda.org/conda-forge/pyqt6-sip) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt6-sip.svg)](https://anaconda.org/conda-forge/pyqt6-sip) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt6-sip.svg)](https://anaconda.org/conda-forge/pyqt6-sip) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt6-sip.svg)](https://anaconda.org/conda-forge/pyqt6-sip) |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt6webengine-green.svg)](https://anaconda.org/conda-forge/pyqt6webengine) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt6webengine.svg)](https://anaconda.org/conda-forge/pyqt6webengine) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt6webengine.svg)](https://anaconda.org/conda-forge/pyqt6webengine) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt6webengine.svg)](https://anaconda.org/conda-forge/pyqt6webengine) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-pyqt6--webengine-green.svg)](https://anaconda.org/conda-forge/pyqt6-webengine) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyqt6-webengine.svg)](https://anaconda.org/conda-forge/pyqt6-webengine) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyqt6-webengine.svg)](https://anaconda.org/conda-forge/pyqt6-webengine) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyqt6-webengine.svg)](https://anaconda.org/conda-forge/pyqt6-webengine) |
 
 Installing pyqt
 ===============
@@ -134,7 +134,7 @@ How to use
 <summary>With conda</summary>
 
 ```
-conda install pyqt6 pyqt6-charts pyqt6-sip pyqt6webengine
+conda install pyqt6 pyqt6-charts pyqt6-sip pyqt6-webengine
 ```
 
 </details>
@@ -143,7 +143,7 @@ conda install pyqt6 pyqt6-charts pyqt6-sip pyqt6webengine
 <summary>With mamba</summary>
 
 ```
-mamba install pyqt6 pyqt6-charts pyqt6-sip pyqt6webengine
+mamba install pyqt6 pyqt6-charts pyqt6-sip pyqt6-webengine
 ```
 
 </details>
@@ -153,9 +153,9 @@ mamba install pyqt6 pyqt6-charts pyqt6-sip pyqt6webengine
 
 ```
 # for adding to your local project
-pixi add pyqt6 pyqt6-charts pyqt6-sip pyqt6webengine
+pixi add pyqt6 pyqt6-charts pyqt6-sip pyqt6-webengine
 # for installing globally
-pixi global install pyqt6 pyqt6-charts pyqt6-sip pyqt6webengine
+pixi global install pyqt6 pyqt6-charts pyqt6-sip pyqt6-webengine
 ```
 
 </details>

@@ -5,6 +5,7 @@
 {% set sip_version = "6.15.3" %}
 {% set pyqt6_sip_version = "13.13.0" %}
 {% set webengine_version = "6.11.0" %}
+{% set qt_webengine_version = "6.11.1" %}
 {% set charts_version = "6.8.0" %}
 {% set pyqt_builder_version = "1.18.2" %}
 
@@ -164,7 +165,7 @@ outputs:
       # qt6-webengine isn't built for osx-64
       skip: true  # [osx and x86_64]
       run_exports:
-        - {{ pin_subpackage('pyqt6webengine', max_pin='x.x') }}
+        - {{ pin_subpackage('pyqt6-webengine', max_pin='x.x') }}
     requirements:
       build:
         - {{ compiler('c') }}
@@ -187,7 +188,7 @@ outputs:
         - packaging
         - pyqt6
         - qt6-main {{ qt_main_spec }}
-        - qt6-webengine {{ version }}
+        - qt6-webengine {{ qt_webengine_version }}
         - libgl-devel                            # [linux]
         - libegl-devel                           # [linux]
         - libopengl-devel                        # [linux]
