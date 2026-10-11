@@ -31,7 +31,7 @@ source:
     folder: pyqt_charts
 
 build:
-  number: 5
+  number: 6
   skip:
     - true  # [linux and ppc64le]
 
