@@ -156,7 +156,7 @@ outputs:
         - if not exist "%PREFIX%\\Library\\plugins\\designer\\libpyqt6.dll" exit 1  # [win]
         - python test_plugin_load.py
 
-  - name: pyqt6webengine
+  - name: pyqt6-webengine
     version: {{ version }}
     script: build-pyqtwebengine.sh  # [not win]
     script: bld-pyqtwebengine.bat  # [win]
