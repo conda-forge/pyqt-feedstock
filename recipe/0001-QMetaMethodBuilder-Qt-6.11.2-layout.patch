@@ -1,0 +1,14 @@
+--- a/qpy/QtCore/qpycore_qmetaobjectbuilder.h
++++ b/qpy/QtCore/qpycore_qmetaobjectbuilder.h
+@@ -73,6 +73,11 @@
+ private:
+     const QMetaObjectBuilder *_mobj;
+     int _index;
++#if QT_VERSION >= QT_VERSION_CHECK(6, 11, 2)
++    // Qt v6.11.2 added the method type (qtbase commit a598cc13db) and uses it
++    // to locate the method, so it must be part of the layout.
++    int _type = 0;  // QMetaMethod::Method
++#endif
+ };
+ 
+ 
