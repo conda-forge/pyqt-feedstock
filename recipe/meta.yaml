@@ -1,7 +1,8 @@
 {% set version = "6.11.0" %}
-{% set qt_version = "6.11.1" %}
-# Qt main build 2 enables Vulkan on macOS and is available on all platforms.
-{% set qt_main_spec = qt_version + " *_2" %}
+{% set qt_version = "6.11.2" %}
+# PyQt6 uses Qt's private QMetaObjectBuilder API, which is not ABI stable across Qt
+# patch releases (see #201), so qt6-main is pinned to the exact version built against.
+{% set qt_main_spec = qt_version + ".*" %}
 {% set sip_version = "6.15.3" %}
 {% set pyqt6_sip_version = "13.13.0" %}
 {% set webengine_version = "6.8.0" %}
@@ -31,7 +32,7 @@ source:
     folder: pyqt_charts
 
 build:
-  number: 5
+  number: 6
   skip:
     - true  # [linux and ppc64le]
 
@@ -120,12 +121,13 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('pyqt6-sip', exact=True) }}
-        # Qt's version-only run export also permits macOS builds without Vulkan.
-        - qt6-main {{ qt_main_spec }}              # [osx]
+        # Qt's run export allows newer patch releases, which break the private API (#201).
+        - qt6-main {{ qt_main_spec }}
     test:
       files:
         - pyqt_test.py
         - test_plugin_load.py
+        - test_slot_result.py
       imports:
         - PyQt6
         - PyQt6.sip
@@ -155,6 +157,7 @@ outputs:
         - test -f "${PREFIX}/lib/qt6/plugins/designer/libpyqt6${SHLIB_EXT}"  # [unix]
         - if not exist "%PREFIX%\\Library\\plugins\\designer\\libpyqt6.dll" exit 1  # [win]
         - python test_plugin_load.py
+        - python test_slot_result.py  # [build_platform == target_platform]
 
   - name: pyqt6webengine
     version: {{ version }}
