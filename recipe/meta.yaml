@@ -7,7 +7,7 @@
 {% set sip_version = "6.15.3" %}
 {% set pyqt6_sip_version = "13.13.0" %}
 {% set webengine_version = "6.11.0" %}
-{% set qt_webengine_version = "6.11.1" %}
+{% set qt_webengine_version = "6.11.2" %}
 {% set charts_version = "6.8.0" %}
 {% set pyqt_builder_version = "1.18.2" %}
 
