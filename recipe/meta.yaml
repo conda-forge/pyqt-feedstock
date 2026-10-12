@@ -1,7 +1,8 @@
 {% set version = "6.11.0" %}
 {% set qt_version = "6.11.2" %}
-# PyQt6 uses Qt's private QMetaObjectBuilder API, which is not ABI stable across Qt
-# patch releases (see #201), so qt6-main is pinned to the exact version built against.
+# PyQt6 uses Qt's private QMetaObjectBuilder API (and a bundled copy of its layout),
+# which is not ABI stable across Qt patch releases (see #201), so qt6-main is pinned
+# to the exact version built against.
 {% set qt_main_spec = qt_version + ".*" %}
 {% set sip_version = "6.15.3" %}
 {% set pyqt6_sip_version = "13.13.0" %}
@@ -18,6 +19,10 @@ source:
   - url: https://pypi.org/packages/source/P/PyQt{{ version[0] }}/pyqt{{ version[0] }}-{{ version }}.tar.gz
     sha256: 45dd60aa69976de1918b5ced6b4e7b6a25abd2a919ecef5fd5826ecc76718889
     folder: pyqt
+    patches:
+      # PyQt6 bundles its own copy of Qt's private QMetaMethodBuilder layout, which
+      # gained a member in Qt 6.11.2 (#201).
+      - 0001-QMetaMethodBuilder-Qt-6.11.2-layout.patch
 
   - url: https://pypi.org/packages/source/P/PyQt6-sip/pyqt6_sip-{{ pyqt6_sip_version }}.tar.gz
     sha256: 2cd55f575cde208c398d6cfdecc5a13394ed2afb54226210c50e3a6df7c3a997
