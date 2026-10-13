@@ -14,3 +14,6 @@ jom
 if %ERRORLEVEL% neq 0 exit 1
 jom install
 if %ERRORLEVEL% neq 0 exit 1
+
+python "%RECIPE_DIR%\fix_dist_info_record.py" PyQt6-Charts
+if %ERRORLEVEL% neq 0 exit 1

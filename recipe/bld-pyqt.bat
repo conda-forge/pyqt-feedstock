@@ -20,6 +20,9 @@ if %ERRORLEVEL% neq 0 exit 1
 jom install
 if %ERRORLEVEL% neq 0 exit 1
 
+python "%RECIPE_DIR%\fix_dist_info_record.py" PyQt6
+if %ERRORLEVEL% neq 0 exit 1
+
 REM ---- Build and install the Qt Designer plugin -------------------------
 popd
 REM Windows Python is always shared, so patch_py_pylib_shlib.py is not needed
