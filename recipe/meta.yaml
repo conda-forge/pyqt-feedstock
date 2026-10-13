@@ -1,5 +1,4 @@
 {% set version = "6.11.0" %}
-{% set sip_version = "6.16.0" %}
 {% set qt_version = "6.11.2" %}
 # PyQt6 uses Qt's private QMetaObjectBuilder API (and a bundled copy of its layout),
 # which is not ABI stable across Qt patch releases (see #201), so qt6-main is pinned
