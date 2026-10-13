@@ -7,12 +7,13 @@ SIP_COMMAND="sip-build"
 EXTRA_FLAGS=""
 
 if [[ $(uname) == "Linux" ]]; then
-    USED_BUILD_PREFIX=${BUILD_PREFIX:-${PREFIX}}
-    echo USED_BUILD_PREFIX=${BUILD_PREFIX}
-
-    ln -s "$(command -v ${GXX})" g++ || true
-    ln -s "$(command -v ${GCC})" gcc || true
-    ln -s ${USED_BUILD_PREFIX}/bin/${HOST}-gcc-ar gcc-ar || true
+    # Resolve the activated toolchain before replacing any compiler shims.
+    GXX_PATH=$(command -v "${GXX}")
+    GCC_PATH=$(command -v "${GCC}")
+    GCC_AR_PATH=$(command -v "${GCC_AR}")
+    ln -sf "${GXX_PATH}" g++
+    ln -sf "${GCC_PATH}" gcc
+    ln -sf "${GCC_AR_PATH}" gcc-ar
 
     export LD=${GXX}
     export CC=${GCC}
@@ -41,9 +42,6 @@ fi
 source ${RECIPE_DIR}/setup-cross-compile.sh
 
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
-  # Vulkan bindings fail when the cross target QtGui headers do not expose the
-  # QVulkan* API expected by the generated SIP sources.
-  EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_Vulkan"
   # OpenGL ES2 detection is unreliable when probing the target Qt during cross
   # builds and can leave generated QtOpenGL sources referencing missing ES2
   # types on arm64 targets.
@@ -54,6 +52,10 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
 else
   ln -s ${PREFIX}/bin/qmake6 ${PREFIX}/bin/qmake
 fi
+
+# Ensure that SIP's qmake-based feature probes can find headers supplied by
+# host dependencies, including vulkan/vulkan.h on macOS.
+export CPATH="${PREFIX}/include${CPATH:+:${CPATH}}"
 
 $SIP_COMMAND \
 --verbose \
@@ -70,7 +72,7 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
   mv Makefile.temp Makefile
 fi
 
-CPATH=$PREFIX/include make -j$CPU_COUNT
+make -j$CPU_COUNT
 make install
 
 # ---- Build and install the Qt Designer plugin -------------------------

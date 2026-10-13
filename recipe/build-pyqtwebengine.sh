@@ -6,12 +6,13 @@ SIP_COMMAND="sip-build"
 EXTRA_FLAGS=""
 
 if [[ $(uname) == "Linux" ]]; then
-    USED_BUILD_PREFIX=${BUILD_PREFIX:-${PREFIX}}
-    echo USED_BUILD_PREFIX=${BUILD_PREFIX}
-
-    ln -s "$(command -v ${GXX})" g++ || true
-    ln -s "$(command -v ${GCC})" gcc || true
-    ln -s ${USED_BUILD_PREFIX}/bin/${HOST}-gcc-ar gcc-ar || true
+    # Resolve the activated toolchain before replacing any compiler shims.
+    GXX_PATH=$(command -v "${GXX}")
+    GCC_PATH=$(command -v "${GCC}")
+    GCC_AR_PATH=$(command -v "${GCC_AR}")
+    ln -sf "${GXX_PATH}" g++
+    ln -sf "${GCC_PATH}" gcc
+    ln -sf "${GCC_AR_PATH}" gcc-ar
 
     export LD=${GXX}
     export CC=${GCC}
@@ -35,8 +36,8 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
   SITE_PKGS_PATH=$($PREFIX/bin/python -c 'import site;print(site.getsitepackages()[0])')
   EXTRA_FLAGS="--target-dir $SITE_PKGS_PATH"
 
-  PYQT5_LOCATION=$($BUILD_PREFIX/bin/python -c 'import PyQt5;import os;print(os.path.join(os.path.dirname(PyQt5.__file__), "bindings"))')
-  awk 'NR==25{$0="sip-include-dirs = [\"'$PYQT5_LOCATION'\"]\n"}1' pyproject.toml >  pyproject.toml.tmp
+  PYQT6_LOCATION=$($BUILD_PREFIX/bin/python -c 'import PyQt6;import os;print(os.path.join(os.path.dirname(PyQt6.__file__), "bindings"))')
+  awk 'NR==25{$0="sip-include-dirs = [\"'$PYQT6_LOCATION'\"]\n"}1' pyproject.toml >  pyproject.toml.tmp
   rm pyproject.toml
   mv pyproject.toml.tmp pyproject.toml
 fi

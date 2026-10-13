@@ -1,7 +1,14 @@
 {% set version = "6.11.0" %}
 {% set sip_version = "6.16.0" %}
+{% set qt_version = "6.11.2" %}
+# PyQt6 uses Qt's private QMetaObjectBuilder API (and a bundled copy of its layout),
+# which is not ABI stable across Qt patch releases (see #201), so qt6-main is pinned
+# to the exact version built against.
+{% set qt_main_spec = qt_version + ".*" %}
+{% set sip_version = "6.17.1" %}
 {% set pyqt6_sip_version = "13.13.0" %}
-{% set webengine_version = "6.8.0" %}
+{% set webengine_version = "6.11.0" %}
+{% set qt_webengine_version = "6.11.2" %}
 {% set charts_version = "6.8.0" %}
 {% set pyqt_builder_version = "1.18.2" %}
 
@@ -14,6 +21,10 @@ source:
   - url: https://files.pythonhosted.org/packages/source/P/PyQt{{ version[0] }}/pyqt{{ version[0] }}-{{ version }}.tar.gz
     sha256: 45dd60aa69976de1918b5ced6b4e7b6a25abd2a919ecef5fd5826ecc76718889
     folder: pyqt
+    patches:
+      # PyQt6 bundles its own copy of Qt's private QMetaMethodBuilder layout, which
+      # gained a member in Qt 6.11.2 (#201).
+      - 0001-QMetaMethodBuilder-Qt-6.11.2-layout.patch
 
   - url: https://files.pythonhosted.org/packages/source/P/PyQt6-sip/pyqt6_sip-{{ pyqt6_sip_version }}.tar.gz
     sha256: 2cd55f575cde208c398d6cfdecc5a13394ed2afb54226210c50e3a6df7c3a997
@@ -28,7 +39,7 @@ source:
     folder: pyqt_charts
 
 build:
-  number: 5
+  number: 8
   skip:
     - true  # [linux and ppc64le]
 
@@ -76,10 +87,10 @@ outputs:
         - cross-python_{{ target_platform }}       # [build_platform != target_platform]
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform != target_platform]
         - sip {{ sip_version }}                    # [build_platform != target_platform]
-        - qt6-main {{ version }}                   # [build_platform != target_platform]
-        - qt6-multimedia {{ version }}             # [build_platform != target_platform]
-        - qt6-serialport {{ version }}             # [build_platform != target_platform]
-        - qt6-positioning {{ version }}            # [build_platform != target_platform]
+        - qt6-main {{ qt_main_spec }}                # [build_platform != target_platform]
+        - qt6-multimedia {{ qt_version }}          # [build_platform != target_platform]
+        - qt6-serialport {{ qt_version }}          # [build_platform != target_platform]
+        - qt6-positioning {{ qt_version }}         # [build_platform != target_platform]
         - make
         - patchelf                                  # [linux]
         - libsystemd                                # [linux]
@@ -91,10 +102,11 @@ outputs:
         - toml
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
         - packaging
-        - qt6-main {{ version }}
-        - qt6-multimedia {{ version }}
-        - qt6-serialport {{ version }}
-        - qt6-positioning {{ version }}
+        - qt6-main {{ qt_main_spec }}
+        - qt6-multimedia {{ qt_version }}
+        - qt6-serialport {{ qt_version }}
+        - qt6-positioning {{ qt_version }}
+        - libvulkan-headers
         - libsystemd                             # [linux]
         - libgl-devel                            # [linux]
         - libegl-devel                           # [linux]
@@ -116,10 +128,13 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('pyqt6-sip', exact=True) }}
+        # Qt's run export allows newer patch releases, which break the private API (#201).
+        - qt6-main {{ qt_main_spec }}
     test:
       files:
         - pyqt_test.py
         - test_plugin_load.py
+        - test_slot_result.py
       imports:
         - PyQt6
         - PyQt6.sip
@@ -143,20 +158,23 @@ outputs:
         - PyQt6.QtSerialPort
         - PyQt6.QtPositioning
       commands:
+        - python -c "from PyQt6.QtGui import QVulkanInstance, QWindow; assert hasattr(QWindow, 'setVulkanInstance')"  # [build_platform == target_platform]
         - QT_QPA_PLATFORM=offscreen python pyqt_test.py  # [linux and build_platform == target_platform]
         - pyuic6 --version  # [not win]
         - test -f "${PREFIX}/lib/qt6/plugins/designer/libpyqt6${SHLIB_EXT}"  # [unix]
         - if not exist "%PREFIX%\\Library\\plugins\\designer\\libpyqt6.dll" exit 1  # [win]
         - python test_plugin_load.py
+        - python test_slot_result.py  # [build_platform == target_platform]
 
-  - name: pyqt6webengine
+  - name: pyqt6-webengine
     version: {{ version }}
     script: build-pyqtwebengine.sh  # [not win]
     script: bld-pyqtwebengine.bat  # [win]
     build:
-      skip: true # https://github.com/conda-forge/pyqt-feedstock/issues/156
+      # qt6-webengine isn't built for osx-64
+      skip: true  # [osx and x86_64]
       run_exports:
-        - {{ pin_subpackage('pyqt6webengine', max_pin='x.x') }}
+        - {{ pin_subpackage('pyqt6-webengine', max_pin='x.x') }}
     requirements:
       build:
         - {{ compiler('c') }}
@@ -167,7 +185,7 @@ outputs:
         - cross-python_{{ target_platform }}       # [build_platform != target_platform]
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform != target_platform]
         - sip {{ sip_version }}                    # [build_platform != target_platform]
-        - qt6-main {{ version }}                   # [build_platform != target_platform]
+        - qt6-main {{ qt_main_spec }}                # [build_platform != target_platform]
         - make
       host:
         - python
@@ -178,8 +196,8 @@ outputs:
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
         - packaging
         - pyqt6
-        - qt6-main {{ version }}
-        - qt6-webengine {{ version }}            # [build_platform != target_platform]
+        - qt6-main {{ qt_main_spec }}
+        - qt6-webengine {{ qt_webengine_version }}
         - libgl-devel                            # [linux]
         - libegl-devel                           # [linux]
         - libopengl-devel                        # [linux]
@@ -202,8 +220,8 @@ outputs:
         - {{ pin_subpackage('pyqt6', max_pin='x.x') }}
     test:
       imports:
-        - PyQt6.QtWebEngine
         - PyQt6.QtWebEngineCore
+        - PyQt6.QtWebEngineQuick
         - PyQt6.QtWebEngineWidgets
 
   - name: pyqt6-charts
@@ -223,8 +241,8 @@ outputs:
         - cross-python_{{ target_platform }}       # [build_platform != target_platform]
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform != target_platform]
         - sip {{ sip_version }}                    # [build_platform != target_platform]
-        - qt6-main {{ version }}                   # [build_platform != target_platform]
-        - qt6-charts {{ version }}                 # [build_platform != target_platform]
+        - qt6-main {{ qt_main_spec }}                # [build_platform != target_platform]
+        - qt6-charts {{ qt_version }}              # [build_platform != target_platform]
         - make
       host:
         - python
@@ -234,8 +252,8 @@ outputs:
         - toml
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
         - packaging
-        - qt6-main {{ version }}
-        - qt6-charts {{ version }}
+        - qt6-main {{ qt_main_spec }}
+        - qt6-charts {{ qt_version }}
         - pyqt6
         - libgl-devel                            # [linux]
         - libegl-devel                           # [linux]

@@ -6,12 +6,13 @@ SIP_COMMAND="sip-build"
 EXTRA_FLAGS=""
 
 if [[ $(uname) == "Linux" ]]; then
-    USED_BUILD_PREFIX=${BUILD_PREFIX:-${PREFIX}}
-    echo USED_BUILD_PREFIX=${BUILD_PREFIX}
-
-    ln -s "$(command -v ${GXX})" g++ || true
-    ln -s "$(command -v ${GCC})" gcc || true
-    ln -s ${USED_BUILD_PREFIX}/bin/${HOST}-gcc-ar gcc-ar || true
+    # Resolve the activated toolchain before replacing any compiler shims.
+    GXX_PATH=$(command -v "${GXX}")
+    GCC_PATH=$(command -v "${GCC}")
+    GCC_AR_PATH=$(command -v "${GCC_AR}")
+    ln -sf "${GXX_PATH}" g++
+    ln -sf "${GCC_PATH}" gcc
+    ln -sf "${GCC_AR_PATH}" gcc-ar
 
     export LD=${GXX}
     export CC=${GCC}
