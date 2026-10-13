@@ -4,7 +4,7 @@
 # which is not ABI stable across Qt patch releases (see #201), so qt6-main is pinned
 # to the exact version built against.
 {% set qt_main_spec = qt_version + ".*" %}
-{% set sip_version = "6.15.3" %}
+{% set sip_version = "6.17.1" %}
 {% set pyqt6_sip_version = "13.13.0" %}
 {% set webengine_version = "6.11.0" %}
 {% set qt_webengine_version = "6.11.2" %}
