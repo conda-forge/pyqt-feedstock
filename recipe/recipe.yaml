@@ -78,11 +78,6 @@ outputs:
     build:
       script:
         file: ${{ 'bld-pyqt.bat' if win else 'build-pyqt.sh' }}
-      # sip-build writes the install prefix into RECORD with mixed slashes on Windows,
-      # which rattler-build refuses to replace; RECORD isn't used at runtime.
-      prefix_detection:
-        ignore:
-          - Lib/site-packages/*.dist-info/RECORD
     requirements:
       build:
         - ${{ compiler('c') }}
@@ -199,11 +194,6 @@ outputs:
       skip: osx and x86_64
       script:
         file: ${{ 'bld-pyqtwebengine.bat' if win else 'build-pyqtwebengine.sh' }}
-      # sip-build writes the install prefix into RECORD with mixed slashes on Windows,
-      # which rattler-build refuses to replace; RECORD isn't used at runtime.
-      prefix_detection:
-        ignore:
-          - Lib/site-packages/*.dist-info/RECORD
     requirements:
       build:
         - ${{ compiler('c') }}
@@ -269,11 +259,6 @@ outputs:
     build:
       script:
         file: ${{ 'bld-pyqtcharts.bat' if win else 'build-pyqtcharts.sh' }}
-      # sip-build writes the install prefix into RECORD with mixed slashes on Windows,
-      # which rattler-build refuses to replace; RECORD isn't used at runtime.
-      prefix_detection:
-        ignore:
-          - Lib/site-packages/*.dist-info/RECORD
     requirements:
       build:
         - ${{ compiler('c') }}
