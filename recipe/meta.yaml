@@ -1,5 +1,5 @@
 {% set version = "6.11.0" %}
-{% set qt_version = "6.11.2" %}
+{% set qt_version = "6.11.3" %}
 # PyQt6 uses Qt's private QMetaObjectBuilder API (and a bundled copy of its layout),
 # which is not ABI stable across Qt patch releases (see #201), so qt6-main is pinned
 # to the exact version built against.
@@ -7,7 +7,7 @@
 {% set sip_version = "6.15.3" %}
 {% set pyqt6_sip_version = "13.13.0" %}
 {% set webengine_version = "6.11.0" %}
-{% set qt_webengine_version = "6.11.2" %}
+{% set qt_webengine_version = "6.11.3" %}
 {% set charts_version = "6.8.0" %}
 {% set pyqt_builder_version = "1.18.2" %}
 
@@ -38,7 +38,7 @@ source:
     folder: pyqt_charts
 
 build:
-  number: 7
+  number: 8
   skip:
     - true  # [linux and ppc64le]
 
