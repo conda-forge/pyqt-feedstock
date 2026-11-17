@@ -38,7 +38,7 @@ source:
     folder: pyqt_charts
 
 build:
-  number: 8
+  number: 9
   skip:
     - true  # [linux and ppc64le]
 
@@ -87,9 +87,6 @@ outputs:
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform != target_platform]
         - sip {{ sip_version }}                    # [build_platform != target_platform]
         - qt6-main {{ qt_main_spec }}                # [build_platform != target_platform]
-        - qt6-multimedia {{ qt_version }}          # [build_platform != target_platform]
-        - qt6-serialport {{ qt_version }}          # [build_platform != target_platform]
-        - qt6-positioning {{ qt_version }}         # [build_platform != target_platform]
         - make
         - patchelf                                  # [linux]
         - libsystemd                                # [linux]
@@ -102,9 +99,6 @@ outputs:
         - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
         - packaging
         - qt6-main {{ qt_main_spec }}
-        - qt6-multimedia {{ qt_version }}
-        - qt6-serialport {{ qt_version }}
-        - qt6-positioning {{ qt_version }}
         - libvulkan-headers
         - libsystemd                             # [linux]
         - libgl-devel                            # [linux]
@@ -153,10 +147,9 @@ outputs:
         - PyQt6.QtWebSockets
         - PyQt6.QtWidgets
         - PyQt6.QtXml
-        - PyQt6.QtMultimedia
-        - PyQt6.QtSerialPort
-        - PyQt6.QtPositioning
       commands:
+        # These bindings are in pyqt6-multimedia, pyqt6-serialport and pyqt6-positioning (#208).
+        - python -c "import importlib.util as u; assert all(u.find_spec('PyQt6.' + m) is None for m in ('QtMultimedia', 'QtMultimediaWidgets', 'QtSpatialAudio', 'QtSerialPort', 'QtPositioning'))"
         - python -c "from PyQt6.QtGui import QVulkanInstance, QWindow; assert hasattr(QWindow, 'setVulkanInstance')"  # [build_platform == target_platform]
         - QT_QPA_PLATFORM=offscreen python pyqt_test.py  # [linux and build_platform == target_platform]
         - pyuic6 --version  # [not win]
@@ -164,6 +157,200 @@ outputs:
         - if not exist "%PREFIX%\\Library\\plugins\\designer\\libpyqt6.dll" exit 1  # [win]
         - python test_plugin_load.py
         - python test_slot_result.py  # [build_platform == target_platform]
+
+  # The add-on outputs below are built from the main PyQt6 sdist (see
+  # build-pyqt-addon.sh) but packaged separately so that pyqt6 doesn't pull in
+  # qt6-multimedia (ffmpeg, pulseaudio, ...), qt6-serialport or
+  # qt6-positioning (#208).
+  - name: pyqt6-multimedia
+    version: {{ version }}
+    script: build-pyqt-addon.sh  # [not win]
+    script: bld-pyqt-addon.bat  # [win]
+    build:
+      run_exports:
+        - {{ pin_subpackage('pyqt6-multimedia', max_pin='x.x') }}
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - {{ stdlib('c') }}
+        - jom                                      # [win]
+        - python                                   # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}       # [build_platform != target_platform]
+        - pyqt-builder {{ pyqt_builder_version }}  # [build_platform != target_platform]
+        - sip {{ sip_version }}                    # [build_platform != target_platform]
+        - qt6-main {{ qt_main_spec }}                # [build_platform != target_platform]
+        - qt6-multimedia {{ qt_version }}          # [build_platform != target_platform]
+        - make
+        - libsystemd                                # [linux]
+      host:
+        - python
+        - pip
+        - setuptools
+        - sip {{ sip_version }}                    # [build_platform == target_platform]
+        - toml
+        - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
+        - packaging
+        - {{ pin_subpackage('pyqt6', exact=True) }}
+        - qt6-main {{ qt_main_spec }}
+        - qt6-multimedia {{ qt_version }}
+        - libvulkan-headers
+        - libsystemd                             # [linux]
+        - libgl-devel                            # [linux]
+        - libegl-devel                           # [linux]
+        - libopengl-devel                        # [linux]
+        - xorg-xorgproto                         # [linux]
+        - xcb-util                               # [linux]
+        - xcb-util-wm                            # [linux]
+        - xcb-util-keysyms                       # [linux]
+        - xcb-util-image                         # [linux]
+        - xcb-util-renderutil                    # [linux]
+        - xorg-libx11                            # [linux]
+        - xorg-libxext                           # [linux]
+        - xorg-libxdamage                        # [linux]
+        - xorg-libsm                             # [linux]
+        - xorg-libice                            # [linux]
+        - xorg-libxcomposite                     # [linux]
+        - xorg-libxxf86vm                        # [linux]
+        - xorg-xf86vidmodeproto                  # [linux]
+      run:
+        - python
+        # Built from the same sources as pyqt6, so pin it exactly.
+        - {{ pin_subpackage('pyqt6', exact=True) }}
+        - qt6-main {{ qt_main_spec }}
+    test:
+      files:
+        - test_multimedia.py
+      imports:
+        - PyQt6.QtMultimedia
+        - PyQt6.QtMultimediaWidgets
+        - PyQt6.QtSpatialAudio  # [unix]
+      commands:
+        - python test_multimedia.py  # [linux and build_platform == target_platform]
+
+  - name: pyqt6-serialport
+    version: {{ version }}
+    script: build-pyqt-addon.sh  # [not win]
+    script: bld-pyqt-addon.bat  # [win]
+    build:
+      run_exports:
+        - {{ pin_subpackage('pyqt6-serialport', max_pin='x.x') }}
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - {{ stdlib('c') }}
+        - jom                                      # [win]
+        - python                                   # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}       # [build_platform != target_platform]
+        - pyqt-builder {{ pyqt_builder_version }}  # [build_platform != target_platform]
+        - sip {{ sip_version }}                    # [build_platform != target_platform]
+        - qt6-main {{ qt_main_spec }}                # [build_platform != target_platform]
+        - qt6-serialport {{ qt_version }}          # [build_platform != target_platform]
+        - make
+        - libsystemd                                # [linux]
+      host:
+        - python
+        - pip
+        - setuptools
+        - sip {{ sip_version }}                    # [build_platform == target_platform]
+        - toml
+        - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
+        - packaging
+        - {{ pin_subpackage('pyqt6', exact=True) }}
+        - qt6-main {{ qt_main_spec }}
+        - qt6-serialport {{ qt_version }}
+        - libvulkan-headers
+        - libsystemd                             # [linux]
+        - libgl-devel                            # [linux]
+        - libegl-devel                           # [linux]
+        - libopengl-devel                        # [linux]
+        - xorg-xorgproto                         # [linux]
+        - xcb-util                               # [linux]
+        - xcb-util-wm                            # [linux]
+        - xcb-util-keysyms                       # [linux]
+        - xcb-util-image                         # [linux]
+        - xcb-util-renderutil                    # [linux]
+        - xorg-libx11                            # [linux]
+        - xorg-libxext                           # [linux]
+        - xorg-libxdamage                        # [linux]
+        - xorg-libsm                             # [linux]
+        - xorg-libice                            # [linux]
+        - xorg-libxcomposite                     # [linux]
+        - xorg-libxxf86vm                        # [linux]
+        - xorg-xf86vidmodeproto                  # [linux]
+      run:
+        - python
+        # Built from the same sources as pyqt6, so pin it exactly.
+        - {{ pin_subpackage('pyqt6', exact=True) }}
+        - qt6-main {{ qt_main_spec }}
+    test:
+      imports:
+        - PyQt6.QtSerialPort
+      commands:
+        - python -c "from PyQt6.QtSerialPort import QSerialPort, QSerialPortInfo; QSerialPortInfo.availablePorts(); QSerialPort()"  # [build_platform == target_platform]
+
+  - name: pyqt6-positioning
+    version: {{ version }}
+    script: build-pyqt-addon.sh  # [not win]
+    script: bld-pyqt-addon.bat  # [win]
+    build:
+      run_exports:
+        - {{ pin_subpackage('pyqt6-positioning', max_pin='x.x') }}
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - {{ stdlib('c') }}
+        - jom                                      # [win]
+        - python                                   # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}       # [build_platform != target_platform]
+        - pyqt-builder {{ pyqt_builder_version }}  # [build_platform != target_platform]
+        - sip {{ sip_version }}                    # [build_platform != target_platform]
+        - qt6-main {{ qt_main_spec }}                # [build_platform != target_platform]
+        - qt6-positioning {{ qt_version }}         # [build_platform != target_platform]
+        - make
+        - libsystemd                                # [linux]
+      host:
+        - python
+        - pip
+        - setuptools
+        - sip {{ sip_version }}                    # [build_platform == target_platform]
+        - toml
+        - pyqt-builder {{ pyqt_builder_version }}  # [build_platform == target_platform]
+        - packaging
+        - {{ pin_subpackage('pyqt6', exact=True) }}
+        - qt6-main {{ qt_main_spec }}
+        - qt6-positioning {{ qt_version }}
+        - libvulkan-headers
+        - libsystemd                             # [linux]
+        - libgl-devel                            # [linux]
+        - libegl-devel                           # [linux]
+        - libopengl-devel                        # [linux]
+        - xorg-xorgproto                         # [linux]
+        - xcb-util                               # [linux]
+        - xcb-util-wm                            # [linux]
+        - xcb-util-keysyms                       # [linux]
+        - xcb-util-image                         # [linux]
+        - xcb-util-renderutil                    # [linux]
+        - xorg-libx11                            # [linux]
+        - xorg-libxext                           # [linux]
+        - xorg-libxdamage                        # [linux]
+        - xorg-libsm                             # [linux]
+        - xorg-libice                            # [linux]
+        - xorg-libxcomposite                     # [linux]
+        - xorg-libxxf86vm                        # [linux]
+        - xorg-xf86vidmodeproto                  # [linux]
+      run:
+        - python
+        # Built from the same sources as pyqt6, so pin it exactly.
+        - {{ pin_subpackage('pyqt6', exact=True) }}
+        - qt6-main {{ qt_main_spec }}
+    test:
+      imports:
+        - PyQt6.QtPositioning
+      commands:
+        - python -c "from PyQt6.QtPositioning import QGeoCoordinate; c = QGeoCoordinate(0.0, 0.0); assert c.isValid(); assert c.distanceTo(QGeoCoordinate(0.0, 1.0)) > 0"  # [build_platform == target_platform]
 
   - name: pyqt6-webengine
     version: {{ version }}

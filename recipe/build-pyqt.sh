@@ -4,7 +4,10 @@ pushd pyqt
 cp LICENSE ..
 
 SIP_COMMAND="sip-build"
-EXTRA_FLAGS=""
+# These bindings are shipped separately in the pyqt6-multimedia,
+# pyqt6-serialport and pyqt6-positioning outputs (build-pyqt-addon.sh).
+EXTRA_FLAGS="--disable QtMultimedia --disable QtMultimediaWidgets --disable QtSpatialAudio"
+EXTRA_FLAGS="${EXTRA_FLAGS} --disable QtSerialPort --disable QtPositioning"
 
 if [[ $(uname) == "Linux" ]]; then
     # Resolve the activated toolchain before replacing any compiler shims.
