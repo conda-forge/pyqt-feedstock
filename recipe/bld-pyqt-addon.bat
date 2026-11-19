@@ -25,8 +25,10 @@ REM QtWebChannel is kept so that PyQt_WebChannel is decided the same way as in
 REM pyqt6. Everything else is disabled (not --enable, which skips the
 REM configuration tests).
 set "DEP_MODULES=QtCore QtGui QtNetwork QtWidgets QtWebChannel"
+REM The extra outer quotes are needed: for /f runs the command with cmd /c,
+REM which strips the first and last quote of a line with several quoted paths.
 set "DISABLE_FLAGS="
-for /f "delims=" %%i in ('"%PYTHON%" "%RECIPE_DIR%\pyqt_disable_flags.py" project.py %DEP_MODULES% %ADDON_MODULES%') do set "DISABLE_FLAGS=%%i"
+for /f "delims=" %%i in ('""%PYTHON%" "%RECIPE_DIR%\pyqt_disable_flags.py" project.py %DEP_MODULES% %ADDON_MODULES%"') do set "DISABLE_FLAGS=%%i"
 if not defined DISABLE_FLAGS exit 1
 
 REM Only create qmake.exe if it isn't already present, and remove it afterwards
