@@ -15,6 +15,7 @@ keep = set(sys.argv[2:])
 m = re.search(r"self\.bindings_factories\s*=\s*\[(.*?)\]", source, re.S)
 if m is None:
     sys.exit("ERROR: could not find bindings_factories in project.py")
+
 modules = re.findall(r"\w+", m.group(1))
 
 missing = keep - set(modules)

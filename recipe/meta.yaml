@@ -226,7 +226,7 @@ outputs:
         - PyQt6.QtMultimediaWidgets
         - PyQt6.QtSpatialAudio  # [unix]
       commands:
-        - python test_multimedia.py  # [linux and build_platform == target_platform]
+        - python test_multimedia.py
 
   - name: pyqt6-serialport
     version: {{ version }}

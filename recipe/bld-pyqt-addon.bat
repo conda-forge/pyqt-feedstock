@@ -25,6 +25,7 @@ REM QtWebChannel is kept so that PyQt_WebChannel is decided the same way as in
 REM pyqt6. Everything else is disabled (not --enable, which skips the
 REM configuration tests).
 set "DEP_MODULES=QtCore QtGui QtNetwork QtWidgets QtWebChannel"
+
 REM The extra outer quotes are needed: for /f runs the command with cmd /c,
 REM which strips the first and last quote of a line with several quoted paths.
 set "DISABLE_FLAGS="
@@ -68,10 +69,13 @@ for %%m in (%ADDON_MODULES%) do (
         exit 1
     )
     pushd "%BUILD_DIR%\%%m"
+
     jom
     if errorlevel 1 exit 1
+
     jom install
     if errorlevel 1 exit 1
+
     popd
 )
 
@@ -87,8 +91,10 @@ for %%m in (%ADDON_MODULES%) do (
         echo ERROR: %%m was not built
         exit 1
     )
+
     copy /Y "%STAGE_DIR%\PyQt6\%%m.*" "%SP_DIR%\PyQt6\"
     if errorlevel 1 exit 1
+
     xcopy /E /I /Y "%STAGE_DIR%\PyQt6\bindings\%%m" "%SP_DIR%\PyQt6\bindings\%%m"
     if errorlevel 1 exit 1
 )

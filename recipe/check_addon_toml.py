@@ -25,6 +25,7 @@ def read_toml(path):
     for key in KEYS:
         m = re.search(rf"^{key}\s*=\s*\[(.*)\]\s*$", text, re.M)
         out[key] = frozenset(re.findall(r'"([^"]+)"', m.group(1))) if m else frozenset()
+
     return out
 
 
@@ -42,6 +43,7 @@ def expected(module):
         dep_cfg = read_toml(installed_toml) if installed_toml.exists() else expected(dep)
         for k in KEYS:
             result[k] |= dep_cfg[k]
+
     return {k: frozenset(v) for k, v in result.items()}
 
 
