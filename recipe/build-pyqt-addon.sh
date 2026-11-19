@@ -26,61 +26,10 @@ case "${PKG_NAME}" in
         ;;
 esac
 
-SIP_COMMAND="sip-build"
-# Keep feature flags identical to build-pyqt.sh so the generated code matches
-# the modules shipped in pyqt6.
-EXTRA_FLAGS=""
-
-if [[ $(uname) == "Linux" ]]; then
-    # Resolve the activated toolchain before replacing any compiler shims.
-    GXX_PATH=$(command -v "${GXX}")
-    GCC_PATH=$(command -v "${GCC}")
-    GCC_AR_PATH=$(command -v "${GCC_AR}")
-    ln -sf "${GXX_PATH}" g++
-    ln -sf "${GCC_PATH}" gcc
-    ln -sf "${GCC_AR_PATH}" gcc-ar
-
-    export LD=${GXX}
-    export CC=${GCC}
-    export CXX=${GXX}
-    export PKG_CONFIG_EXECUTABLE=$(basename $(which pkg-config))
-
-    chmod +x g++ gcc gcc-ar
-    export PATH=${PWD}:${PATH}
-
-    SYSROOT_FLAGS="-L ${BUILD_PREFIX}/${HOST}/sysroot/usr/lib64 -L ${BUILD_PREFIX}/${HOST}/sysroot/usr/lib"
-    export CFLAGS="$SYSROOT_FLAGS $CFLAGS"
-    export CXXFLAGS="$SYSROOT_FLAGS $CXXFLAGS"
-    export LDFLAGS="$SYSROOT_FLAGS $LDFLAGS"
-fi
-
-if [[ $(uname) == "Darwin" ]]; then
-    # Use xcode-avoidance scripts
-    export PATH=$PREFIX/bin/xc-avoidance:$PATH
-
-    EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_XCB"
-    EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_Wayland"
-fi
-
-# Set up cross-compilation (creates qmake wrapper and qt.conf)
-source ${RECIPE_DIR}/setup-cross-compile.sh
-
-# Only create the qmake symlink if it isn't already present, and remove it
-# afterwards so it doesn't end up in this package.
-CREATED_QMAKE=0
-if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
-  EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_OpenGL_ES2"
-  SIP_COMMAND="$BUILD_PREFIX/bin/python -m sipbuild.tools.build"
-  BUILD_PYTHON="${BUILD_PREFIX}/bin/python"
-else
-  BUILD_PYTHON="${PYTHON}"
-  if [[ ! -e "${PREFIX}/bin/qmake" ]]; then
-    ln -s ${PREFIX}/bin/qmake6 ${PREFIX}/bin/qmake
-    CREATED_QMAKE=1
-  fi
-fi
-
-export CPATH="${PREFIX}/include${CPATH:+:${CPATH}}"
+# Toolchain, cross-compilation and feature flags shared with build-pyqt.sh, so
+# the generated code matches the modules shipped in pyqt6. If it creates the
+# qmake symlink, it's removed below so it doesn't end up in this package.
+source ${RECIPE_DIR}/setup-pyqt-build.sh
 
 STAGE_DIR="${SRC_DIR}/${PKG_NAME}-stage"
 BUILD_DIR="build-${PKG_NAME}"
@@ -105,7 +54,7 @@ $SIP_COMMAND \
 --build-dir "${BUILD_DIR}" \
 --target-dir "${STAGE_DIR}" \
 ${DISABLE_FLAGS} \
-$EXTRA_FLAGS
+$PYQT_FEATURE_FLAGS
 
 # Compile and install only the add-on modules. Each module's own Makefile
 # installs its extension module, .sip files and .toml into the staging dir.
