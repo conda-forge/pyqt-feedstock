@@ -10,6 +10,11 @@ call sip-build ^
     --verbose ^
     --confirm-license ^
     --disable QtNfc ^
+    --disable QtMultimedia ^
+    --disable QtMultimediaWidgets ^
+    --disable QtSpatialAudio ^
+    --disable QtSerialPort ^
+    --disable QtPositioning ^
     --no-make
 if %ERRORLEVEL% neq 0 exit 1
 

@@ -3,64 +3,24 @@ set -exou
 pushd pyqt
 cp LICENSE ..
 
-SIP_COMMAND="sip-build"
-EXTRA_FLAGS=""
+# Toolchain, cross-compilation and feature flags shared with build-pyqt-addon.sh
+source ${RECIPE_DIR}/setup-pyqt-build.sh
 
-if [[ $(uname) == "Linux" ]]; then
-    # Resolve the activated toolchain before replacing any compiler shims.
-    GXX_PATH=$(command -v "${GXX}")
-    GCC_PATH=$(command -v "${GCC}")
-    GCC_AR_PATH=$(command -v "${GCC_AR}")
-    ln -sf "${GXX_PATH}" g++
-    ln -sf "${GCC_PATH}" gcc
-    ln -sf "${GCC_AR_PATH}" gcc-ar
-
-    export LD=${GXX}
-    export CC=${GCC}
-    export CXX=${GXX}
-    export PKG_CONFIG_EXECUTABLE=$(basename $(which pkg-config))
-
-    chmod +x g++ gcc gcc-ar
-    export PATH=${PWD}:${PATH}
-
-    SYSROOT_FLAGS="-L ${BUILD_PREFIX}/${HOST}/sysroot/usr/lib64 -L ${BUILD_PREFIX}/${HOST}/sysroot/usr/lib"
-    export CFLAGS="$SYSROOT_FLAGS $CFLAGS"
-    export CXXFLAGS="$SYSROOT_FLAGS $CXXFLAGS"
-    export LDFLAGS="$SYSROOT_FLAGS $LDFLAGS"
-fi
-
-if [[ $(uname) == "Darwin" ]]; then
-    # Use xcode-avoidance scripts
-    export PATH=$PREFIX/bin/xc-avoidance:$PATH
-
-    # QNativeInterface X11/Wayland bindings are Linux-only and fail to compile on macOS.
-    EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_XCB"
-    EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_Wayland"
-fi
-
-# Set up cross-compilation (creates qmake wrapper and qt.conf)
-source ${RECIPE_DIR}/setup-cross-compile.sh
+# These bindings are shipped separately in the pyqt6-multimedia,
+# pyqt6-serialport and pyqt6-positioning outputs (build-pyqt-addon.sh).
+EXTRA_FLAGS="--disable QtMultimedia --disable QtMultimediaWidgets --disable QtSpatialAudio"
+EXTRA_FLAGS="${EXTRA_FLAGS} --disable QtSerialPort --disable QtPositioning"
 
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
-  # OpenGL ES2 detection is unreliable when probing the target Qt during cross
-  # builds and can leave generated QtOpenGL sources referencing missing ES2
-  # types on arm64 targets.
-  EXTRA_FLAGS="${EXTRA_FLAGS} --disabled-feature=PyQt_OpenGL_ES2"
-  SIP_COMMAND="$BUILD_PREFIX/bin/python -m sipbuild.tools.build"
   SITE_PKGS_PATH=$($PREFIX/bin/python -c 'import site;print(site.getsitepackages()[0])')
   EXTRA_FLAGS="${EXTRA_FLAGS} --target-dir $SITE_PKGS_PATH"
-else
-  ln -s ${PREFIX}/bin/qmake6 ${PREFIX}/bin/qmake
 fi
-
-# Ensure that SIP's qmake-based feature probes can find headers supplied by
-# host dependencies, including vulkan/vulkan.h on macOS.
-export CPATH="${PREFIX}/include${CPATH:+:${CPATH}}"
 
 $SIP_COMMAND \
 --verbose \
 --confirm-license \
 --no-make \
+$PYQT_FEATURE_FLAGS \
 $EXTRA_FLAGS
 
 pushd build
