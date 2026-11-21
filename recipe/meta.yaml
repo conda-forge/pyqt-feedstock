@@ -1,11 +1,11 @@
-{% set version = "6.12.0" %}
+{% set version = "6.12.1" %}
 {% set qt_version = "6.12.0" %}
 # PyQt6 uses Qt's private QMetaObjectBuilder API (and a bundled copy of its layout),
 # which is not ABI stable across Qt patch releases (see #201), so qt6-main is pinned
 # to the exact version built against.
 {% set qt_main_spec = qt_version + ".*" %}
 {% set sip_version = "6.17.3" %}
-{% set pyqt6_sip_version = "13.13.0" %}
+{% set pyqt6_sip_version = "13.13.1" %}
 {% set webengine_version = "6.140.1" %}
 {% set qt_webengine_version = "6.140.0" %}
 {% set charts_version = "6.8.0" %}
@@ -18,7 +18,7 @@ package:
 
 source:
   - url: https://files.pythonhosted.org/packages/source/P/PyQt{{ version[0] }}/pyqt{{ version[0] }}-{{ version }}.tar.gz
-    sha256: d3e021b716bae880224422f9d1b894d2d53de7e60e60dbc43f860723f9cc300b
+    sha256: 17bb18b3ae953ab54b23026291ecea2579b028597b56c281a752c8ed66dd1a58
     folder: pyqt
     patches:
       # PyQt6 bundles its own copy of Qt's private QMetaMethodBuilder layout, which
@@ -26,7 +26,7 @@ source:
       - 0001-QMetaMethodBuilder-Qt-6.11.2-layout.patch
 
   - url: https://files.pythonhosted.org/packages/source/P/PyQt6-sip/pyqt6_sip-{{ pyqt6_sip_version }}.tar.gz
-    sha256: 2cd55f575cde208c398d6cfdecc5a13394ed2afb54226210c50e3a6df7c3a997
+    sha256: 83c3c9cb93b6c631af7048084fb0f234b610a01edbf9b2b44c4ee4bda4197efe
     folder: pyqt_sip
 
   - url: https://files.pythonhosted.org/packages/source/P/PyQt6-WebEngine/pyqt6_webengine-{{ webengine_version }}.tar.gz
@@ -139,6 +139,7 @@ outputs:
         - PyQt6.QtPrintSupport
         - PyQt6.QtQml
         - PyQt6.QtQuick
+        - PyQt6.QtQuickControls2
         - PyQt6.QtQuickWidgets
         - PyQt6.QtSvg
         - PyQt6.QtSvgWidgets
