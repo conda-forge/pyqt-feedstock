@@ -1,6 +1,6 @@
 bot:
   abi_migration_branches:
-    - qt5
+  - qt5
 build_platform:
   linux_ppc64le: linux_64
 conda_build:
@@ -12,6 +12,6 @@ github:
 provider:
   linux_aarch64: default
   linux_ppc64le: default
-  win: default
   osx_arm64: default
+  win: default
 test: native
